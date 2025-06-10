@@ -1,0 +1,789 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{DDD8BA0B-7F23-4A8C-B692-1F91A541E90B}|Infrastructure\\Infrastructure.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\infrastructure\\data\\seeddata\\approles.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{DDD8BA0B-7F23-4A8C-B692-1F91A541E90B}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\data\\seeddata\\approles.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\core\\entities\\approle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|solutionrelative:core\\entities\\approle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\core\\entities\\rate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|solutionrelative:core\\entities\\rate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|solutionrelative:api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\api\\controllers\\basewithuserapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|solutionrelative:api\\controllers\\basewithuserapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\api\\dtos\\usernavmenudto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|solutionrelative:api\\dtos\\usernavmenudto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DDD8BA0B-7F23-4A8C-B692-1F91A541E90B}|Infrastructure\\Infrastructure.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\infrastructure\\utility\\importexceldata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DDD8BA0B-7F23-4A8C-B692-1F91A541E90B}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\utility\\importexceldata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\api\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|solutionrelative:api\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\api\\controllers\\ratecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|solutionrelative:api\\controllers\\ratecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\api\\controllers\\medicinecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|solutionrelative:api\\controllers\\medicinecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|solutionrelative:api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\core\\interfaces\\imastersservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|solutionrelative:core\\interfaces\\imastersservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\api\\dtos\\medicinedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|solutionrelative:api\\dtos\\medicinedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\api\\dtos\\ratedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|solutionrelative:api\\dtos\\ratedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\core\\entities\\medicine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|solutionrelative:core\\entities\\medicine.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\api\\controllers\\organizationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|solutionrelative:api\\controllers\\organizationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DDD8BA0B-7F23-4A8C-B692-1F91A541E90B}|Infrastructure\\Infrastructure.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\infrastructure\\data\\dbserverseed.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DDD8BA0B-7F23-4A8C-B692-1F91A541E90B}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\data\\dbserverseed.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DDD8BA0B-7F23-4A8C-B692-1F91A541E90B}|Infrastructure\\Infrastructure.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\infrastructure\\data\\dbservercontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DDD8BA0B-7F23-4A8C-B692-1F91A541E90B}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\data\\dbservercontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\api\\helpers\\mappingprofiles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|solutionrelative:api\\helpers\\mappingprofiles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\core\\entities\\actionlog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|solutionrelative:core\\entities\\actionlog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\core\\entities\\organization.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|solutionrelative:core\\entities\\organization.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\api\\dtos\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|solutionrelative:api\\dtos\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\api\\controllers\\formgridcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|solutionrelative:api\\controllers\\formgridcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\api\\controllers\\baseapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|solutionrelative:api\\controllers\\baseapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\core\\specifications\\formgridspecification.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|solutionrelative:core\\specifications\\formgridspecification.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\core\\specifications\\basespecification.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|solutionrelative:core\\specifications\\basespecification.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|solutionrelative:api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\core\\entities\\identity\\appuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|solutionrelative:core\\entities\\identity\\appuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DDD8BA0B-7F23-4A8C-B692-1F91A541E90B}|Infrastructure\\Infrastructure.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\infrastructure\\data\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DDD8BA0B-7F23-4A8C-B692-1F91A541E90B}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\data\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DDD8BA0B-7F23-4A8C-B692-1F91A541E90B}|Infrastructure\\Infrastructure.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\infrastructure\\identity\\appidentitydbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DDD8BA0B-7F23-4A8C-B692-1F91A541E90B}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\identity\\appidentitydbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DDD8BA0B-7F23-4A8C-B692-1F91A541E90B}|Infrastructure\\Infrastructure.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\infrastructure\\identity\\appidentitydbcontextseed.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DDD8BA0B-7F23-4A8C-B692-1F91A541E90B}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\identity\\appidentitydbcontextseed.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\api\\api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|solutionrelative:api\\api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DDD8BA0B-7F23-4A8C-B692-1F91A541E90B}|Infrastructure\\Infrastructure.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\infrastructure\\services\\pavalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DDD8BA0B-7F23-4A8C-B692-1F91A541E90B}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\services\\pavalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DDD8BA0B-7F23-4A8C-B692-1F91A541E90B}|Infrastructure\\Infrastructure.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\infrastructure\\services\\tokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DDD8BA0B-7F23-4A8C-B692-1F91A541E90B}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\services\\tokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|solutionrelative:api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\api\\api.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|solutionrelative:api\\api.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DDD8BA0B-7F23-4A8C-B692-1F91A541E90B}|Infrastructure\\Infrastructure.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\infrastructure\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DDD8BA0B-7F23-4A8C-B692-1F91A541E90B}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\api\\extensions\\applicationservicesextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|solutionrelative:api\\extensions\\applicationservicesextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DDD8BA0B-7F23-4A8C-B692-1F91A541E90B}|Infrastructure\\Infrastructure.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\infrastructure\\data\\specificationevaluator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DDD8BA0B-7F23-4A8C-B692-1F91A541E90B}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\data\\specificationevaluator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DDD8BA0B-7F23-4A8C-B692-1F91A541E90B}|Infrastructure\\Infrastructure.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\infrastructure\\data\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DDD8BA0B-7F23-4A8C-B692-1F91A541E90B}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\data\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\core\\models\\navmenuofuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|solutionrelative:core\\models\\navmenuofuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\core\\interfaces\\itokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|solutionrelative:core\\interfaces\\itokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\core\\entities\\formgriddetail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|solutionrelative:core\\entities\\formgriddetail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\core\\entities\\formgridheader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|solutionrelative:core\\entities\\formgridheader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\core\\entities\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|solutionrelative:core\\entities\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\core\\entities\\usernavmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B048A1F-D2FA-412E-B5A8-105185E34F38}|Core\\Core.csproj|solutionrelative:core\\entities\\usernavmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\api\\controllers\\errorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|solutionrelative:api\\controllers\\errorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|c:\\gauri\\arhopd\\arhproject\\arhproject\\arh-server\\api\\controllers\\buggycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{23C32AA0-5851-4C6B-93E0-6D46334EAB7E}|API\\API.csproj|solutionrelative:api\\controllers\\buggycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "RateController.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Controllers\\RateController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\RateController.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Controllers\\RateController.cs",
+              "RelativeToolTip": "API\\Controllers\\RateController.cs",
+              "ViewState": "AgIAAJUAAAAAAAAAAAAkwLAAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-07T08:44:29.421Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\AccountController.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "API\\Controllers\\AccountController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAALEAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T15:51:15.545Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Program.cs",
+              "RelativeDocumentMoniker": "API\\Program.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Program.cs",
+              "RelativeToolTip": "API\\Program.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAAF4AAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T14:18:19.901Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Rate.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Entities\\Rate.cs",
+              "RelativeDocumentMoniker": "Core\\Entities\\Rate.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Entities\\Rate.cs",
+              "RelativeToolTip": "Core\\Entities\\Rate.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAsAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-07T03:01:30.279Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AppRole.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Entities\\AppRole.cs",
+              "RelativeDocumentMoniker": "Core\\Entities\\AppRole.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Entities\\AppRole.cs",
+              "RelativeToolTip": "Core\\Entities\\AppRole.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-08T04:46:20.232Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "approles.json",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Infrastructure\\Data\\SeedData\\approles.json",
+              "RelativeDocumentMoniker": "Infrastructure\\Data\\SeedData\\approles.json",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Infrastructure\\Data\\SeedData\\approles.json",
+              "RelativeToolTip": "Infrastructure\\Data\\SeedData\\approles.json",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAiwCkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-06-08T04:22:01.836Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "BaseWithUserApiController.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Controllers\\BaseWithUserApiController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\BaseWithUserApiController.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Controllers\\BaseWithUserApiController.cs",
+              "RelativeToolTip": "API\\Controllers\\BaseWithUserApiController.cs",
+              "ViewState": "AgIAAJMAAAAAAAAAAAAAAKoAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-08T04:21:14.664Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ImportExcelData.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Infrastructure\\Utility\\ImportExcelData.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Utility\\ImportExcelData.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Infrastructure\\Utility\\ImportExcelData.cs",
+              "RelativeToolTip": "Infrastructure\\Utility\\ImportExcelData.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-08T04:22:51.921Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "UserNavMenuDto.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Dtos\\UserNavMenuDto.cs",
+              "RelativeDocumentMoniker": "API\\Dtos\\UserNavMenuDto.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Dtos\\UserNavMenuDto.cs",
+              "RelativeToolTip": "API\\Dtos\\UserNavMenuDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-08T04:49:26.341Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "MedicineController.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Controllers\\MedicineController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\MedicineController.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Controllers\\MedicineController.cs",
+              "RelativeToolTip": "API\\Controllers\\MedicineController.cs",
+              "ViewState": "AgIAAKkAAAAAAAAAAAAAAK4AAABIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-07T17:08:41.806Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "IMastersService.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Interfaces\\IMastersService.cs",
+              "RelativeDocumentMoniker": "Core\\Interfaces\\IMastersService.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Interfaces\\IMastersService.cs",
+              "RelativeToolTip": "Core\\Interfaces\\IMastersService.cs",
+              "ViewState": "AgIAAE0AAAAAAAAAAAAQwFQAAABRAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-06T12:09:22.167Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "API\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Properties\\launchSettings.json",
+              "RelativeToolTip": "API\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-06-01T15:28:53.636Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "MedicineDto.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Dtos\\MedicineDto.cs",
+              "RelativeDocumentMoniker": "API\\Dtos\\MedicineDto.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Dtos\\MedicineDto.cs",
+              "RelativeToolTip": "API\\Dtos\\MedicineDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-07T17:02:42.208Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "RateDto.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Dtos\\RateDto.cs",
+              "RelativeDocumentMoniker": "API\\Dtos\\RateDto.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Dtos\\RateDto.cs",
+              "RelativeToolTip": "API\\Dtos\\RateDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-07T03:07:17.438Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Medicine.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Entities\\Medicine.cs",
+              "RelativeDocumentMoniker": "Core\\Entities\\Medicine.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Entities\\Medicine.cs",
+              "RelativeToolTip": "Core\\Entities\\Medicine.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-07T17:00:58.158Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "OrganizationController.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Controllers\\OrganizationController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\OrganizationController.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Controllers\\OrganizationController.cs",
+              "RelativeToolTip": "API\\Controllers\\OrganizationController.cs",
+              "ViewState": "AgIAALMAAAAAAAAAAAAAAKgAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T14:52:49.965Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "DBServerSeed.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Infrastructure\\Data\\DBServerSeed.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Data\\DBServerSeed.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Infrastructure\\Data\\DBServerSeed.cs",
+              "RelativeToolTip": "Infrastructure\\Data\\DBServerSeed.cs",
+              "ViewState": "AgIAAE0AAAAAAAAAAAAAAFoAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-05T04:25:40.075Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "DBServerContext.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Infrastructure\\Data\\DBServerContext.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Data\\DBServerContext.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Infrastructure\\Data\\DBServerContext.cs",
+              "RelativeToolTip": "Infrastructure\\Data\\DBServerContext.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAA3wCcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T14:53:57.775Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "MappingProfiles.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Helpers\\MappingProfiles.cs",
+              "RelativeDocumentMoniker": "API\\Helpers\\MappingProfiles.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Helpers\\MappingProfiles.cs",
+              "RelativeToolTip": "API\\Helpers\\MappingProfiles.cs",
+              "ViewState": "AgIAAEkAAAAAAAAAAAAkwEsAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-07T03:09:46.703Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "ActionLog.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Entities\\ActionLog.cs",
+              "RelativeDocumentMoniker": "Core\\Entities\\ActionLog.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Entities\\ActionLog.cs",
+              "RelativeToolTip": "Core\\Entities\\ActionLog.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAAwAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-07T03:10:39.417Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "Organization.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Entities\\Organization.cs",
+              "RelativeDocumentMoniker": "Core\\Entities\\Organization.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Entities\\Organization.cs",
+              "RelativeToolTip": "Core\\Entities\\Organization.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-07T03:01:58.881Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "FormGridSpecification.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Specifications\\FormGridSpecification.cs",
+              "RelativeDocumentMoniker": "Core\\Specifications\\FormGridSpecification.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Specifications\\FormGridSpecification.cs",
+              "RelativeToolTip": "Core\\Specifications\\FormGridSpecification.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAewAUAAABPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T14:40:24.868Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "LoginDto.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Dtos\\LoginDto.cs",
+              "RelativeDocumentMoniker": "API\\Dtos\\LoginDto.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Dtos\\LoginDto.cs",
+              "RelativeToolTip": "API\\Dtos\\LoginDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-06T12:04:03.707Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "BaseApiController.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Controllers\\BaseApiController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\BaseApiController.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Controllers\\BaseApiController.cs",
+              "RelativeToolTip": "API\\Controllers\\BaseApiController.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAIBJwA4AAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T14:19:08.697Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "FormGridController.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Controllers\\FormGridController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\FormGridController.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Controllers\\FormGridController.cs",
+              "RelativeToolTip": "API\\Controllers\\FormGridController.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAIBJwBcAAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T14:21:43.352Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "BaseSpecification.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Specifications\\BaseSpecification.cs",
+              "RelativeDocumentMoniker": "Core\\Specifications\\BaseSpecification.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Specifications\\BaseSpecification.cs",
+              "RelativeToolTip": "Core\\Specifications\\BaseSpecification.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T14:48:49.676Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "API\\appsettings.Development.json",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\appsettings.Development.json",
+              "RelativeToolTip": "API\\appsettings.Development.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAABRwA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-06-05T05:32:36.891Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "AppUser.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Entities\\Identity\\AppUser.cs",
+              "RelativeDocumentMoniker": "Core\\Entities\\Identity\\AppUser.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Entities\\Identity\\AppUser.cs",
+              "RelativeToolTip": "Core\\Entities\\Identity\\AppUser.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAUwAUAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-05T05:57:35.75Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "UnitOfWork.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Infrastructure\\Data\\UnitOfWork.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Data\\UnitOfWork.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Infrastructure\\Data\\UnitOfWork.cs",
+              "RelativeToolTip": "Infrastructure\\Data\\UnitOfWork.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-05T07:47:28.638Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "AppIdentityDbContext.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Infrastructure\\Identity\\AppIdentityDbContext.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Identity\\AppIdentityDbContext.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Infrastructure\\Identity\\AppIdentityDbContext.cs",
+              "RelativeToolTip": "Infrastructure\\Identity\\AppIdentityDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-06T03:53:21.941Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "PaValidator.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Infrastructure\\Services\\PaValidator.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Services\\PaValidator.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Infrastructure\\Services\\PaValidator.cs",
+              "RelativeToolTip": "Infrastructure\\Services\\PaValidator.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAIBJwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-05T07:47:52.2Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "API.csproj",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\API.csproj",
+              "RelativeDocumentMoniker": "API\\API.csproj",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\API.csproj",
+              "RelativeToolTip": "API\\API.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-06-05T08:18:09.982Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "AppIdentityDbContextSeed.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Infrastructure\\Identity\\AppIdentityDbContextSeed.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Identity\\AppIdentityDbContextSeed.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Infrastructure\\Identity\\AppIdentityDbContextSeed.cs",
+              "RelativeToolTip": "Infrastructure\\Identity\\AppIdentityDbContextSeed.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-06T03:53:09.817Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\appsettings.json",
+              "RelativeDocumentMoniker": "API\\appsettings.json",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\appsettings.json",
+              "RelativeToolTip": "API\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-06-01T14:53:24.358Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "API.http",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\API.http",
+              "RelativeDocumentMoniker": "API\\API.http",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\API.http",
+              "RelativeToolTip": "API\\API.http",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2025-06-01T15:28:30.892Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "TokenService.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Infrastructure\\Services\\TokenService.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Services\\TokenService.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Infrastructure\\Services\\TokenService.cs",
+              "RelativeToolTip": "Infrastructure\\Services\\TokenService.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAIBJwA8AAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T15:26:14.363Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Infrastructure\\Class1.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Class1.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Infrastructure\\Class1.cs",
+              "RelativeToolTip": "Infrastructure\\Class1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-05T05:37:20.216Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "ApplicationServicesExtensions.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Extensions\\ApplicationServicesExtensions.cs",
+              "RelativeDocumentMoniker": "API\\Extensions\\ApplicationServicesExtensions.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Extensions\\ApplicationServicesExtensions.cs",
+              "RelativeToolTip": "API\\Extensions\\ApplicationServicesExtensions.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAAwBAAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T17:19:28.877Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "GenericRepository.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Infrastructure\\Data\\GenericRepository.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Data\\GenericRepository.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Infrastructure\\Data\\GenericRepository.cs",
+              "RelativeToolTip": "Infrastructure\\Data\\GenericRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T14:54:23.605Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "NavmenuOfUser.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Models\\NavmenuOfUser.cs",
+              "RelativeDocumentMoniker": "Core\\Models\\NavmenuOfUser.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Models\\NavmenuOfUser.cs",
+              "RelativeToolTip": "Core\\Models\\NavmenuOfUser.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-05T04:24:07.415Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "SpecificationEvaluator.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Infrastructure\\Data\\SpecificationEvaluator.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Data\\SpecificationEvaluator.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Infrastructure\\Data\\SpecificationEvaluator.cs",
+              "RelativeToolTip": "Infrastructure\\Data\\SpecificationEvaluator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T14:54:58.85Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "ITokenService.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Interfaces\\ITokenService.cs",
+              "RelativeDocumentMoniker": "Core\\Interfaces\\ITokenService.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Interfaces\\ITokenService.cs",
+              "RelativeToolTip": "Core\\Interfaces\\ITokenService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T15:25:28.49Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "FormGridDetail.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Entities\\FormGridDetail.cs",
+              "RelativeDocumentMoniker": "Core\\Entities\\FormGridDetail.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Entities\\FormGridDetail.cs",
+              "RelativeToolTip": "Core\\Entities\\FormGridDetail.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T14:51:54.511Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
+              "Title": "FormGridHeader.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Entities\\FormGridHeader.cs",
+              "RelativeDocumentMoniker": "Core\\Entities\\FormGridHeader.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Entities\\FormGridHeader.cs",
+              "RelativeToolTip": "Core\\Entities\\FormGridHeader.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T14:51:36.199Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 44,
+              "Title": "Category.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Entities\\Category.cs",
+              "RelativeDocumentMoniker": "Core\\Entities\\Category.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Entities\\Category.cs",
+              "RelativeToolTip": "Core\\Entities\\Category.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T14:49:29.704Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 45,
+              "Title": "UserNavMenu.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Entities\\UserNavMenu.cs",
+              "RelativeDocumentMoniker": "Core\\Entities\\UserNavMenu.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\Core\\Entities\\UserNavMenu.cs",
+              "RelativeToolTip": "Core\\Entities\\UserNavMenu.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T14:37:45.278Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 46,
+              "Title": "ErrorController.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Controllers\\ErrorController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\ErrorController.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Controllers\\ErrorController.cs",
+              "RelativeToolTip": "API\\Controllers\\ErrorController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T14:19:54.09Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 47,
+              "Title": "BuggyController.cs",
+              "DocumentMoniker": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Controllers\\BuggyController.cs",
+              "RelativeDocumentMoniker": "API\\Controllers\\BuggyController.cs",
+              "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\ARHProject\\arh-server\\API\\Controllers\\BuggyController.cs",
+              "RelativeToolTip": "API\\Controllers\\BuggyController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAxwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-01T14:19:19.241Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
