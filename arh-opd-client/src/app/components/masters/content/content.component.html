@@ -1,0 +1,183 @@
+<div class="wrapper d-flex flex-column min-vh-100">
+  <!-- <h1>Stream List</h1> -->
+  <div class="row navbar navbar-light" *ngIf="formmode === 'list'">
+    <div class="col-4">
+      <h3>Content List [{{ rowData.length }}]</h3>
+    </div>
+    <div class="col-8">
+      <div class="btn-group">
+        <button
+          class="btn btn-sm btn-info mr-2"
+          (click)="NewFormData()"
+          style="border-radius: 0px"
+        >
+          <i class="fa fa-add"></i>
+          New
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="formmode === 'list'">
+    <div class="col-12">
+      <app-form-grid
+        [formName]="'Content'"
+        [controllerName]="'Grid'"
+        [rowData]="rowData"
+        [gridOptions]="gridOptions"
+        (renderCell)="gridLoaded($event)"
+      >
+      </app-form-grid>
+    </div>
+  </div>
+  <div
+    *ngIf="formmode === 'edit'"
+    class="card border-info"
+    style="margin-top: 10px"
+  >
+    <div class="card-header">
+      Content Details &nbsp;
+      <button
+        type="button"
+        [disabled]="entryForm.invalid"
+        class="btn btn-sm btn-success rounded-pill"
+        (click)="SaveFormData()"
+      >
+        Save
+      </button>
+      &nbsp;
+      <button
+        type="button"
+        (click)="CancelSave()"
+        class="btn btn-sm btn-danger rounded-pill"
+      >
+        Cancel
+      </button>
+    </div>
+    <div class="card-body text-info">
+        <form [formGroup]="entryForm">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label>Category</label>
+                <select formControlName="CategoryId" class="form-control select2" style="width: 100%">
+                  <option selected="selected">Select Category</option>
+                  <option *ngFor="let option of options" [value]="option.value">
+                    {{ option.name }}
+                  </option>
+                </select>
+                <!-- <label  for="exampleFormControlInput1" class="form-label">Category</label>
+                  <select class="form-control" formControlName="CategoryId">
+                    <option selected disabled>Open this select menu</option>
+                    <option *ngFor="let option of options" [value]="option.value">
+                      {{ option.name }}
+                    </option>
+                  </select> -->
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label"
+                  >Content_Type</label
+                >
+                <select class="form-control" formControlName="Content_type_id">
+                  <option selected disabled>Open this select menu</option>
+                  <option
+                    *ngFor="let cattyp of categorytypelist"
+                    [value]="cattyp.value"
+                  >
+                    {{ cattyp.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label  class="form-label"
+                  >Title</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="Title"
+                  placeholder="Title"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label  class="form-label"
+                  >Author</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="Author"
+                  placeholder="Author"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label  class="form-label"
+                  >Description</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="Description"
+                  placeholder="Description"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label>Publish Date:</label>
+                <input type="date" formControlName="PublishDate" placeholder="Select Publish Date" name="datepublish" class="form-control" />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label class="form-label"
+                  >FilePath</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="FilePath"
+                  placeholder="FilePath"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="coverImage" class="form-label"
+                  >Cover Image (select existing from assets)</label
+                >
+                <input
+                  type="file"
+                  class="form-control"
+                  id="coverImage"
+                  (change)="onFileSelected($event)"
+                  accept="image/*"
+                />
+                <img
+                  *ngIf="ThubnailPath"
+                  [src]="ThubnailPath"
+                  class="img-thumbnail mt-2"
+                  width="150"
+                  alt="Cover Preview"
+                />
+              </div>
+            </div>
+          </div>
+        </form>
+    </div>
+  </div>
+  
+</div>

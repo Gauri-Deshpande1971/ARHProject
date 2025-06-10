@@ -1,0 +1,5 @@
+.content-wrapper {
+    min-height: 100vh; /* Ensures full viewport height */
+    display: flex;
+    flex-direction: column;
+  }

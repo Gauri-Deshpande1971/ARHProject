@@ -1,0 +1,76 @@
+<aside class="main-sidebar sidebar-light elevation-4">
+  <!-- Sidebar -->
+   <div class="sidebar-light border-right text-black" id="sidebar-wrapper"> 
+   
+      <div class="sidebar-heading h4 text-center mt-2">
+  <a [routerLink]="['/dashboard']" class="brand-link d-flex align-items-center">
+    <img src="/assets/img/logo.png" alt="Logo" width="100" class="me-2">
+  </a>
+</div>
+      <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">
+              <!-- Loop through NavMenus and display parent and submenus -->
+              <li class="nav-item" *ngFor="let nm of NavMenus">
+                  <!-- Check if there are no submenus, then show as simple link -->
+                  <a *ngIf="!nm.submenus || nm.submenus.length === 0" class="nav-link" [routerLink]="[nm.url]">
+                      <i class="nav-icon fas fa-tachometer-alt"></i>
+                      <p class="text-black">
+                          {{ nm.menu_description }}
+                          <!-- Show arrow only for menus with submenus -->
+                      </p>
+                  </a>
+
+                  <!-- If the menu has submenus, display it with a toggle action -->
+                  <a *ngIf="nm.submenus && nm.submenus.length > 0"
+                     href="#" class="nav-link" (click)="toggleMenu(nm);$event.preventDefault()">
+                      <i class="nav-icon fas fa-tachometer-alt"></i>
+                      <p class="text-black">
+                          {{ nm.menu_description }}
+                          <!-- Toggle arrow based on isOpen property -->
+                          <!-- <i class="right fas" [ngClass]="nm.isOpen ? 'fa-angle-down' : 'fa-angle-left'"></i> -->
+                      </p>
+                  </a>
+
+                <!-- Show submenus only if isOpen is true -->
+                <ul class="nav nav-treeview" *ngIf="nm.submenus">
+                  <li class="nav-item" *ngFor="let sm of nm.submenus">
+                    <a href="#" class="nav-link" [routerLink]="sm.url" (click)="toggleMenu(sm);">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p class="text-black">{{ sm.menu_description }}</p>
+                    </a>
+                
+                    <!-- Nested submenus with indentation -->
+                    <ul class="nav nav-treeview" *ngIf="sm.submenus">
+                      <li class="nav-item" *ngFor="let sub of sm.submenus">
+                        <a href="#" class="nav-link" [routerLink]="sub.url" (click)="toggleMenu(sub);">
+                          <i class="far fa-dot-circle nav-icon"></i>
+                          <p class="text-black">{{ sub.menu_description }}</p>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>                  
+              </li>
+          </ul>
+      </nav>
+  </div>
+</aside>
+<!-- /#sidebar-wrapper -->
+  
+  <!-- Page Content -->
+  <div id="page-content-wrapper" class="content-wrapper">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+      <a class="btn btn-primary" id="menu-toggle" data-widget="pushmenu"><i class="fas fa-bars"></i></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </nav>
+    <div class="container-fluid">
+
+       <!-- <router-outlet></router-outlet>  -->
+
+    </div>
+</div>
+
+ 
+

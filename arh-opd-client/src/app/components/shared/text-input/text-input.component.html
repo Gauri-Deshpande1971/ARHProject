@@ -1,0 +1,53 @@
+<div class="form-label-group">
+    <input 
+        [ngClass]="(controlDir && controlDir.control 
+        && controlDir.control.touched) ? !controlDir.control.valid ? 'is-invalid' : 'is-valid' : null"
+        [type]="type === 'date' ? 'date' : 'text'"  
+        data-textcase=textcase
+        oninput="this.value = (this.getAttribute('data-textcase') ==='normal') ?  this.value : this.value.toUpperCase()"
+        (input)="onChange($event.target)"
+        (blur)="onBlur($event)"
+        id="{{label}}" 
+        [pattern]="pattern"
+        [disabled]="disabled"
+        [readonly]="readonly"
+        #input
+        multiple
+        class="form-control" 
+        placeholder="{{label}}" 
+    >
+    <!-- <div class="input-group-append" *ngIf="appendtext !== null">
+        <span class="input-group-text">{{appendtext}}</span>
+    </div> -->
+    
+    <div *ngIf="(controlDir && controlDir.control && controlDir.control.status==='PENDING')" class="fa fa-spinner fa-spin loader">
+
+    </div>
+    <label class="text-danger" for="{{label}}">{{label}}</label>
+
+    <div class="invalid-feedback" *ngIf="(controlDir && controlDir.control && !controlDir.control.valid
+            && controlDir.control.touched)">
+           <span *ngIf="controlDir?.touched && controlDir?.errors?.['required']" class="invalid-feedback">
+            This field is required.
+          </span>
+          <!-- <span *ngIf="controlDir?.touched && controlDir?.errors?.toAmountGreaterThanFromAmount" class="invalid-feedback">
+            To Amount should be greater than From Amount.
+          </span>      -->
+         </div>
+
+        <div class="invalid-feedback d-block" *ngIf="(controlDir && controlDir.control && !controlDir.control.valid
+                    && controlDir.control.dirty)">
+            <span *ngIf="controlDir.control.errors?.['emailExists']">{{label}} is already in use</span>
+        </div>
+
+    <!-- <span class="text-danger" *ngIf="loginForm.get('email').invalid
+              && loginForm.get('email').touched
+              && loginForm.get('email').errors['required']">
+      Email address is required
+    </span>
+    <span class="text-danger" *ngIf="loginForm.get('email').invalid
+              && loginForm.get('email').touched
+              && loginForm.get('email').errors['pattern']">
+      Email address is not valid
+    </span> -->
+</div>

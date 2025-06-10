@@ -1,0 +1,15 @@
+<div style="height: 100vh; display: flex; flex-direction: column;">
+    <div style="flex: 1;">
+<ag-grid-angular
+    style="width: 100%; height: calc(100vh - 100px);"
+    [ngClass]="{ 'full-height': true}" 
+    class="ag-theme-alpine mb-1"
+    [rowData]="rowData"
+    [columnDefs]="colDefs"
+    [gridOptions]="gridOptions"
+    [context]="context"
+    [frameworkComponents]="frameworkComponents"
+>
+</ag-grid-angular>
+</div>
+</div>

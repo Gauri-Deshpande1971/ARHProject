@@ -1,0 +1,59 @@
+<div class="wrapper d-flex flex-column min-vh-100">
+    <!-- <h1>Stream List</h1> -->
+    <div class="row navbar navbar-light" *ngIf="formmode === 'list'">
+      <div class="col-4">
+          <h3>Subject List [{{rowData?.length}}]</h3>
+      </div>
+      <div class="col-8">
+          <div class="btn-group">
+              <button class="btn btn-sm btn-info mr-2" (click)="NewFormData()" style="border-radius: 0px;">
+                  <i class="fa fa-add"></i>
+                  New
+              </button>
+          </div>
+      </div>
+  </div>
+    <div class='row' *ngIf="formmode === 'list'">
+      <div class='col-12'>
+          <app-form-grid            
+              [formName]="'Subject'"
+              [controllerName]="'Grid'"
+              [rowData]='rowData' 
+              [gridOptions]='gridOptions'
+              (renderCell)='gridLoaded($event)'
+          >
+          </app-form-grid>
+      </div>
+  </div>
+  
+  <div *ngIf="formmode === 'edit'" class="card border-info" style="margin-top: 10px;">
+      <div class="card-header">Subject Details &nbsp;
+          <button type="button" class="btn btn-sm btn-success rounded-pill" [disabled]='entryForm.invalid' (click)="SaveFormData()">Save</button>
+          &nbsp;
+          <button type="button" (click)="CancelSave()" class="btn btn-sm btn-danger rounded-pill">Cancel</button>
+      </div>
+      <div class="card-body text-info">
+          <div>         
+          <form [formGroup]='entryForm'>
+              <!-- <div class="mb-3">
+                  <label for="exampleFormControlInput2" class="form-label">Stream ID</label>
+                  <input type="text" class="form-control" formControlName="streamId" id="exampleFormControlInput2" placeholder="StreamId">
+                </div> -->
+              <div class="mb-3">
+                  <label for="exampleFormControlInput1" class="form-label">Subject Name</label>
+                  <!-- <input type="text" class="form-control"  formControlName="name" name="name" id="exampleFormControlInput1" placeholder="Stream Name"> -->
+                  <input type="text" class="form-control"  formControlName="name" placeholder="Subject Name"> 
+              </div>
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Stream</label>
+                <select class="form-control" formControlName="CategoryId">
+                  <option value="" disabled selected hidden>Open this select menu</option>
+                  <option *ngFor="let option of options" [value]="option.value">
+                    {{ option.name }}
+                  </option>
+                </select>
+              </div>
+          </form>
+      </div>
+    </div>
+  </div>

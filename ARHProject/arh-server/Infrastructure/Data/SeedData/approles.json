@@ -1,0 +1,42 @@
+[
+  {
+    "AppRoleCode": "ADMINISTRATOR",
+    "AppRoleName": "Administrator",
+    "CreatedById": 1
+  },
+  {
+    "AppRoleCode": "REC",
+    "AppRoleName": "Receptionist",
+    "CreatedById": 1
+  },
+  {
+    "AppRoleCode": "RET",
+    "AppRoleName": "Retriever",
+    "CreatedById": 1
+  },
+  {
+    "AppRoleCode": "DOC",
+    "AppRoleName": "Doctor",
+    "CreatedById": 1
+  },
+  {
+    "AppRoleCode": "ADOC",
+    "AppRoleName": "Assistant Doctor",
+    "CreatedById": 1
+  },
+  {
+    "AppRoleCode": "DIS",
+    "AppRoleName": "Dispense Team",
+    "CreatedById": 1
+  },
+  {
+    "AppRoleCode": "CAS",
+    "AppRoleName": "Cashier",
+    "CreatedById": 1
+  },
+  {
+    "AppRoleCode": "DISP",
+    "AppRoleName": "Dispatch",
+    "CreatedById": 1
+  }
+]

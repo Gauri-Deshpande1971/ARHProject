@@ -1,0 +1,51 @@
+.login-info {
+  //position: relative;
+  //padding: 15px;
+  width: 100%;
+  vertical-align: middle;
+  //height: 700px;
+}
+.link-button {
+  background: none;
+  border: none;
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.login-info::before {
+ content: "";
+ position: absolute;
+ top: 0; 
+ left: 0;
+ width: 100%;
+ height: 100%;
+ z-index: -1;
+ opacity: .25; 
+ background-repeat: no-repeat;
+ background-position: center;
+//  background-image: url(/Content/images/undraw_security_o890.svg);
+background-image: url(/assets/img/background.png);
+}
+#data-bs-toggle{
+font-size:font-size-sm;
+max-width:200px;
+color:white;
+background:black;
+border-radius:border-radius;
+opacity:.9;
+//padding:spacer * .5;
+margin:0;
+// arrow-width:.8rem;
+// arrow-color:tooltip-bg;
+}
+
+.login-a{
+width: 340px;
+}
+
+.email-a{
+width: 150px;
+}
+.login-title {
+    font-size: 1.5rem; /* adjust as needed */
+}
