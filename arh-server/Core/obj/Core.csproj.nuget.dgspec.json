@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Gauri\\ARHOPD\\ARHProject\\arh-backend\\arh-server\\Core\\Core.csproj": {}
+    "C:\\Gauri\\ARHOPD\\ARHProject\\arh-server\\Core\\Core.csproj": {}
   },
   "projects": {
-    "C:\\Gauri\\ARHOPD\\ARHProject\\arh-backend\\arh-server\\Core\\Core.csproj": {
+    "C:\\Gauri\\ARHOPD\\ARHProject\\arh-server\\Core\\Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Gauri\\ARHOPD\\ARHProject\\arh-backend\\arh-server\\Core\\Core.csproj",
+        "projectUniqueName": "C:\\Gauri\\ARHOPD\\ARHProject\\arh-server\\Core\\Core.csproj",
         "projectName": "Core",
-        "projectPath": "C:\\Gauri\\ARHOPD\\ARHProject\\arh-backend\\arh-server\\Core\\Core.csproj",
+        "projectPath": "C:\\Gauri\\ARHOPD\\ARHProject\\arh-server\\Core\\Core.csproj",
         "packagesPath": "C:\\Users\\deshp\\.nuget\\packages\\",
-        "outputPath": "C:\\Gauri\\ARHOPD\\ARHProject\\arh-backend\\arh-server\\Core\\obj\\",
+        "outputPath": "C:\\Gauri\\ARHOPD\\ARHProject\\arh-server\\Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

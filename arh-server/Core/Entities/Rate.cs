@@ -9,10 +9,9 @@ namespace Core.Entities
     public class Rate:BaseEntity
     {       
         public string Description { get; set; }
-        public string TypeOfCharges { get; set; }
+        public int medicineId { get; set; }
+        public string medicineName { get; set; }
+        public decimal TelCharges { get; set; }
         public decimal Charges { get; set; }
-
-        public string OrganizationNameInclude { get; set; }
-        public string OrganizationNameExclude { get; set; }
     }
 }

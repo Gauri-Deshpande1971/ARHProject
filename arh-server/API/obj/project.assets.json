@@ -6533,11 +6533,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Gauri\\ARHOPD\\ARHProject\\arh-backend\\arh-server\\API\\API.csproj",
+      "projectUniqueName": "C:\\Gauri\\ARHOPD\\ARHProject\\arh-server\\API\\API.csproj",
       "projectName": "API",
-      "projectPath": "C:\\Gauri\\ARHOPD\\ARHProject\\arh-backend\\arh-server\\API\\API.csproj",
+      "projectPath": "C:\\Gauri\\ARHOPD\\ARHProject\\arh-server\\API\\API.csproj",
       "packagesPath": "C:\\Users\\deshp\\.nuget\\packages\\",
-      "outputPath": "C:\\Gauri\\ARHOPD\\ARHProject\\arh-backend\\arh-server\\API\\obj\\",
+      "outputPath": "C:\\Gauri\\ARHOPD\\ARHProject\\arh-server\\API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -6558,8 +6558,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\Gauri\\ARHOPD\\ARHProject\\arh-backend\\arh-server\\Infrastructure\\Infrastructure.csproj": {
-              "projectPath": "C:\\Gauri\\ARHOPD\\ARHProject\\arh-backend\\arh-server\\Infrastructure\\Infrastructure.csproj"
+            "C:\\Gauri\\ARHOPD\\ARHProject\\arh-server\\Infrastructure\\Infrastructure.csproj": {
+              "projectPath": "C:\\Gauri\\ARHOPD\\ARHProject\\arh-server\\Infrastructure\\Infrastructure.csproj"
             }
           }
         }
