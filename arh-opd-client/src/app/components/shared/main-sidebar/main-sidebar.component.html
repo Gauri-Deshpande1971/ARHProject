@@ -12,10 +12,10 @@
               <!-- Loop through NavMenus and display parent and submenus -->
               <li class="nav-item" *ngFor="let nm of NavMenus">
                   <!-- Check if there are no submenus, then show as simple link -->
-                  <a *ngIf="!nm.submenus || nm.submenus.length === 0" class="nav-link" [routerLink]="[nm.url]">
+                  <a *ngIf="!nm.submenus || nm.submenus.length === 0" class="nav-link" [routerLink]="[nm.navLink]">
                       <i class="nav-icon fas fa-tachometer-alt"></i>
                       <p class="text-black">
-                          {{ nm.menu_description }}
+                          {{ nm.description }}
                           <!-- Show arrow only for menus with submenus -->
                       </p>
                   </a>
@@ -25,7 +25,7 @@
                      href="#" class="nav-link" (click)="toggleMenu(nm);$event.preventDefault()">
                       <i class="nav-icon fas fa-tachometer-alt"></i>
                       <p class="text-black">
-                          {{ nm.menu_description }}
+                          {{ nm.description }}
                           <!-- Toggle arrow based on isOpen property -->
                           <!-- <i class="right fas" [ngClass]="nm.isOpen ? 'fa-angle-down' : 'fa-angle-left'"></i> -->
                       </p>
@@ -34,17 +34,17 @@
                 <!-- Show submenus only if isOpen is true -->
                 <ul class="nav nav-treeview" *ngIf="nm.submenus">
                   <li class="nav-item" *ngFor="let sm of nm.submenus">
-                    <a href="#" class="nav-link" [routerLink]="sm.url" (click)="toggleMenu(sm);">
+                    <a href="#" class="nav-link" [routerLink]="sm.navLink" (click)="toggleMenu(sm);">
                       <i class="far fa-circle nav-icon"></i>
-                      <p class="text-black">{{ sm.menu_description }}</p>
+                      <p class="text-black">{{ sm.description }}</p>
                     </a>
                 
                     <!-- Nested submenus with indentation -->
                     <ul class="nav nav-treeview" *ngIf="sm.submenus">
                       <li class="nav-item" *ngFor="let sub of sm.submenus">
-                        <a href="#" class="nav-link" [routerLink]="sub.url" (click)="toggleMenu(sub);">
+                        <a href="#" class="nav-link" [routerLink]="sub.navLink" (click)="toggleMenu(sub);">
                           <i class="far fa-dot-circle nav-icon"></i>
-                          <p class="text-black">{{ sub.menu_description }}</p>
+                          <p class="text-black">{{ sub.description }}</p>
                         </a>
                       </li>
                     </ul>

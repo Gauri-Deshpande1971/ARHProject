@@ -132,36 +132,36 @@
   }
 
 //  NavMenus
-// export class INavMenu {
-//   parId : number;
-//   navMenuName : string;
-//   description : string;
-//   navLink : string;
-//   iconClass : string;
-//   srNo : number;
-//   appRoleCode : string;
-//   createdOn : string;
-//   createdByName : string;
-//   isActive : boolean;
-//   uCode : string;
-//   sequenceNo : number;
-//   extraId1 : number;
-//   extraId2 : number;
-//   extraValue1 : string;
-//   extraValue2 : string;
-//   submenus: INavMenu[];
-// }
-export class INavMenu { 
-    menu_code: number;
-    menu_type: string;
-    menu_description: string;
-    parent_menu: number;
-    url: string;
-    updatedon?: Date; // Optional property
-    updatedby: string;
-    submenus: INavMenu[];
-    isOpen?: boolean=false;
-  }
+export class INavMenu {
+  parId : number;
+  navMenuName : string;
+  description : string;
+  navLink : string;
+  iconClass : string;
+  srNo : number;
+  appRoleCode : string;
+  createdOn : string;
+  createdByName : string;
+  isActive : boolean;
+  uCode : string;
+  sequenceNo : number;
+  extraId1 : number;
+  extraId2 : number;
+  extraValue1 : string;
+  extraValue2 : string;
+  submenus: INavMenu[];
+}
+// export class INavMenu { 
+//     menu_code: number;
+//     menu_type: string;
+//     menu_description: string;
+//     parent_menu: number;
+//     url: string;
+//     updatedon?: Date; // Optional property
+//     updatedby: string;
+//     submenus: INavMenu[];
+//     isOpen?: boolean=false;
+//   }
 
 export class ISuperuserNavMenu {
   parId : number;
