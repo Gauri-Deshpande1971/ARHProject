@@ -35,12 +35,16 @@ namespace Core.Interfaces
          Task<int> Complete();
 
         int MaxIdAsync();
+        Task<int> MaxNumericPrefixFromStringFieldAsync(
+    Expression<Func<T, string>> fieldSelector,
+    Expression<Func<T, bool>>? filter = null,
+    char separator = '-');
 
         IEnumerable<TResult>GetGrouped<TKey, TResult>(
             Expression<Func<T, TKey>> groupingKey,
             Expression<Func<IGrouping<TKey, T>, TResult>> resultSelector,
             Expression<Func<T, bool>>? filter = null);
-    
+
         TKey? MaxOf<TKey>(Expression<Func<T, TKey>> OfField,
             Expression<Func<T, bool>>? filter = null);
         

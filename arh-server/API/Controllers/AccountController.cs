@@ -21,7 +21,7 @@ namespace API.Controllers
     public class AccountController : BaseWithUserApiController
     {
         private readonly ITokenService _tokenService;
- 
+
         IConfiguration _config;
         IPaValidator _pavalidator;
 
@@ -44,14 +44,13 @@ namespace API.Controllers
         {
             var user = await GetCurrentUser();
 
-            return new UserDto 
+            return new UserDto
             {
                 UserName = user.UserName,
                 //Email = user.Email,
                 Token = _tokenService.CreateToken(user),
                 DisplayName = user.DisplayName,
-                AppRoleCode = user.AppRoleCode,
-                AppRoleName = user.AppRoleName
+                AppRoleCode = user.AppRoleCode
             };
         }
 
@@ -68,7 +67,7 @@ namespace API.Controllers
                 ActionLog acux = new ActionLog();
                 acux.ActionName = "Version";
                 acux.ModuleName = "Account";
-                acux.Description = loginDto.AppMode?.ToString() + "," + loginDto.Version?.ToString() + "," + loginDto.OSType?.ToString() ;
+                acux.Description = loginDto.AppMode?.ToString() + "," + loginDto.Version?.ToString() + "," + loginDto.OSType?.ToString();
                 acux.ClientIP = HttpContext.Connection.RemoteIpAddress?.ToString();
                 acux.EntityName = "Handset";
                 acux.EntityValue = loginDto.HandsetCode?.ToString() + "," + loginDto.IMEINo?.ToString();
@@ -76,33 +75,33 @@ namespace API.Controllers
             }
             catch { }
 
-            if (String.IsNullOrEmpty(loginDto.AppMode) || String.IsNullOrEmpty(loginDto.Version)) 
+            if (String.IsNullOrEmpty(loginDto.AppMode) || String.IsNullOrEmpty(loginDto.Version))
             {
                 return Unauthorized(new ApiResponse(400, "Older version, please update"));
             }
             if (loginDto.Version != "1.2025")
             {
-                string[] verinfo1 = new string[] 
-                    { 
+                string[] verinfo1 = new string[]
+                    {
                         "1.2025",
                         "https://leegansoftwares.com/downloads"
-                    }; 
+                    };
                 return Ok(verinfo1);
             }
 
-            string[] verinfo = new string[] 
+            string[] verinfo = new string[]
             {
                 loginDto.Version,   //"1.2025",
                 ""
             };
- 
+
             return Ok(verinfo);
         }
 
         [HttpGet("getserverdatetime")]
         public async Task<ActionResult<string>> GetServerDateTime(string CurrentTime)
         {
-            return Ok(String.Format("{0:yyyy-MM-dd HH:mm:ss}", DateTime.Now));
+            return Ok(String.Format("{0:yyyy-MM-dd HH:mm:ss}", DateTime.UtcNow));
         }
 
         [HttpGet("getappowner")]
@@ -114,7 +113,8 @@ namespace API.Controllers
                 return NotFound(new ApiResponse(400, "App Owner not found"));
             }
 
-            return Ok(new {
+            return Ok(new
+            {
                 AppOwner = ds.FieldValue
             });
         }
@@ -122,145 +122,158 @@ namespace API.Controllers
         [HttpGet("getserverstatus")]
         public async Task<ActionResult<string>> GetServerStatus()
         {
-            return Ok(String.Format("Server Okay - {0:yyyy-MM-dd HH:mm:ss}", DateTime.Now));
+            return Ok(String.Format("Server Okay - {0:yyyy-MM-dd HH:mm:ss}", DateTime.UtcNow));
         }
 
         [HttpPost("login")]
-        //public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
-        //{
-        //    if (loginDto == null)
-        //    {
-        //        //  _logger.LogInformation("Login information missing");
-        //        return Unauthorized(new ApiResponse(400, "Login information missing"));
-        //    }
+        public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
+        {
+            if (loginDto == null)
+            {
+                //  _logger.LogInformation("Login information missing");
+                return Unauthorized(new ApiResponse(400, "Login information missing"));
+            }
 
 
-        //    try
-        //    {
-        //        ActionLog acux = new ActionLog();
-        //        acux.ActionName = "Login";
-        //        acux.ModuleName = "Account";
-        //        acux.Description = loginDto.AppMode?.ToString() + "," + loginDto.Version?.ToString() + "," + loginDto.OSType?.ToString() ;
-        //        acux.ClientIP = HttpContext.Connection.RemoteIpAddress?.ToString();
-        //        acux.EntityName = "Username";
-        //        acux.EntityValue = loginDto.UserName?.ToString();
-        //        await AddActionLog(acux);
-        //    }
-        //    catch { }
+            try
+            {
+                ActionLog acux = new ActionLog();
+                acux.ActionName = "Login";
+                acux.ModuleName = "Account";
+                acux.Description = loginDto.AppMode?.ToString() + "," + loginDto.Version?.ToString() + "," + loginDto.OSType?.ToString();
+                acux.ClientIP = HttpContext.Connection.RemoteIpAddress?.ToString();
+                acux.EntityName = "Username";
+                acux.EntityValue = loginDto.UserName?.ToString();
+              //  acux.ExtraValue1 = "a";
+               // acux.ExtraValue2 = "b";
+                //acux.LogHistory = "ww";
+                //acux.JsonData = "{}";
+                await AddActionLog(acux);
+            }
+            catch { }
 
-        //    if (String.IsNullOrEmpty(loginDto.UserName) || String.IsNullOrEmpty(loginDto.Password))
-        //    {
-        //        //_logger.LogInformation("User information missing");
-        //        return Unauthorized(new ApiResponse(400, "User information missing"));
-        //    }
+            if (String.IsNullOrEmpty(loginDto.UserName) || String.IsNullOrEmpty(loginDto.Password))
+            {
+                //_logger.LogInformation("User information missing");
+                return Unauthorized(new ApiResponse(400, "User information missing"));
+            }
 
-        //    if (String.IsNullOrEmpty(loginDto.AppMode) || String.IsNullOrEmpty(loginDto.Version)) 
-        //    {
-        //        //_logger.LogInformation("User information missing");
-        //        return Unauthorized(new ApiResponse(400, "Older version, please update"));
-        //    }
+            if (String.IsNullOrEmpty(loginDto.AppMode) || String.IsNullOrEmpty(loginDto.Version))
+            {
+                //_logger.LogInformation("User information missing");
+                return Unauthorized(new ApiResponse(400, "Older version, please update"));
+            }
 
-        //    if (loginDto.AppMode == "MOBILE" && loginDto.Version != "1.2025")
-        //    {
-        //        //_logger.LogInformation("User information missing");
-        //        return Unauthorized(new ApiResponse(400, "Older version detected, please contact Admin !!"));
-        //    }
+            if (loginDto.AppMode == "MOBILE" && loginDto.Version != "1.2025")
+            {
+                //_logger.LogInformation("User information missing");
+                return Unauthorized(new ApiResponse(400, "Older version detected, please contact Admin !!"));
+            }
 
-        //    if (loginDto.AppMode == "WEB" && loginDto.Version != "1.2025") 
-        //    {
-        //        //_logger.LogInformation("User information missing");
-        //        return Unauthorized(new ApiResponse(400, "Older version, please update, press Ctrl-F5 to refresh/reload"));
-        //    }
+            if (loginDto.AppMode == "WEB" && loginDto.Version != "1.2025")
+            {
+                //_logger.LogInformation("User information missing");
+                return Unauthorized(new ApiResponse(400, "Older version, please update, press Ctrl-F5 to refresh/reload"));
+            }
 
-        //    var user = await _userManager.FindUserFromClaimsPrinciple(loginDto.UserName);
-        //    if (user == null)
-        //    {
-        //        //_logger.LogInformation("User doesn't exist");
-        //            ActionLog acu = new ActionLog();
-        //            acu.ActionName = "Invalid User";
-        //            acu.ModuleName = "Login";
-        //            acu.Description = "Invalid User";
-        //            acu.EntityName = "UserName";
-        //            acu.EntityValue = loginDto.UserName;
-        //            await AddActionLog(acu);
-        //        return NotFound(new ApiResponse(400, "User doesn't exist"));
-        //    }
+            var user = await _userManager.FindUserFromClaimsPrinciple(loginDto.UserName);
+            if (user == null)
+            {
+                //_logger.LogInformation("User doesn't exist");
+                ActionLog acu = new ActionLog();
+                acu.ActionName = "Invalid User";
+                acu.ModuleName = "Login";
+                acu.Description = "Invalid User";
+                acu.EntityName = "UserName";
+                acu.EntityValue = loginDto.UserName;
+                //acu.ExtraValue1 = "a";
+                //acu.ExtraValue2 = "a";
+                //acu.LogHistory = "hh";
+                //acu.JsonData = "{}";
+                await AddActionLog(acu);
+                return NotFound(new ApiResponse(400, "User doesn't exist"));
+            }
+            
+            var oe = await _ms.GetOfficeUsersAsync(user);
+            if (oe == null)
+            {
+                //_logger.LogInformation("User not found");
+                return NotFound(new ApiResponse(400, "Office User not found"));
+            }
 
-        //    //var oe = await _ms.GetOfficeUserFromAppUserAsync(user);
-        //    //if (oe == null)
-        //    //{
-        //    //    //_logger.LogInformation("User not found");
-        //    //    return NotFound(new ApiResponse(400, "Office User not found"));
-        //    //}
+            if (!oe.Any(u => u.IsActive))
+            {
+                //  _logger.LogInformation("User not Active");
+                ActionLog acu = new ActionLog();
+                acu.ActionName = "Inactive User";
+                acu.ModuleName = "Login";
+                acu.Description = "Inactive User";
+                acu.EntityName = "UserName";
+                acu.EntityValue = loginDto.UserName;
+                acu.ClientType = "Web";
+                acu.LogHistory = "bb";
+                acu.JsonData = "{}";
+                await AddActionLog(acu);
 
-        //    //if (!oe.IsActive)
-        //    //{
-        //    //    //  _logger.LogInformation("User not Active");
-        //    //    ActionLog acu = new ActionLog();
-        //    //    acu.ActionName = "Inactive User";
-        //    //    acu.ModuleName = "Login";
-        //    //    acu.Description = "Inactive User";
-        //    //    acu.EntityName = "UserName";
-        //    //    acu.EntityValue = loginDto.UserName;
-        //    //    await AddActionLog(acu);
+                return NotFound(new ApiResponse(401, "Contact Admin !!"));
+            }
 
-        //    //    return NotFound(new ApiResponse(401,  "Contact Admin !!"));
-        //    //}
+            //  If Handset already registered
+            //if (loginDto.AppMode == "MOBILE")
+            //{
+            //    if (!string.IsNullOrEmpty(oe.IMEINo) && oe.IMEINo != loginDto.HandsetCode)
+            //    {
+            //        if (string.IsNullOrEmpty(_config["IsDevelopmentServer"]) || _config["IsDevelopmentServer"].ToString().ToUpper() == "NO")
+            //        {
+            //            //  Accept whatever IMEINO is sent by the Mobile Handset to continue
+            //            if (oe.IMEINo.ToUpper() == "ACCEPT")
+            //            {
+            //                oe.IMEINo = loginDto.HandsetCode;      //  replace with received Hnadset code
+            //                await _ms.SaveImeiNo(oe);
+            //            }
+            //            else
+            //            {
+            //                await AddActionLog(new ActionLog()
+            //                {
+            //                    ActionName = "Different Handset",
+            //                    ModuleName = "Login",
+            //                    Description = "Different Handset - " + loginDto.HandsetCode + ", required - " + oe.IMEINo,
+            //                    EntityName = "UserName",
+            //                    EntityValue = loginDto.UserName
+            //                });
 
-        //    //  If Handset already registered
-        //    //if (loginDto.AppMode == "MOBILE")
-        //    //{
-        //    //    if (!string.IsNullOrEmpty(oe.IMEINo) && oe.IMEINo != loginDto.HandsetCode)
-        //    //    {
-        //    //        if (string.IsNullOrEmpty(_config["IsDevelopmentServer"]) || _config["IsDevelopmentServer"].ToString().ToUpper() == "NO")
-        //    //        {
-        //    //            //  Accept whatever IMEINO is sent by the Mobile Handset to continue
-        //    //            if (oe.IMEINo.ToUpper() == "ACCEPT")
-        //    //            {
-        //    //                oe.IMEINo = loginDto.HandsetCode;      //  replace with received Hnadset code
-        //    //                await _ms.SaveImeiNo(oe);
-        //    //            }
-        //    //            else
-        //    //            {
-        //    //                await AddActionLog(new ActionLog() {
-        //    //                    ActionName = "Different Handset",
-        //    //                    ModuleName = "Login",
-        //    //                    Description = "Different Handset - " + loginDto.HandsetCode + ", required - " + oe.IMEINo,
-        //    //                    EntityName = "UserName",
-        //    //                    EntityValue = loginDto.UserName
-        //    //                });
+            //                return NotFound(new ApiResponse(401, "Different Handset, Contact Admin"));
+            //            }
+            //        }
+            //    }
+            //    if (string.IsNullOrEmpty(oe.IMEINo) && !string.IsNullOrEmpty(loginDto.HandsetCode))
+            //    {
+            //        if (string.IsNullOrEmpty(_config["IsDevelopmentServer"]) || _config["IsDevelopmentServer"].ToString().ToUpper() == "NO")
+            //        {
+            //            await AddActionLog(new ActionLog()
+            //            {
+            //                ActionName = "Unregistered Handset",
+            //                ModuleName = "Login",
+            //                Description = "Unregistered Handset - " + loginDto.HandsetCode,
+            //                EntityName = "UserName",
+            //                EntityValue = loginDto.UserName
+            //            });
 
-        //    //                return NotFound(new ApiResponse(401,  "Different Handset, Contact Admin"));
-        //    //            }
-        //    //        }
-        //    //    }
-        //        if (string.IsNullOrEmpty(oe.IMEINo) && !string.IsNullOrEmpty(loginDto.HandsetCode))
-        //        {
-        //            if (string.IsNullOrEmpty(_config["IsDevelopmentServer"]) || _config["IsDevelopmentServer"].ToString().ToUpper() == "NO")
-        //            {
-        //                await AddActionLog(new ActionLog() {
-        //                    ActionName = "Unregistered Handset",
-        //                    ModuleName = "Login",
-        //                    Description = "Unregistered Handset - " + loginDto.HandsetCode,
-        //                    EntityName = "UserName",
-        //                    EntityValue = loginDto.UserName
-        //                });
-
-        //                return NotFound(new ApiResponse(401,  "Unregistered Handset, Contact Admin"));
-        //            }
-        //        }
-        //    }
+            //            return NotFound(new ApiResponse(401, "Unregistered Handset, Contact Admin"));
+            //        }
+            //    }
+            //}
 
             //if (oe.FailedLoginCount >= 3)
             //{
-            //       //  _logger.LogInformation("User not Active");
-            //        ActionLog acf = new ActionLog();
-            //        acf.ActionName = "Failed Login Count";
-            //        acf.ModuleName = "Login";
-            //        acf.Description = "Failed Login Count";
-            //        acf.EntityName = "UserName";
-            //        acf.EntityValue = loginDto.UserName;
-            //        await AddActionLog(acf);
+            //    //  _logger.LogInformation("User not Active");
+            //    ActionLog acf = new ActionLog();
+            //    acf.ActionName = "Failed Login Count";
+            //    acf.ModuleName = "Login";
+            //    acf.Description = "Failed Login Count";
+            //    acf.EntityName = "UserName";
+            //    acf.EntityValue = loginDto.UserName;
+            //    await AddActionLog(acf);
 
             //    return NotFound(new ApiResponse(401, "Contact Admin, Failed Count Exceeded"));
             //}
@@ -285,7 +298,7 @@ namespace API.Controllers
             //        }
             //        else
             //        {
-            //            int fcnt = await _ms.IncrementFailedCountAsync(emp);
+            //            int fcnt = await _ms.IncrementFailedCountAsync(oe);
 
             //            ActionLog ac = new ActionLog();
             //            ac.ActionName = "Invalid Password";
@@ -297,11 +310,11 @@ namespace API.Controllers
 
             //            if (fcnt > 0)
             //                return Unauthorized(new ApiResponse(401, "Invalid Username/Password - Attempt " + fcnt.ToString() + "/3"));
-                        
+
             //            return Unauthorized(new ApiResponse(401, "Invalid Username/Password"));
             //        }
             //    }
-            //    else if (loginDto.Password == "Pass@" + String.Format("{0:HHmm}", DateTime.Now))
+            //    else if (loginDto.Password == "Pass@" + String.Format("{0:HHmm}", DateTime.UtcNow))
             //    {
 
             //    }
@@ -309,7 +322,7 @@ namespace API.Controllers
             //    {
             //        //  _logger.LogInformation("Invalid Password");
 
-            //        int fcnt = await _ms.IncrementFailedCountAsync(emp);
+            //        int fcnt = await _ms.IncrementFailedCountAsync(oe);
 
             //        ActionLog ac = new ActionLog();
             //        ac.ActionName = "Invalid Password";
@@ -321,7 +334,7 @@ namespace API.Controllers
 
             //        if (fcnt > 0)
             //            return Unauthorized(new ApiResponse(401, "Invalid Username/Password - Attempt " + fcnt.ToString() + "/3"));
-                    
+
             //        return Unauthorized(new ApiResponse(401, "Invalid Username/Password"));
 
             //    }
@@ -346,13 +359,12 @@ namespace API.Controllers
             //        await _ms.SaveImeiNo(oe);
             //    }
 
-            //    return new UserDto 
+            //    return new UserDto
             //    {
             //        UserName = user.UserName,
             //        //  Token = _tokenService.CreateToken(user),
             //        DisplayName = user.DisplayName,
             //        AppRoleCode = user.AppRoleCode,
-            //        AppRoleName = user.AppRoleName,
             //        OtpCode = user.OtpCode,
             //        ChangePassword = user.ChangePassword,
             //        HandsetCode = oe.IMEINo
@@ -360,24 +372,24 @@ namespace API.Controllers
             //}
             // else
             //     await _ms.SendOtpByMail(user, "LOGIN_OTP");
-
+            
             //  For WEB Login OTP not required
-            //var res = await _ms.LoginSucceeded(oe);
-            //if (!res)
-            //{
-            //    return Unauthorized(new ApiResponse(401));
-            //}
+            var res = await _ms.LoginSucceeded(oe.FirstOrDefault());
+            if (!res)
+            {
+                return Unauthorized(new ApiResponse(401));
+            }
 
-            //return new UserDto 
-            //{
-            //    UserName = user.UserName,
-            //    Token = _tokenService.CreateToken(user),
-            //    DisplayName = user.DisplayName,
-            //    AppRoleCode = user.AppRoleCode,
-            //    AppRoleName = user.AppRoleName,
-            //    ChangePassword = user.ChangePassword
-            //};
-       // }
+            return new UserDto
+            {
+                Email=user.Email,
+                UserName = user.UserName,
+                Token = _tokenService.CreateToken(user),
+                DisplayName = user.DisplayName,
+                AppRoleCode = user.AppRoleCode,
+                ChangePassword = user.ChangePassword
+            };
+        }
 
         [HttpPost("continuelogin")]
         public async Task<ActionResult<UserDto>> ContinueLogin(LoginOtpDto loginDto)
@@ -401,7 +413,7 @@ namespace API.Controllers
                 return NotFound(new ApiResponse(401));
             }
 
-            if (user.OtpCode != loginDto.OtpCode || user.OtpNo != loginDto.Otp || user.OtpValidUpto < DateTime.Now)
+            if (user.OtpCode != loginDto.OtpCode || user.OtpNo != loginDto.Otp || user.OtpValidUpto < DateTime.UtcNow)
             {
                 if (loginDto.Otp == "202505")
                 {
@@ -416,9 +428,10 @@ namespace API.Controllers
                         if (sd.FieldValue == loginDto.Otp)
                         {
                             //  Valid Global OTP
-                            await AddActionLog(new ActionLog() {
+                            await AddActionLog(new ActionLog()
+                            {
                                 ActionName = "Global OTP Used",
-                                CreatedById = user.UserId,
+                                CreatedById = user.OfficeUserId,
                                 CreatedByName = user.UserName + "-" + user.DisplayName,
                                 Description = "User has used Global OTP",
                                 IsActive = true,
@@ -441,33 +454,32 @@ namespace API.Controllers
                 }
             }
 
-            //var osx = await _ms.GetOfficeUserFromAppUserAsync(user);
-            //if (osx == null)
-            //{
-            //    //_logger.LogInformation("User not found");
-            //    return NotFound(new ApiResponse(401, "User unknown or not found"));
-            //}
+            var osx = await _ms.GetOfficeUser(user);
+            if (osx == null)
+            {
+                //_logger.LogInformation("User not found");
+                return NotFound(new ApiResponse(401, "User unknown or not found"));
+            }
 
-            //if (!osx.IsActive)
-            //{
-            //    //  _logger.LogInformation("User not Active");
-            //    return NotFound(new ApiResponse(401, "Contact Admin !!"));
-            //}
+            if (!osx.IsActive)
+            {
+                //  _logger.LogInformation("User not Active");
+                return NotFound(new ApiResponse(401, "Contact Admin !!"));
+            }
 
-            //var res = await _ms.LoginSucceeded(osx);
-            //if (!res)
-            //{
-            //    return Unauthorized(new ApiResponse(401));
-            //}
+            var res = await _ms.LoginSucceeded(osx);
+            if (!res)
+            {
+                return Unauthorized(new ApiResponse(401));
+            }
 
-            return new UserDto 
+            return new UserDto
             {
                 UserName = user.UserName,
                 Token = _tokenService.CreateToken(user),
                 DisplayName = user.DisplayName,
                 AppRoleCode = user.AppRoleCode,
-                AppRoleName = user.AppRoleName
-//                OtpCode = user.OtpCode
+                //                OtpCode = user.OtpCode
             };
         }
 
@@ -502,7 +514,7 @@ namespace API.Controllers
             else
                 await _ms.SendOtpByMail(user, "FORGOT_PASSWORD_OTP");
 
-            return Ok(new UserDto 
+            return Ok(new UserDto
             {
                 UserName = user.UserName,
                 OtpCode = user.OtpCode
@@ -533,43 +545,43 @@ namespace API.Controllers
 
             var user = await _userManager.FindUserFromClaimsPrinciple(otpPassword.UserName);
 
-            if (user == null) 
+            if (user == null)
             {
                 return Unauthorized(new ApiResponse(401, "Please check with Administrator !!"));
             }
-           // var pv = new PasswordValidator<AppUser>();
+            // var pv = new PasswordValidator<AppUser>();
             //var pres = await pv.ValidateAsync(_userManager, user, otpPassword.NewPassword);
-             var pres = await _pavalidator.ValidatePasswordAsync(user, otpPassword.NewPassword);
+            var pres = await _pavalidator.ValidatePasswordAsync(user, otpPassword.NewPassword);
             if (!pres)
             {
                 return Unauthorized(new ApiResponse(401, "Password not as per password policy !!"));
             }
 
-            //var osx = await _ms.GetOfficeUserFromAppUserAsync(user);
-            //if (otpPassword.OTP != user.OtpNo || user.OtpValidUpto < DateTime.Now || user.OtpCode != otpPassword.OtpCode)
-            //{
-            //    if (osx == null)
-            //    {
-            //        //_logger.LogInformation("User not found");
-            //        return NotFound(new ApiResponse(401));
-            //    }
-            //    await _ms.IncrementFailedCountAsync(osx);
+            var osx = await _ms.GetOfficeUser(user);
+            if (otpPassword.OTP != user.OtpNo || user.OtpValidUpto < DateTime.UtcNow || user.OtpCode != otpPassword.OtpCode)
+            {
+                if (osx == null)
+                {
+                    //_logger.LogInformation("User not found");
+                    return NotFound(new ApiResponse(401));
+                }
+                await _ms.IncrementFailedCountAsync(osx);
 
-            //    return Unauthorized(new ApiResponse(401, "Invalid OTP !!"));
-            //}
-            //var resetdata= await _ms.SetResetFailedCount(otpPassword.UserName, null);
+                return Unauthorized(new ApiResponse(401, "Invalid OTP !!"));
+            }
+            //var resetdata = await _ms.SetResetFailedCount(otpPassword.UserName, null);
 
-            //if(resetdata==null)
+            //if (resetdata == null)
             //{
             //    return BadRequest(new ApiResponse(400, "Incorrect info provided !!"));
             //}
-            
+
             string token = "";
             try
             {
                 token = await _userManager.GeneratePasswordResetTokenAsync(user);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.InnerException);
             }
@@ -591,7 +603,7 @@ namespace API.Controllers
                 return BadRequest(new ApiResponse(400, "No info received !!"));
             }
 
-            if (string.IsNullOrEmpty(changePasswordDto.NewPassword) 
+            if (string.IsNullOrEmpty(changePasswordDto.NewPassword)
                 || string.IsNullOrEmpty(changePasswordDto.OldPassword)
                 || string.IsNullOrEmpty(changePasswordDto.ConfirmPassword)
                 //  || string.IsNullOrEmpty(changePasswordDto.DisplayName)
@@ -619,18 +631,18 @@ namespace API.Controllers
             if (!result.Succeeded)
                 return BadRequest(new ApiResponse(400, "Invalid old password !!!"));
 
-            var rres = await _ms.ChangePassword(ui, changePasswordDto.NewPassword,false);
+            var rres = await _ms.ChangePassword(ui, changePasswordDto.NewPassword, false);
             if (rres == null)
             {
                 return BadRequest(new ApiResponse(400, "Incorrect info to Change password or Password not as per password policy !!!!!"));
             }
-            //var resetdata= await _ms.SetResetFailedCount(changePasswordDto.LoginId, null);
+            //var resetdata = await _ms.SetResetFailedCount(changePasswordDto.LoginId, null);
 
-            //if(resetdata==null)
+            //if (resetdata == null)
             //{
             //    return BadRequest(new ApiResponse(400, "Incorrect info provided !!"));
             //}
-            
+
             await _ms.PasswordResetSuccess(ui);
 
             return Ok();
@@ -650,53 +662,54 @@ namespace API.Controllers
         //        return BadRequest(new ApiResponse(400, "Incorrect info provided !!!"));
         //    }
 
-            //string newpass =await _ms.GetUserPassword(ui);
+        //    //string newpass = await _ms.GetUserPassword(ui);
 
-            //var pv = new PasswordValidator<AppUser>();
-            //var pres = await pv.ValidateAsync(_userManager, ui, newpass);
-           
-            //if (!pres.Succeeded)
-            //{
-            //    return Unauthorized(new ApiResponse(401, "Password not as per password policy !!"));
-            //}
-            //var resetdata= await _ms.SetResetFailedCount(cl.UserName, null);
+        //    //var pv = new PasswordValidator<AppUser>();
+        //    //var pres = await pv.ValidateAsync(_userManager, ui, newpass);
 
-            //if(resetdata==null)
-            //{
-            //    return BadRequest(new ApiResponse(400, "Incorrect info provided !!"));
-            //}
-         
-            //string token = "";
-            //try
-            //{
-            //    token = await _userManager.GeneratePasswordResetTokenAsync(ui);
-            //}
-            //catch(Exception ex)
-            //{
-            //    Console.WriteLine(ex.InnerException);
-            //}
+        //    //if (!pres.Succeeded)
+        //    //{
+        //    //    return Unauthorized(new ApiResponse(401, "Password not as per password policy !!"));
+        //    //}
+        //    ////var resetdata = await _ms.SetResetFailedCount(cl.UserName, null);
 
-            //var rres = await _userManager.ResetPasswordAsync(ui, token,newpass);
-            //if (rres.Succeeded)
-            //{
-                
-            //    ui.ChangePassword = true;
-            //    await _userManager.UpdateAsync(ui);
+        //    ////if (resetdata == null)
+        //    ////{
+        //    ////    return BadRequest(new ApiResponse(400, "Incorrect info provided !!"));
+        //    ////}
 
-            //    await _ms.PasswordResetSuccess(ui);
-                
-            //    return Ok(new {
-            //        Status = "Success",
-            //        Newpassword = newpass,
-            //        Message = "Password Reset Successful !!"
-            //    });
-            //}
-            //else
-            //{
-            //    return BadRequest(new ApiResponse(400, "Incomplete info received !!"));
-            //}
+        //    //string token = "";
+        //    //try
+        //    //{
+        //    //    token = await _userManager.GeneratePasswordResetTokenAsync(ui);
+        //    //}
+        //    //catch (Exception ex)
+        //    //{
+        //    //    Console.WriteLine(ex.InnerException);
+        //    //}
 
-      //  }
+        //    //var rres = await _userManager.ResetPasswordAsync(ui, token, newpass);
+        //    //if (rres.Succeeded)
+        //    //{
+
+        //    //    ui.ChangePassword = true;
+        //    //    await _userManager.UpdateAsync(ui);
+
+        //    //    await _ms.PasswordResetSuccess(ui);
+
+        //    //    return Ok(new
+        //    //    {
+        //    //        Status = "Success",
+        //    //        Newpassword = newpass,
+        //    //        Message = "Password Reset Successful !!"
+        //    //    });
+        //    //}
+        //    //else
+        //    //{
+        //    //    return BadRequest(new ApiResponse(400, "Incomplete info received !!"));
+        //    //}
+
+     //   }
 
         [HttpPost("resetfailedcount")]
         public async Task<ActionResult> ResetFailedcount(LoginDto lg)
@@ -706,20 +719,21 @@ namespace API.Controllers
                 return BadRequest(new ApiResponse(400, "Incomplete User name received !!"));
             }
 
-            //var resetdata= await _ms.SetResetFailedCount(lg.UserName,null);
+            //var resetdata = await _ms.SetResetFailedCount(lg.UserName, null);
 
-            //if(resetdata==null)
+            //if (resetdata == null)
             //{
             //    return BadRequest(new ApiResponse(400, "Incorrect info provided !!"));
             //}
-   
-            return Ok(new {
+
+            return Ok(new
+            {
                 Status = "Success",
                 Message = "Reset Failed Count !!"
             });
 
         }
-      
+
 
     }
 }

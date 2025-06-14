@@ -161,7 +161,7 @@
   },
   {
     "ContainingType": "API.Controllers.AccountController",
-    "Method": "ContinueLogin",
+    "Method": "Login",
     "RelativePath": "api/Account/login",
     "HttpMethod": "POST",
     "IsController": true,
@@ -169,7 +169,7 @@
     "Parameters": [
       {
         "Name": "loginDto",
-        "Type": "API.Dtos.LoginOtpDto",
+        "Type": "API.Dtos.LoginDto",
         "IsRequired": true
       }
     ],
@@ -215,6 +215,114 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.AppointmentController",
+    "Method": "AppointmentsBulkUpload",
+    "RelativePath": "api/Appointment/bulkupload",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.AppointmentController",
+    "Method": "AppointmentsDownloadData",
+    "RelativePath": "api/Appointment/downloaddata",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.AppointmentController",
+    "Method": "GetAppointmentsList",
+    "RelativePath": "api/Appointment/getappointmentslist",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IReadOnlyList\u00601[[API.Dtos.appointmentsDto, API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "API.Controllers.AppointmentController",
+    "Method": "GetGridCols",
+    "RelativePath": "api/Appointment/getgridcols",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "FormName",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.AppointmentController",
+    "Method": "SaveAppointment",
+    "RelativePath": "api/Appointment/saveappointment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "appointment",
+        "Type": "API.Dtos.appointmentsDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "API.Dtos.appointmentsDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "API.Controllers.AppointmentController",
+    "Method": "SaveBulkUpload",
+    "RelativePath": "api/Appointment/savebulkupload",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "UploadCode",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.AppointmentController",
+    "Method": "AppointmentDownloadTemplate",
+    "RelativePath": "api/Appointment/templatedownload",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -343,26 +451,6 @@
   },
   {
     "ContainingType": "API.Controllers.MedicineController",
-    "Method": "MedicinesBulkUpload",
-    "RelativePath": "api/Medicine/bulkupload",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "API.Controllers.MedicineController",
-    "Method": "RatesDownloadData",
-    "RelativePath": "api/Medicine/downloaddata",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "API.Controllers.MedicineController",
     "Method": "GetGridCols",
     "RelativePath": "api/Medicine/getgridcols",
     "HttpMethod": "GET",
@@ -375,78 +463,6 @@
         "IsRequired": false
       }
     ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "API.Controllers.MedicineController",
-    "Method": "GetRatesList",
-    "RelativePath": "api/Medicine/getmedicineslist",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IReadOnlyList\u00601[[API.Dtos.MedicineDto, API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "API.Controllers.MedicineController",
-    "Method": "SaveBulkUpload",
-    "RelativePath": "api/Medicine/savebulkupload",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "UploadCode",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "API.Controllers.MedicineController",
-    "Method": "SaveMedicine",
-    "RelativePath": "api/Medicine/savemedicine",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "medicine",
-        "Type": "API.Dtos.MedicineDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "API.Dtos.MedicineDto",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "API.Controllers.MedicineController",
-    "Method": "MedicinesDownloadTemplate",
-    "RelativePath": "api/Medicine/templatedownload",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -558,9 +574,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "API.Controllers.RateController",
-    "Method": "RatesBulkUpload",
-    "RelativePath": "api/Rate/bulkupload",
+    "ContainingType": "API.Controllers.PatientController",
+    "Method": "PatientsBulkUpload",
+    "RelativePath": "api/Patient/bulkupload",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -568,9 +584,97 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "API.Controllers.RateController",
-    "Method": "RatesDownloadData",
-    "RelativePath": "api/Rate/downloaddata",
+    "ContainingType": "API.Controllers.PatientController",
+    "Method": "PatientsDownloadData",
+    "RelativePath": "api/Patient/downloaddata",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.PatientController",
+    "Method": "GetGridCols",
+    "RelativePath": "api/Patient/getgridcols",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "FormName",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.PatientController",
+    "Method": "GetPatientsList",
+    "RelativePath": "api/Patient/getpatientslist",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IReadOnlyList\u00601[[API.Dtos.OrganizationDto, API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "API.Controllers.PatientController",
+    "Method": "SaveBulkUpload",
+    "RelativePath": "api/Patient/savebulkupload",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "UploadCode",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.PatientController",
+    "Method": "SavePatient",
+    "RelativePath": "api/Patient/savepatient",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "patient",
+        "Type": "API.Dtos.patientDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "API.Dtos.patientDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "API.Controllers.PatientController",
+    "Method": "PatientDownloadTemplate",
+    "RelativePath": "api/Patient/templatedownload",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -592,68 +696,6 @@
       }
     ],
     "ReturnTypes": []
-  },
-  {
-    "ContainingType": "API.Controllers.RateController",
-    "Method": "GetRatesList",
-    "RelativePath": "api/Rate/getrateslist",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IReadOnlyList\u00601[[API.Dtos.RateDto, API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "API.Controllers.RateController",
-    "Method": "SaveBulkUpload",
-    "RelativePath": "api/Rate/savebulkupload",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "UploadCode",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "API.Controllers.RateController",
-    "Method": "SaveRate",
-    "RelativePath": "api/Rate/saverate",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "rate",
-        "Type": "API.Dtos.RateDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "API.Dtos.RateDto",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
   },
   {
     "ContainingType": "API.Controllers.RateController",

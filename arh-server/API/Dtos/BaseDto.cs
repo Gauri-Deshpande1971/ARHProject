@@ -7,7 +7,7 @@ namespace API.Dtos
         //public int Id { get; set; }
         public string CreatedOn { get; set; }
         //public int CreatedById { get; set; }
-        public string CreatedByName { get; set; }
+        public string? CreatedByName { get; set; }
         public bool IsActive { get; set; }
 
         public bool IsUpdated { get; set; }
@@ -19,10 +19,10 @@ namespace API.Dtos
         public int? ExtraId1 { get; set; }
         public int? ExtraId2 { get; set; }
 
-        public string ExtraValue1 { get; set; }
-        public string ExtraValue2 { get; set; }
+        public string? ExtraValue1 { get; set; }
+        public string? ExtraValue2 { get; set; }
 
-        public string JsonData { get; set; }
+        public string? JsonData { get; set; }
         //public string LogHistory { get; set; }
 
         public bool IsValidForSave()
@@ -35,7 +35,7 @@ namespace API.Dtos
             if (string.IsNullOrWhiteSpace(dateValue))
                 return null;
 
-            DateTime d = DateTime.Now;
+            DateTime d = DateTime.UtcNow;
 
             if (dateValue.Length < 10)
                 return null;

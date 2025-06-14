@@ -152,7 +152,7 @@ namespace Infrastructure.Data
         }
 
         public TKey? MaxOf<TKey>(Expression<Func<T, TKey>> OfField,
-            Expression<Func<T, bool>>? filter = null)
+            Expression<Func<T, bool>>? filter = null) 
         {
             var query = _context.Set<T>().AsQueryable();
 
@@ -163,6 +163,33 @@ namespace Infrastructure.Data
 
             return query.Max(OfField);
         }
+        public async Task<int> MaxNumericPrefixFromStringFieldAsync(
+    Expression<Func<T, string>> fieldSelector,
+    Expression<Func<T, bool>>? filter = null,
+    char separator = '-') // Default separator is '-'
+        {
+            var query = _context.Set<T>().AsQueryable();
+
+            if (filter != null)
+                query = query.Where(filter);
+
+            var list = await query
+                .Select(fieldSelector)
+                .Where(val => !string.IsNullOrEmpty(val))
+                .ToListAsync();
+
+            var max = list
+                .Select(val =>
+                {
+                    var part = val.Split(separator).FirstOrDefault();
+                    return int.TryParse(part, out var num) ? num : 0;
+                })
+                .DefaultIfEmpty(0)
+                .Max();
+
+            return max;
+        }
+
 
         public IEnumerable<TResult> GetSelectColumns<TResult>(
             Expression<Func<T, TResult>> resultSelector,

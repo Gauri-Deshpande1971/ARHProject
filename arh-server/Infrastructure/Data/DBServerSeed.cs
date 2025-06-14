@@ -80,7 +80,7 @@ namespace Infrastructure.Data
                     context.Organizations.Add(new Organization() {
                         CreatedById= 1,
                         CreatedByName = "Administrator",
-                        CreatedOn = DateTime.Now,
+                        CreatedOn = DateTime.UtcNow,
                         IsActive = true,
                         IsDeleted = false,
                         OrganizationName = "Association of Research in Homeopathy",

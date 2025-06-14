@@ -45,10 +45,17 @@ namespace Infrastructure.Services
             string[] validForms = new string[] {
                 "AppRole",
                 "Attachment",
-               "Rate",
+                "City",
+                "Country",
+                "Department",
+                "Designation",
+                "Medicine",
+                "patient",
+                "Rate",
                 "MailConfig",
                 "MailLog",
                 "Organization",
+                "State",
                 "UserSecurity",
                 "CompanyAdmin",
                 "ActionLog"
@@ -59,9 +66,9 @@ namespace Infrastructure.Services
                 return null;
             }
 
-            Type tabType = typeof(T);
-
-            var spec = new FormGridHeaderSpecification(FormName, UserId);
+           Type tabType = typeof(T);
+     
+            var spec = new FormGridHeaderSpecification(FormName, 0);
 
             FormGridHeader fgh = await _unitOfWork.Repository<FormGridHeader>()
                     .GetEntityWithSpec(spec);
@@ -84,13 +91,22 @@ namespace Infrastructure.Services
                 fgh.CanImportExcel = true;
                 fgh.CanUserCustomize = true;
                 fgh.CreatedById = UserId;
-                fgh.CreatedOn = DateTime.Now;
+                fgh.CreatedOn = DateTime.UtcNow;
                 fgh.FormName = FormName;
                 fgh.IsDeleted = false;
                 fgh.IsPagination = true;
                 fgh.NoOfRecords = 100;
                 fgh.OfficeUserId = -1;     //  Factory setting
                 fgh.TableName = tabType.Name;   // DataSource;
+                fgh.AppRoleCode = "ADMIN";
+                fgh.CreatedByName = "ADMIN";
+                fgh.ExtraValue1 = "abc";
+                fgh.ExtraValue2 = "abc";
+                fgh.ExtraId1 = 0;
+                fgh.ExtraId2 = 0;
+                fgh.LogHistory = "";
+                fgh.JsonData = "{}";
+                
 
                 _unitOfWork.Repository<FormGridHeader>().Add(fgh);
                 await _unitOfWork.Complete();
@@ -103,9 +119,15 @@ namespace Infrastructure.Services
                     {
                         if (pi.Name != "ErrorMessage") 
                         {
-                        FormGridDetail fgd = new FormGridDetail();
-                        fgd.FormGridHeaderId = fgh.Id;
-                        fgd.FieldName = pi.Name;
+                            FormGridDetail fgd = new FormGridDetail()
+                            {
+                                FieldHeading = pi.Name.Replace("Is", ""),
+                                FieldType = "",
+                                FieldName = pi.Name
+                            };
+                            fgd.FormGridHeaderId = fgh.Id;
+                            fgd.FieldName = pi.Name;                            
+                            fgd.FieldFormat = GetFieldFormatFromType(pi.PropertyType); 
                         if (pi.Name == "IsDeleted" || pi.Name == "IsActive")
                         {
                             fgd.FieldHeading = pi.Name.Replace("Is", "");
@@ -151,7 +173,12 @@ namespace Infrastructure.Services
                         //fgd.officeexecid = -1;
                         fgd.Position = (++pos) * 10;
                         fgd.CreatedById = UserId;
-                        fgd.CreatedOn = DateTime.Now;
+                        fgd.CreatedByName = "Admin";
+                        fgd.CreatedOn = DateTime.UtcNow;
+                        fgd.ExtraValue1 = "abc";
+                        fgd.ExtraValue2 = "abc";
+                        fgd.JsonData = "{}";
+                        fgd.LogHistory = "nn";
                         fgd.FieldType = pi.PropertyType.Name.ToLower();
                         if (fgd.FieldType == "string")
                             fgd.Width = 150;
@@ -198,7 +225,7 @@ namespace Infrastructure.Services
                     var noOfRow = workSheet.RowsUsed().Count();
 
                     FormGridService<T> fgs = new FormGridService<T>(_unitOfWork);
-                    var ulfds = await fgs.GetFormGridDetails(FormName, appUser.UserId);
+                    var ulfds = await fgs.GetFormGridDetails(FormName, appUser.OfficeUserId);
                     if (ExtraFields != null && ExtraFields.Count > 0)
                     {
                         foreach (var ef in ExtraFields)
@@ -293,7 +320,7 @@ namespace Infrastructure.Services
                                 {
                                     if (!String.IsNullOrEmpty(objval.ToString()))
                                     {
-                                        DateTime d = DateTime.Now;  // DateTime.Parse(objval.ToString());
+                                        DateTime d = DateTime.UtcNow;  // DateTime.Parse(objval.ToString());
                                         if (DateTime.TryParse(objval.ToString(), out d))
                                         {
                                             prop.SetValue(installbase, (d), null);
@@ -397,7 +424,7 @@ namespace Infrastructure.Services
             var fghl = await _unitOfWork.Repository<FormGridHeader>()
                         .ListAsync(new BaseSpecification<FormGridHeader>(x => x.FormName == FormName));
             
-            var fgh = fghl.Where(x => x.OfficeUserId == ou.UserId).FirstOrDefault();
+            var fgh = fghl.Where(x => x.OfficeUserId == ou.OfficeUserId).FirstOrDefault();
             if (fgh == null)
             {
                 fgh = fghl.Where(x => x.OfficeUserId == -1).FirstOrDefault();
@@ -504,7 +531,7 @@ namespace Infrastructure.Services
             var fghl = await _unitOfWork.Repository<FormGridHeader>()
                         .ListAsync(new BaseSpecification<FormGridHeader>(x => x.FormName == FormName));
             
-            var fgh = fghl.Where(x => x.OfficeUserId == appUser.UserId).FirstOrDefault();
+            var fgh = fghl.Where(x => x.OfficeUserId == appUser.OfficeUserId).FirstOrDefault();
             if (fgh == null)
             {
                 fgh = fghl.Where(x => x.OfficeUserId == -1).FirstOrDefault();
@@ -730,7 +757,12 @@ namespace Infrastructure.Services
                     {
                         if (!ExcludeFields.Contains(pi.Name) && fgdl.Where(x => x.FieldName == pi.Name).Count() <= 0) 
                         {
-                            FormGridDetail fgd = new FormGridDetail();
+                            FormGridDetail fgd = new FormGridDetail()
+                            {
+                                FieldHeading = "",
+                                FieldName = pi.Name,
+                                FieldType = ""
+                            };
 
                             fgd.FormGridHeaderId = fgh.Id;
                             fgd.FieldName = pi.Name;
@@ -779,7 +811,7 @@ namespace Infrastructure.Services
                             //fgd.officeexecid = -1;
                             fgd.Position = pos;
                             fgd.CreatedById = UserId;
-                            fgd.CreatedOn = DateTime.Now;
+                            fgd.CreatedOn = DateTime.UtcNow;
                             fgd.FieldType = pi.PropertyType.Name.ToLower();
                             if (fgd.FieldType == "string")
                                 fgd.Width = 150;
@@ -808,6 +840,19 @@ namespace Infrastructure.Services
 
             return fgds.OrderBy(x => x.Position).ToList();
         }
+        private static string GetFieldFormatFromType(Type type)
+        {
+            if (type == typeof(int) || type == typeof(int?))
+                return "Number";
+            if (type == typeof(decimal) || type == typeof(float) || type == typeof(double))
+                return "Decimal";
+            if (type == typeof(DateTime) || type == typeof(DateTime?))
+                return "Date";
+            if (type == typeof(bool) || type == typeof(bool?))
+                return "Checkbox";
+            return "Text"; // Default fallback
+        }
+
 
     }
 }

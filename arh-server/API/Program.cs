@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Builder;
 using Scalar.AspNetCore;
 using Npgsql;
 using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+using Core.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,7 @@ var _config = builder.Configuration;
 builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IMastersService, MastersService>();
 var services = builder.Services;
 services.AddDistributedMemoryCache();
 

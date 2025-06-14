@@ -17,6 +17,6 @@ namespace Core.Entities
         /// <summary>
         /// Client Type can be Web, Mobile, Desktop
         /// </summary>
-        public string ClientType { get; set; }
+        public string? ClientType { get; set; }
     }
 }

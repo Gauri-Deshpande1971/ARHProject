@@ -50,7 +50,7 @@ namespace API.Controllers
                 return null;
             }
 
-            //return (await _ou.GetByNameAsync("EDPNo", ux));
+          //  return (await ux.("EDPNo", ux));
             return ux;
         }
         protected async Task<ActionLog> AddActionLog(ActionLog actlg)

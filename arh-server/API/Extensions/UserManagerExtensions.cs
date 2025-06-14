@@ -45,7 +45,7 @@ namespace API.Extensions
             var username = user?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
             var approlename = user?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
 
-            return await input.Users.Where(x => x.UserName == username && x.AppRoleCode == approlename).FirstOrDefaultAsync();
+            return await input.Users.Where(x => x.UserName == username).FirstOrDefaultAsync();
         }    
         public static async Task<AppUser> FindUserFromClaimsNameAndRole(this UserManager<AppUser> input, string username, string approlename)
         {

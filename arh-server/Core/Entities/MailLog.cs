@@ -30,7 +30,7 @@ namespace Core.Entities
 
         public void CopyFromConfig(MailConfig mc, string content, string sendto)
         {
-            CreatedOn = DateTime.Now;
+            CreatedOn = DateTime.UtcNow;
             IsActive = true;
             IsAuthenticationReq = mc.IsAuthenticationReq;
             IsDeleted = false;
@@ -43,7 +43,7 @@ namespace Core.Entities
             MailFromEmail = mc.MailFromEmail;
             MailFromName = mc.MailFromName;
             MailFromPwd = mc.MailFromPwd;
-            MailQueuedOn = DateTime.Now;
+            MailQueuedOn = DateTime.UtcNow;
             MailStatus = "Queued";
             MailSubject = mc.MailSubject;
             SmtpPort = mc.SmtpPort;

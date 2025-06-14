@@ -13,3 +13,4 @@ C:\Gauri\ARHOPD\ARHProject\arh-server\Infrastructure\obj\Debug\net9.0\Infrastruc
 C:\Gauri\ARHOPD\ARHProject\arh-server\Infrastructure\obj\Debug\net9.0\refint\Infrastructure.dll
 C:\Gauri\ARHOPD\ARHProject\arh-server\Infrastructure\obj\Debug\net9.0\Infrastructure.pdb
 C:\Gauri\ARHOPD\ARHProject\arh-server\Infrastructure\obj\Debug\net9.0\ref\Infrastructure.dll
+C:\Gauri\ARHOPD\ARHProject\arh-server\Infrastructure\obj\Debug\net9.0\Infrastructure.sourcelink.json

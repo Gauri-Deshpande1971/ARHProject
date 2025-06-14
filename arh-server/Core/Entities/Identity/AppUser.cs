@@ -5,22 +5,21 @@ namespace Core.Entities.Identity
 {
     public class AppUser : IdentityUser
     {
-        public string DisplayName { get; set; }
-        public string UserCode { get; set; }
-        public string AppRoleCode { get; set; }
-        public string AppRoleName { get; set; }
-        public int UserId { get; set; }
-        public string MobileNo { get; set; }
+        public required string DisplayName { get; set; }
+        public required string OfficeUserCode { get; set; }
+        public required string AppRoleCode { get; set; }
+        public int OfficeUserId { get; set; }
+        public string? MobileNo { get; set; }
 
         public bool ChangePassword { get; set; }
         public DateTime? LastPasswordChange { get; set; }
 
-        public string OtpCode { get; set; }
-        public string OtpNo { get; set; }
+        public string? OtpCode { get; set; }
+        public string? OtpNo { get; set; }
         public DateTime? OtpValidUpto { get; set; }
 
         //  Type of OTP - SMS or Email
-        public string OtpType { get; set; }
+        public string? OtpType { get; set; }
 
         // public void CopyInternalToExternal(AppUser src)
         // {

@@ -4,7 +4,6 @@ C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net9.0\API.AssemblyInfoInput
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net9.0\API.AssemblyInfo.cs
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net9.0\API.csproj.CoreCompileInputs.cache
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net9.0\API.MvcApplicationPartsAssemblyInfo.cache
-C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net9.0\API.MvcApplicationPartsAssemblyInfo.cs
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\bin\Debug\net9.0\appsettings.Development.json
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\bin\Debug\net9.0\appsettings.json
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\bin\Debug\net9.0\API.staticwebassets.endpoints.json
@@ -187,7 +186,6 @@ C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net9.0\staticwebassets\msbui
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net9.0\staticwebassets\msbuild.buildMultiTargeting.API.props
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net9.0\staticwebassets\msbuild.buildTransitive.API.props
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net9.0\staticwebassets.pack.json
-C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net9.0\API.csproj.Up2Date
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net9.0\API.dll
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net9.0\refint\API.dll
@@ -196,3 +194,5 @@ C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net9.0\API.genruntimeconfig.
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net9.0\ref\API.dll
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net9.0\API.sourcelink.json
+C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

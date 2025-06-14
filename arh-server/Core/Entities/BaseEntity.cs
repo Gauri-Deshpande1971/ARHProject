@@ -19,12 +19,12 @@ namespace Core.Entities
         public int? ExtraId1 { get; set; }
         public int? ExtraId2 { get; set; }
 
-        public string ExtraValue1 { get; set; }
-        public string ExtraValue2 { get; set; }
+        public string? ExtraValue1 { get; set; }
+        public string? ExtraValue2 { get; set; }
 
-        public string LogHistory { get; set; }
+        public string? LogHistory { get; set; }
 
-        public string JsonData { get; set; }
+        public string? JsonData { get; set; }
         // public DateTime? EditedOn { get; set; }
         // public string EditedCode { get; set; }
         // public string EditByUser { get; set; }
@@ -34,7 +34,7 @@ namespace Core.Entities
 
         public BaseEntity()
         {
-            CreatedOn = DateTime.Now;
+            CreatedOn = DateTime.UtcNow;
             IsDeleted = false;      //  Not deleted
             IsActive = true;
             UCode = Guid.NewGuid();
@@ -50,7 +50,7 @@ namespace Core.Entities
 
             string lx = (string.IsNullOrEmpty(src.LogHistory)) ? "" : src.LogHistory;
             lx = "{ \"ChangedByUsername\" : \"" + ChangedByUsername + "\"" + 
-                    ", \"ChangedOn\" : \"" + String.Format("{0:yyyy-MM-dd HH:mm:ss}", DateTime.Now) + "\"}, " +
+                    ", \"ChangedOn\" : \"" + String.Format("{0:yyyy-MM-dd HH:mm:ss}", DateTime.UtcNow) + "\"}, " +
                     " \"Object\" : " + System.Text.Json.JsonSerializer.Serialize(src) + " } \r\n" + lx;
             LogHistory = lx;
         }

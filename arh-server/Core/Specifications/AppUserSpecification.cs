@@ -9,9 +9,9 @@ namespace Core.Specifications
 {
     public class AppUserSpecification : BaseSpecification<AppUser>
     {
-        public AppUserSpecification(List<int> ids): base(x => ids.Contains(x.UserId))
+        public AppUserSpecification(List<int> ids): base(x => ids.Contains(x.OfficeUserId))
         {
-            AddOrderBy(x => x.UserId);
+            AddOrderBy(x => x.OfficeUserId);
         }      
     }
 }

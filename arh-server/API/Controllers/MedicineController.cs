@@ -28,169 +28,169 @@ namespace API.Controllers
             _fgs = fgs;
         }
 
-        [HttpGet("getmedicineslist")]
-        public async Task<ActionResult<IReadOnlyList<MedicineDto>>> GetRatesList()
-        {
-            var currentuser = await GetCurrentUser();
+        //[HttpGet("getmedicineslist")]
+        //public async Task<ActionResult<IReadOnlyList<MedicineDto>>> GetRatesList()
+        //{
+        //    var currentuser = await GetCurrentUser();
 
-            var ars = await _ms.GetMedicinesAsync(currentuser);
+        //    var ars = await _ms.GetMedicinesAsync(currentuser);
 
-            //if (currentuser.UserName == "admin" || currentuser.AppRoleCode == "ADMINISTRATOR" || currentuser.AppRoleCode == "SUPER")
-            //{
-            //    var ldxx = _mapper.Map<IReadOnlyList<Rate>, IReadOnlyList<RateDto>>(ars);
-            //    return Ok(ldxx);
-            //}
+        //    //if (currentuser.UserName == "admin" || currentuser.AppRoleCode == "ADMINISTRATOR" || currentuser.AppRoleCode == "SUPER")
+        //    //{
+        //    //    var ldxx = _mapper.Map<IReadOnlyList<Rate>, IReadOnlyList<RateDto>>(ars);
+        //    //    return Ok(ldxx);
+        //    //}
 
-            //	ars = ars.Where(x => {{USER_CONDITION}}).ToList();
+        //    //	ars = ars.Where(x => {{USER_CONDITION}}).ToList();
 
-            var ldx = _mapper.Map<IReadOnlyList<Medicine>, IReadOnlyList<MedicineDto>>(ars);
+        //    var ldx = _mapper.Map<IReadOnlyList<Medicine>, IReadOnlyList<MedicineDto>>(ars);
 
-            return Ok(ldx);
-        }
+        //    return Ok(ldx);
+        //}
 
 
-        [HttpPost("savemedicine")]
-        public async Task<ActionResult<MedicineDto>> SaveMedicine(MedicineDto medicine)
-        {
-            if (medicine == null)
-            {
-                return BadRequest(new ApiResponse(401, "No User info received !!"));
-            }
+        //[HttpPost("savemedicine")]
+        //public async Task<ActionResult<MedicineDto>> SaveMedicine(MedicineDto medicine)
+        //{
+        //    if (medicine == null)
+        //    {
+        //        return BadRequest(new ApiResponse(401, "No User info received !!"));
+        //    }
 
-            if (!medicine.IsValidForSave())
-            {
-                return BadRequest(new ApiResponse(401, "Incomplete info received !!"));
-            }
+        //    if (!medicine.IsValidForSave())
+        //    {
+        //        return BadRequest(new ApiResponse(401, "Incomplete info received !!"));
+        //    }
 
-            var cu = await GetCurrentUser();
+        //    var cu = await GetCurrentUser();
 
-            Medicine m = null;
-            try
-            {
-                m = _mapper.Map<MedicineDto, Medicine>(medicine);
+        //    Medicine m = null;
+        //    try
+        //    {
+        //        m = _mapper.Map<MedicineDto, Medicine>(medicine);
 
-                m = await _ms.ValidateMedicineAsync(m, cu);
-                if (m.Errors != null && !String.IsNullOrEmpty(m.Errors.errormessage))
-                {
-                    return BadRequest(new ApiResponse(401, m.Errors.errormessage));
-                }
+        //        m = await _ms.ValidateMedicineAsync(m, cu);
+        //        if (m.Errors != null && !String.IsNullOrEmpty(m.Errors.errormessage))
+        //        {
+        //            return BadRequest(new ApiResponse(401, m.Errors.errormessage));
+        //        }
 
-                m = await _ms.SaveMedicineAsync(m);
-                if (m == null)
-                {
-                    return BadRequest(new ApiResponse(401, "Unable to Save"));
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ApiResponse(401, "Data received issue:\r\n" + ex.Message));
-            }
+        //        m = await _ms.SaveMedicineAsync(m);
+        //        if (m == null)
+        //        {
+        //            return BadRequest(new ApiResponse(401, "Unable to Save"));
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(new ApiResponse(401, "Data received issue:\r\n" + ex.Message));
+        //    }
 
-            return Ok(_mapper.Map<Medicine, MedicineDto>(m));
-        }
+        //    return Ok(_mapper.Map<Medicine, MedicineDto>(m));
+        //}
 
-        [HttpGet("templatedownload")]
-        public async Task<ActionResult> MedicinesDownloadTemplate()
-        {
-            var currentuser = await GetCurrentUser();
+        //[HttpGet("templatedownload")]
+        //public async Task<ActionResult> MedicinesDownloadTemplate()
+        //{
+        //    var currentuser = await GetCurrentUser();
 
-            Dictionary<string, string> DefaultValues = new Dictionary<string, string>();
-            DefaultValues.Add("IsActive", "Yes");
+        //    Dictionary<string, string> DefaultValues = new Dictionary<string, string>();
+        //    DefaultValues.Add("IsActive", "Yes");
 
-            var ret = await DownloadTemplate<MedicineDto>("Medicine", _fgs, DefaultValues);
-            return ret;
-        }
+        //    var ret = await DownloadTemplate<MedicineDto>("Medicine", _fgs, DefaultValues);
+        //    return ret;
+        //}
 
-        [HttpGet("downloaddata")]
-        public async Task<ActionResult> RatesDownloadData()
-        {
-            var currentuser = await GetCurrentUser();
+        //[HttpGet("downloaddata")]
+        //public async Task<ActionResult> RatesDownloadData()
+        //{
+        //    var currentuser = await GetCurrentUser();
 
-            var ars = await _ms.GetMedicinesAsync(currentuser);
+        //    var ars = await _ms.GetMedicinesAsync(currentuser);
 
-            if (currentuser.UserName == "admin" || currentuser.AppRoleCode == "ADMINISTRATOR" || currentuser.AppRoleCode == "SUPER")
-            {
-            }
-            else
-            {
-                //	ars = ars.Where(x => {{USER_CONDITION}}).ToList();
-            }
-            var ldx = _mapper.Map<IReadOnlyList<Medicine>, IReadOnlyList<MedicineDto>>(ars);
+        //    if (currentuser.UserName == "admin" || currentuser.AppRoleCode == "ADMINISTRATOR" || currentuser.AppRoleCode == "SUPER")
+        //    {
+        //    }
+        //    else
+        //    {
+        //        //	ars = ars.Where(x => {{USER_CONDITION}}).ToList();
+        //    }
+        //    var ldx = _mapper.Map<IReadOnlyList<Medicine>, IReadOnlyList<MedicineDto>>(ars);
 
-            var ret = await DownloadData<MedicineDto>("Medicine", _fgs, ldx);
-            return ret;
-        }
+        //    var ret = await DownloadData<MedicineDto>("Medicine", _fgs, ldx);
+        //    return ret;
+        //}
 
-        [HttpPost("bulkupload")]
-        public async Task<ActionResult> MedicinesBulkUpload(CancellationToken cancellationToken)
-        {
-            var currentuser = await GetCurrentUser();
+        //[HttpPost("bulkupload")]
+        //public async Task<ActionResult> MedicinesBulkUpload(CancellationToken cancellationToken)
+        //{
+        //    var currentuser = await GetCurrentUser();
 
-            //   string datefields = "CurrentStartDate,CurrentEndDate,ApplicationEndDate,ApprovalEndDate";
+        //    //   string datefields = "CurrentStartDate,CurrentEndDate,ApplicationEndDate,ApprovalEndDate";
 
-            var fgs = new FormGridService<MedicineDto>(_fgs.GetUnitOfWork());
+        //    var fgs = new FormGridService<MedicineDto>(_fgs.GetUnitOfWork());
 
-            var ret = await BulkUpload<MedicineDto>(cancellationToken, Request.Form.Files[0], "Medicine", fgs, null);
-            //  var ret = await BulkUpload<OrganizationDto>(cancellationToken, Request.Form.Files[0], "Organization", _fgs);
-            foreach (var v in ret.Headings)
-            {
-                v.FieldName = System.Text.Json.JsonNamingPolicy.CamelCase.ConvertName(v.FieldName);
-            }
+        //    var ret = await BulkUpload<MedicineDto>(cancellationToken, Request.Form.Files[0], "Medicine", fgs, null);
+        //    //  var ret = await BulkUpload<OrganizationDto>(cancellationToken, Request.Form.Files[0], "Organization", _fgs);
+        //    foreach (var v in ret.Headings)
+        //    {
+        //        v.FieldName = System.Text.Json.JsonNamingPolicy.CamelCase.ConvertName(v.FieldName);
+        //    }
 
-            if (ret == null)
-            {
-                return BadRequest(new ApiResponse(401, "Error processing file"));
-            }
+        //    if (ret == null)
+        //    {
+        //        return BadRequest(new ApiResponse(401, "Error processing file"));
+        //    }
 
-            if (!String.IsNullOrEmpty(ret.ErrorMessage))
-            {
-                return BadRequest(new ApiResponse(401, ret.ErrorMessage));
-            }
+        //    if (!String.IsNullOrEmpty(ret.ErrorMessage))
+        //    {
+        //        return BadRequest(new ApiResponse(401, ret.ErrorMessage));
+        //    }
 
-            if (ret.DataSource == null || ret.DataSource.Count == 0)
-            {
-                return Ok(ret);
-            }
+        //    if (ret.DataSource == null || ret.DataSource.Count == 0)
+        //    {
+        //        return Ok(ret);
+        //    }
 
-            var valsrc = new ImportExcelData<Medicine>();
-            valsrc.ErrorInFields = ret.ErrorInFields;
-            valsrc.Headings = ret.Headings;
-            valsrc.DataSource = _mapper.Map<List<MedicineDto>, List<Medicine>>(ret.DataSource);
+        //    var valsrc = new ImportExcelData<Medicine>();
+        //    valsrc.ErrorInFields = ret.ErrorInFields;
+        //    valsrc.Headings = ret.Headings;
+        //    valsrc.DataSource = _mapper.Map<List<MedicineDto>, List<Medicine>>(ret.DataSource);
 
-            valsrc = (ImportExcelData<Medicine>)(await _ms.BulkValidateMedicineAsync(valsrc, currentuser));
-            if (!String.IsNullOrEmpty(valsrc.ErrorMessage))
-            {
-                return BadRequest(new ApiResponse(401, ret.ErrorMessage));
-            }
-            ret.ErrorInFields = valsrc.ErrorInFields;
-            ret.Headings = valsrc.Headings;
-            ret.DataSource = _mapper.Map<List<Medicine>, List<MedicineDto>>(valsrc.DataSource);
+        //    valsrc = (ImportExcelData<Medicine>)(await _ms.BulkValidateMedicineAsync(valsrc, currentuser));
+        //    if (!String.IsNullOrEmpty(valsrc.ErrorMessage))
+        //    {
+        //        return BadRequest(new ApiResponse(401, ret.ErrorMessage));
+        //    }
+        //    ret.ErrorInFields = valsrc.ErrorInFields;
+        //    ret.Headings = valsrc.Headings;
+        //    ret.DataSource = _mapper.Map<List<Medicine>, List<MedicineDto>>(valsrc.DataSource);
 
-            SessionManager.Add("MedicineUpload-" + currentuser.Id.ToString(), System.Text.Json.JsonSerializer.Serialize(ret));
+        //    SessionManager.Add("MedicineUpload-" + currentuser.Id.ToString(), System.Text.Json.JsonSerializer.Serialize(ret));
 
-            return Ok(ret);
-        }
+        //    return Ok(ret);
+        //}
 
-        [HttpPost("savebulkupload")]
-        public async Task<ActionResult> SaveBulkUpload(string UploadCode)
-        {
-            var currentuser = await GetCurrentUser();
+        //[HttpPost("savebulkupload")]
+        //public async Task<ActionResult> SaveBulkUpload(string UploadCode)
+        //{
+        //    var currentuser = await GetCurrentUser();
 
-            var up = System.Text.Json.JsonSerializer.Deserialize<ImportExcelData<MedicineDto>>(SessionManager.Get("MedicineUpload-" + currentuser.Id.ToString()));
+        //    var up = System.Text.Json.JsonSerializer.Deserialize<ImportExcelData<MedicineDto>>(SessionManager.Get("MedicineUpload-" + currentuser.Id.ToString()));
 
-            if (up == null || up.ErrorInFields.Count > 0)
-            {
-                return BadRequest(new ApiResponse(401, "Cannot Save Data due to Errors !!"));
-            }
+        //    if (up == null || up.ErrorInFields.Count > 0)
+        //    {
+        //        return BadRequest(new ApiResponse(401, "Cannot Save Data due to Errors !!"));
+        //    }
 
-            var oul = _mapper.Map<IReadOnlyList<MedicineDto>, IReadOnlyList<Medicine>>(up.DataSource);
+        //    var oul = _mapper.Map<IReadOnlyList<MedicineDto>, IReadOnlyList<Medicine>>(up.DataSource);
 
-            var ret = await _ms.SaveUploadMedicineAsync(oul, currentuser);
+        //    var ret = await _ms.SaveUploadMedicineAsync(oul, currentuser);
 
-            SessionManager.Delete("MedicineUpload-" + currentuser.Id.ToString());
+        //    SessionManager.Delete("MedicineUpload-" + currentuser.Id.ToString());
 
-            return Ok();
-        }
+        //    return Ok();
+        //}
 
         [HttpGet("getgridcols")]
         public async Task<ActionResult> GetGridCols(string FormName)
@@ -199,12 +199,30 @@ namespace API.Controllers
 
             if (FormName == "Medicine" || FormName == "Medicines")
             {
-                var gxl = await this.GetFormGridCols<MedicineDto>(FormName, _fgs);
-                return gxl;
+                var fgs = new FormGridService<MedicineDto>(_fgs.GetUnitOfWork());
+                var columnResult = await this.GetFormGridCols<MedicineDto>(FormName, fgs);
+                if (columnResult is not OkObjectResult okColumnResult)
+                    return BadRequest("Could not get column metadata.");
+
+                var columns = okColumnResult.Value as IReadOnlyList<FormGridDetailDto>;
+
+                // 2. Get data (patientDto list)
+                var medicineEntities = await _fgs.GetUnitOfWork().Repository<Medicine>().ListAllAsync();
+                var rows = _mapper.Map<IReadOnlyList<Medicine>, IReadOnlyList<MedicineDto>>(medicineEntities);
+
+                // 3. Return combined structure
+                return Ok(new
+                {
+                    Columns = columns,
+                    Rows = rows
+                });
+
             }
+
             return null;
         }
 
     }
 }
+
 

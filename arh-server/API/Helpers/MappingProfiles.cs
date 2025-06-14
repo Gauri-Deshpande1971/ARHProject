@@ -27,14 +27,37 @@ namespace API.Helpers
 
             CreateMap<Attachment, AttachmentDto>()
             .ReverseMap();
-            
+            CreateMap<Medicine, MedicineDto>()
+            .ReverseMap();
+
+            CreateMap<patientDto, patient>()
+      .ForMember(d => d.CreatedOn, o => o.MapFrom(s =>
+          string.IsNullOrEmpty(s.CreatedOn)
+              ? DateTime.MinValue
+              : DateTime.ParseExact(s.CreatedOn, "dd-MM-yyyy", CultureInfo.InvariantCulture)));
+           
+            CreateMap<patient, patientDto>()
+                .ForMember(d => d.CreatedOn, o => o.MapFrom(s => s.CreatedOn.ToString("dd-MM-yyyy")));
+
+            CreateMap<appointmentsDto, appointments>()
+     .ForMember(d => d.CreatedOn, o => o.MapFrom(s =>
+         string.IsNullOrEmpty(s.CreatedOn)
+             ? DateTime.MinValue
+             : DateTime.ParseExact(s.CreatedOn, "dd-MM-yyyy", CultureInfo.InvariantCulture)));
+
+            CreateMap<appointments, appointmentsDto>()
+                .ForMember(d => d.CreatedOn, o => o.MapFrom(s => s.CreatedOn.ToString("dd-MM-yyyy")));
+
+
+            // Helper method
+            // Helper method
             //CreateMap<Department, DepartmentDto>()
             //    .ForMember(d => d.CreatedOn, o => o.MapFrom(s => String.Format("{0:dd-MM-yyyy}", s.CreatedOn)))
             //.ReverseMap()
             //    .ForMember(d => d.CreatedOn, o => o.MapFrom(s => String.IsNullOrEmpty(s.CreatedOn) ? Convert.ToDateTime(null) :  
             //            DateTime.ParseExact(s.CreatedOn, "dd-MM-yyyy", CultureInfo.InvariantCulture)));
 
-            
+
             CreateMap<MailConfig, MailConfigDto>()
                 .ForMember(d => d.CreatedOn, o => o.MapFrom(s => String.Format("{0:dd-MM-yyyy}", s.CreatedOn)))
             .ReverseMap()
@@ -75,6 +98,10 @@ namespace API.Helpers
                 //.ForMember(d => d.CreatedOn, o => o.MapFrom(s => String.Format("{0:dd-MM-yyyy}", s.CreatedOn)))
             .ReverseMap();
           
+        }
+        private static Guid ParseGuidSafe(string input)
+        {
+            return Guid.TryParse(input, out Guid guid) ? guid : Guid.NewGuid();
         }
 
     }

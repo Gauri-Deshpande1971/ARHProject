@@ -10,12 +10,14 @@ namespace Core.Interfaces
     public interface IMastersService
     {
         Task<DateTime> GetToday();
+
         Task<DateTime> SetToday(string today);
+
         Task<SysData> GetGlobalOTP(string UserCode);
         Task<SysData> SaveGlobalOTP(AppUser au);
         Task<SysData> SaveGlobalOTP(string UserCode);
 
-        Task<Boolean> LoginSucceeded(AppUser emp);
+        Task<Boolean> LoginSucceeded(OfficeUser emp);
         Task<AppUser> GetLoginOtpAsync(AppUser appUser, string otpType);
         Task<IReadOnlyList<NavmenuOfUser>> GetNavmenuOfUserAsync(string appUserId);
 
@@ -28,6 +30,13 @@ namespace Core.Interfaces
         Task<IReadOnlyList<Attachment>> GetAttachmentsAsync(AppUser appUser);
         Task<Attachment> GetAttachmentByNameAsync(string AttachmentName);
         Task<Attachment> GetAttachmentByCodeAsync(string UCode);
+
+        Task<IReadOnlyList<City>> GetCitiesAsync(AppUser appUser);
+        Task<City> GetCityByNameAsync(string CityName);
+        Task<City> GetCityByCodeAsync(string UCode);
+        Task<IReadOnlyList<Country>> GetCountriesAsync(AppUser appUser);
+        Task<Country> GetCountryByNameAsync(string CountryName);
+        Task<Country> GetCountryByCodeAsync(string UCode);
         Task<IReadOnlyList<FormGridHeader>> GetFormGridHeadersAsync(AppUser appUser);
         Task<FormGridHeader> GetFormGridHeaderByNameAsync(string FormGridHeaderName);
         Task<FormGridHeader> GetFormGridHeaderByCodeAsync(string UCode);
@@ -43,6 +52,9 @@ namespace Core.Interfaces
         Task<IReadOnlyList<Organization>> GetOrganizationsAsync(AppUser appUser);
         Task<Organization> GetOrganizationByNameAsync(string OrganizationName);
         Task<Organization> GetOrganizationByCodeAsync(string UCode);
+        Task<IReadOnlyList<State>> GetStatesAsync(AppUser appUser);
+        Task<State> GetStateByNameAsync(string StateName);
+        Task<State> GetStateByCodeAsync(string UCode);
         Task<IReadOnlyList<SysData>> GetSysDatasAsync(AppUser appUser);
         Task<SysData> SaveSysAsync(SysData ret, AppUser au);
         Task<SysData> GetSysDataByNameAsync(string SysDataName);
@@ -63,31 +75,33 @@ namespace Core.Interfaces
         Task<AppRole> SaveAppRoleAsync(AppRole ret);
         Task<bool> SaveUploadAppRoleAsync(IReadOnlyList<AppRole> AppRoles, AppUser au);
         //  --------------------
+        //  City
+        //  --------------------
+        Task<City> ValidateCityAsync(City ret, AppUser au);
+        Task<IImportExcelData<City>> BulkValidateCityAsync(IImportExcelData<City> ret, AppUser au);
+        Task<City> SaveCityAsync(City ret);
+        Task<bool> SaveUploadCityAsync(IReadOnlyList<City> Citys, AppUser au);
+        //  --------------------
+        //  Country
+        //  --------------------
+        Task<Country> ValidateCountryAsync(Country ret, AppUser au);
+        Task<IImportExcelData<Country>> BulkValidateCountryAsync(IImportExcelData<Country> ret, AppUser au);
+        Task<Country> SaveCountryAsync(Country ret);
+        Task<bool> SaveUploadCountryAsync(IReadOnlyList<Country> Countrys, AppUser au);
+        //  --------------------
         //  Organization
         //  --------------------
         Task<Organization> ValidateOrganizationAsync(Organization ret, AppUser au);
         Task<IImportExcelData<Organization>> BulkValidateOrganizationAsync(IImportExcelData<Organization> ret, AppUser au);
         Task<Organization> SaveOrganizationAsync(Organization ret);
         Task<bool> SaveUploadOrganizationAsync(IReadOnlyList<Organization> Organizations, AppUser au);
-        // --------------------------
-        //  Rate
-        // -------------------------
-        Task<IReadOnlyList<Rate>> GetRatesAsync(AppUser appUser);
-        Task<Rate> GetRateByTypeAsync(string type);
-        Task<Rate> GetRateByCodeAsync(string UCode);
-        Task<Rate> ValidateRateAsync(Rate ret, AppUser au, string type);
-        Task<IImportExcelData<Rate>> BulkValidateRateAsync(IImportExcelData<Rate> ret, AppUser au);
-        Task<Rate> SaveRateAsync(Rate ret);
-        Task<bool> SaveUploadRateAsync(IReadOnlyList<Rate> Rates, AppUser au);
-        //--------------------------------
-        //Medicine
-        //---------------------------------
-        Task<IReadOnlyList<Medicine>> GetMedicinesAsync(AppUser appUser);        
-        Task<Medicine> GetMedicineByCodeAsync(string UCode);
-        Task<Medicine> ValidateMedicineAsync(Medicine ret, AppUser au);
-        Task<IImportExcelData<Medicine>> BulkValidateMedicineAsync(IImportExcelData<Medicine> ret, AppUser au);
-        Task<Medicine> SaveMedicineAsync(Medicine ret);
-        Task<bool> SaveUploadMedicineAsync(IReadOnlyList<Medicine> Medicines, AppUser au);
+        //  --------------------
+        //  State
+        //  --------------------
+        Task<State> ValidateStateAsync(State ret, AppUser au);
+        Task<IImportExcelData<State>> BulkValidateStateAsync(IImportExcelData<State> ret, AppUser au);
+        Task<State> SaveStateAsync(State ret);
+        Task<bool> SaveUploadStateAsync(IReadOnlyList<State> States, AppUser au);
 
         //  --------------------
         //  Attachments
@@ -110,17 +124,70 @@ namespace Core.Interfaces
         Task<bool> ProfileCreatedMail(AppUser user, string Password, AppUser au);
         Task<bool> ChangePasswordMail(AppUser user, string Password);
         Task<AppUser> ChangePassword(AppUser currentUser, string NewPassword, bool savetoextdatasync);
-        Task<bool> DeleteDocumentAsync(string PhyFilename);
+
+      //  Task<bool> DeleteDocumentAsync(string PhyFilename);
         Task<MailConfig> ValidateMailConfigAsync(MailConfig ret, AppUser au);
         Task<MailConfig> SaveMailConfigAsync(MailConfig ret);
         Task<IReadOnlyList<MailLog>> GetMailLogsAsync(DateTime DtFrom, DateTime DtTo);
         Task<IReadOnlyList<ActionLog>> GetActionLog(DateTime DtFrom, DateTime DtTo);
+
         Task<AppRole> DeleteAppRoleAsync(AppRole ret, AppUser au);
         Task<Organization> DeleteOrganizationAsync(Organization ret, AppUser au);
+        Task<Country> DeleteCountryAsync(Country ret, AppUser au);
+        Task<State> DeleteStateAsync(State ret, AppUser au);
+        Task<City> DeleteCityAsync(City ret, AppUser au);
         Task<AppRole> ValidateAppRoleDeleteAsync(Guid ucode, string reason, AppUser au);
         Task<Organization> ValidateOrganizationDeleteAsync(Guid ucode, string reason, AppUser au);
+        Task<Country> ValidateCountryDeleteAsync(Guid ucode, string reason, AppUser au);
+        Task<State> ValidateStateDeleteAsync(Guid ucode, string reason, AppUser au);
+        Task<City> ValidateCityDeleteAsync(Guid ucode, string reason, AppUser au);
         Task<ActionLog> AddActionLogAsync(ActionLog actlg);
         Task<int> AddActionLogAsync(string ActionName, string Description, string EntityName = null, string EntityValue = null);
         Task<IReadOnlyList<UserNavMenu>> GetNavMenuOfUserManageAsync(string UserCode, string AppRoleCode);
+
+        //  --------------------
+        //  Department
+        //  --------------------
+        //  Department
+        //  --------------------
+        Task<Core.Entities.Department> ValidateDepartmentAsync(Department ret, AppUser au, string SubDepartmentNames);
+        Task<IImportExcelData<Core.Entities.Department>> BulkValidateDepartmentAsync(IImportExcelData<Core.Entities.Department> ret, AppUser au);
+        Task<Core.Entities.Department> SaveDepartmentAsync(Department ret, string SubDepartmentNames);
+        Task<bool> SaveUploadDepartmentAsync(IReadOnlyList<Core.Entities.Department> Departments, AppUser au);
+        Task<IReadOnlyList<Core.Entities.Department>> GetDepartmentsAsync(AppUser appUser);
+        Task<Core.Entities.Department> GetDepartmentByNameAsync(string DepartmentName);
+        Task<Core.Entities.Department> GetDepartmentByCodeAsync(string UCode);
+        //  --------------------
+
+        //  -------------------------
+        //  OfficeUser
+        //  -------------------------
+        Task<IReadOnlyList<OfficeUser>> GetOfficeUsersAsync(AppUser appUser);
+        Task<IReadOnlyList<OfficeUser>> GetOfficeUsers(ISpecification<OfficeUser> spec);
+        Task<OfficeUser> GetOfficeUser(AppUser appUser);
+        Task<OfficeUser> GetOfficeUserById(int Id);
+        Task<OfficeUser> GetOfficeUserByEmail(string WorkEmail);
+        Task<OfficeUser> GetOfficeUserByLoginId(string LoginId);
+        Task<OfficeUser> GetOfficeUserByCode(string OfficeUserCode);
+
+        Task<OfficeUser> ValidateOfficeUserAsync(OfficeUser ret, AppUser au);
+        Task<IImportExcelData<OfficeUser>> BulkValidateOfficeUserAsync(IImportExcelData<OfficeUser> ret, AppUser au);
+        Task<OfficeUser> SaveOfficeUser(OfficeUser officeUser, AppUser au);
+        Task<bool> SaveUploadOfficeUser(IReadOnlyList<OfficeUser> officeUsers, AppUser au);
+        //---Patient-------------------
+        Task<IReadOnlyList<patient>> GetPatientsAsync(AppUser appUser);
+        Task<patient> GetPatientByNameAsync(string PatientName);
+        Task<patient> GetPatientByCodeAsync(string Ucode);
+        Task<patient> ValidatePatientAsync(patient ret, AppUser au);
+        Task<patient> SavePatientAsync(patient ret);
+        Task<IImportExcelData<patient>> BulkValidatePatientAsync(IImportExcelData<patient> ret, AppUser au);
+        Task<bool> SaveUploadPatientAsync(IReadOnlyList<patient> patients, AppUser au);
+        Task<appointments> SaveAppointmentAsync(appointments ret);
+        Task<IReadOnlyList<appointments>> GetAppointmentsAsync(AppUser appUser);
+        Task<appointments> ValidateAppointmentAsync(appointments ret, AppUser au);
+        Task<IImportExcelData<appointments>> BulkValidateAppointmentAsync(IImportExcelData<appointments> ret, AppUser au);
+        Task<bool> SaveImeiNo(OfficeUser oe);
+        Task<int> IncrementFailedCountAsync(OfficeUser ou);
+       // Task SetResetFailedCount(string username, OfficeUser? ou);
     }
 }
