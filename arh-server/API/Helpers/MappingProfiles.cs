@@ -40,14 +40,12 @@ namespace API.Helpers
                 .ForMember(d => d.CreatedOn, o => o.MapFrom(s => s.CreatedOn.ToString("dd-MM-yyyy")));
 
             CreateMap<appointmentsDto, appointments>()
-     .ForMember(d => d.CreatedOn, o => o.MapFrom(s =>
-         string.IsNullOrEmpty(s.CreatedOn)
-             ? DateTime.MinValue
-             : DateTime.ParseExact(s.CreatedOn, "dd-MM-yyyy", CultureInfo.InvariantCulture)));
-
-            CreateMap<appointments, appointmentsDto>()
-                .ForMember(d => d.CreatedOn, o => o.MapFrom(s => s.CreatedOn.ToString("dd-MM-yyyy")));
-
+         .ForMember(d => d.CreatedOn, o => o.MapFrom(s =>
+             string.IsNullOrEmpty(s.CreatedOn)
+                 ? DateTime.MinValue
+                 : DateTime.ParseExact(s.CreatedOn, "dd-MM-yyyy", CultureInfo.InvariantCulture)))
+         .ForMember(d => d.UCode, o => o.MapFrom(s => ParseGuid(s.UCode)));
+                
 
             // Helper method
             // Helper method
@@ -99,7 +97,7 @@ namespace API.Helpers
             .ReverseMap();
           
         }
-        private static Guid ParseGuidSafe(string input)
+        private static Guid ParseGuid(string input)
         {
             return Guid.TryParse(input, out Guid guid) ? guid : Guid.NewGuid();
         }

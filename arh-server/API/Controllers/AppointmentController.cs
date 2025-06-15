@@ -9,6 +9,7 @@ using Infrastructure.Services;
 using Infrastructure.Utility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -130,7 +131,7 @@ namespace API.Controllers
         {
             var currentuser = await GetCurrentUser();
 
-          //  string datefields = "CurrentStartDate,CurrentEndDate,ApplicationEndDate,ApprovalEndDate";
+            //  string datefields = "CurrentStartDate,CurrentEndDate,ApplicationEndDate,ApprovalEndDate";
 
             var fgs = new FormGridService<appointmentsDto>(_fgs.GetUnitOfWork());
 
@@ -200,17 +201,59 @@ namespace API.Controllers
         public async Task<ActionResult> GetGridCols(string FormName)
         {
             var currentuser = await GetCurrentUser();
+            var doctorColors = new Dictionary<int, string>
+{
+    { 2, "#FFEBEE" },  // Light Red
+    { 3, "#E8F5E9" },  // Light Green
+    { 4, "#E3F2FD" }   // Light Blue
+};
 
-            if (FormName == "appointment" || FormName == "appointments")
+            if (FormName == "Appointment" || FormName == "appointments")
             {
-                var fgs = new FormGridService<appointmentsDto>(_fgs.GetUnitOfWork());
-                var gxl = await this.GetFormGridCols<appointmentsDto>(FormName, _fgs);
-                return gxl;
-            }
+                var fgs = new FormGridService<appointmentsViewDto>(_fgs.GetUnitOfWork());
+                var columnResult = await this.GetFormGridCols<appointmentsViewDto>(FormName, fgs);
+                if (columnResult is not OkObjectResult okColumnResult)
+                    return BadRequest("Could not get column metadata.");
 
+                var columns = okColumnResult.Value as IReadOnlyList<FormGridDetailDto>;
+
+                // 2. Get data (patientDto list)
+                var appointmentsEntities = await _fgs.GetUnitOfWork().Repository<appointments>().ListAllAsync();
+                var activeAppointments= appointmentsEntities.Where(x=>x.IsActive==true).ToList();
+                var patients = await _fgs.GetUnitOfWork().Repository<patient>().ListAllAsync();
+                var appUsers = await _userManager.Users.ToListAsync(); // Use this instead
+
+                var result = from appt in activeAppointments
+                             join pat in patients on appt.patient_id equals pat.Id into patJoin
+                             from pat in patJoin.DefaultIfEmpty()
+                             join doc in appUsers on pat.DoctorId equals doc.OfficeUserId into docJoin
+                             from doc in docJoin.DefaultIfEmpty()
+                             select new appointmentsViewDto
+                             {
+                                Id= appt.Id,
+                                AppointmentDate= appt.visit_date,
+                                IsActive= appt.IsActive,
+                                PatientFullName = pat?.full_name,
+                                PatientRegNo = pat?.RegNo,
+                                DoctorId = pat?.DoctorId,
+                                DoctorName = doc?.DisplayName,
+                                status = appt.status,
+                                CreatedByName="Admin",
+                                OfficeUserId = doc.OfficeUserId,
+                                RowBackColor = doctorColors.TryGetValue(doc.OfficeUserId, out var color) ? color : null
+                             };
+                
+                return Ok(new
+                {
+                    Columns = columns,
+                    Rows = result
+                });
+
+            }
             return null;
         }
-
     }
+
 }
+
 

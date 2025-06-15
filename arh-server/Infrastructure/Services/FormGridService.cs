@@ -58,7 +58,8 @@ namespace Infrastructure.Services
                 "State",
                 "UserSecurity",
                 "CompanyAdmin",
-                "ActionLog"
+                "ActionLog",
+                "Appointment"
             };
 
             if (!validForms.Contains(FormName))
@@ -811,6 +812,7 @@ namespace Infrastructure.Services
                             //fgd.officeexecid = -1;
                             fgd.Position = pos;
                             fgd.CreatedById = UserId;
+                            fgd.CreatedByName = "Admin";
                             fgd.CreatedOn = DateTime.UtcNow;
                             fgd.FieldType = pi.PropertyType.Name.ToLower();
                             if (fgd.FieldType == "string")

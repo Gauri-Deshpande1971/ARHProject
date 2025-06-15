@@ -3869,7 +3869,7 @@ namespace Infrastructure.Services
                 obj.CreatedOn = DateTime.Now;
                 obj.IsDeleted = false;
                 obj.UCode = Guid.NewGuid();
-
+                obj.category = "FU";
                 //  Check for Duplicate
                 var dup = await _unitOfWork.Repository<appointments>()
                         .GetEntityWithSpec(new BaseSpecification<appointments>(x => x.patient_id==ret.patient_id && x.visit_date==ret.visit_date)
@@ -3884,6 +3884,9 @@ namespace Infrastructure.Services
             {
                 obj = await _unitOfWork.Repository<appointments>()
                         .GetEntityWithSpec(new BaseSpecification<appointments>(x => x.UCode == ret.UCode));
+                if (obj.category == null)
+                    obj.category = "FU";
+
                 if (obj == null)
                 {
                     ret.AddErrorMessage("Unknown Appointment for editing");
