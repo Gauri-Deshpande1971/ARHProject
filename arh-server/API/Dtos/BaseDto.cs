@@ -5,7 +5,7 @@ namespace API.Dtos
     public class BaseDto
     {
         //public int Id { get; set; }
-        public string CreatedOn { get; set; }
+        public DateTime CreatedOn { get; set; }
         //public int CreatedById { get; set; }
         public string? CreatedByName { get; set; }
         public bool IsActive { get; set; }
@@ -14,7 +14,7 @@ namespace API.Dtos
         public bool IsDeleted { get; set; }
         public bool IsExisting { get; set; }
 
-        public string UCode { get; set; }
+        public Guid UCode { get; set; }
         public int SequenceNo { get; set; }
         public int? ExtraId1 { get; set; }
         public int? ExtraId2 { get; set; }

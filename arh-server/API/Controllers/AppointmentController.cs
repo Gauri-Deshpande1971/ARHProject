@@ -10,6 +10,7 @@ using Infrastructure.Utility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace API.Controllers
 {
@@ -68,8 +69,8 @@ namespace API.Controllers
             appointments a = null;
             try
             {
-                appointment.CreatedOn = "";
-                appointment.UCode = null;
+               // appointment.CreatedOn = "";
+            //    appointment.UCode = null;
                 a = _mapper.Map<appointmentsDto, appointments>(appointment);
 
                 a = await _ms.ValidateAppointmentAsync(a, cu);
@@ -91,6 +92,64 @@ namespace API.Controllers
 
             return Ok(_mapper.Map<appointments, appointmentsDto>(a));
         }
+        [HttpPost("saveappointmentByFileNo")]
+        public async Task<ActionResult<appointmentsDto>> SaveAppointmentByFileNo(string regNo)
+        {
+            if (string.IsNullOrWhiteSpace(regNo))
+            {
+                return BadRequest(new ApiResponse(401, "No RegNo received!"));
+            }
+
+            var cu = await GetCurrentUser();
+
+            // Get patient by RegNo
+            var patient = await _ms.GetPatientByRegNoAsync(regNo);
+            if (patient == null)
+            {
+                return BadRequest(new ApiResponse(401, "Patient does not exist"));
+            }
+
+            // Create appointment DTO
+            var appointmentDto = new appointmentsDto
+            {
+                patient_id = patient.Id,                       
+                CreatedOn = DateTime.UtcNow, // ISO 8601 format if stored as string
+                UCode = Guid.Empty,
+                visit_date = DateTime.UtcNow,
+                IsActive = true,
+                IsUpdated = false,
+                IsDeleted = false,
+                IsExisting = false
+            };
+
+            // Map to entity
+            var appointment = _mapper.Map<appointments>(appointmentDto);
+
+            try
+            {
+                // Validate (optional step)
+                appointment = await _ms.ValidateAppointmentAsync(appointment, cu);
+                if (appointment.Errors != null && !string.IsNullOrEmpty(appointment.Errors.errormessage))
+                {
+                    return BadRequest(new ApiResponse(401, appointment.Errors.errormessage));
+                }
+
+                // Save
+                appointment = await _ms.SaveAppointmentAsync(appointment);
+                if (appointment == null)
+                {
+                    return BadRequest(new ApiResponse(401, "Unable to Save"));
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse(401, "Data received issue:\r\n" + ex.Message));
+            }
+
+            // Return saved result
+            return Ok(_mapper.Map<appointmentsDto>(appointment));
+        }
+
 
         [HttpGet("templatedownload")]
         public async Task<ActionResult> AppointmentDownloadTemplate()

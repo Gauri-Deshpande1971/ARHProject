@@ -176,13 +176,14 @@ namespace Core.Interfaces
         Task<bool> SaveUploadOfficeUser(IReadOnlyList<OfficeUser> officeUsers, AppUser au);
         //---Patient-------------------
         Task<IReadOnlyList<patient>> GetPatientsAsync(AppUser appUser);
-        Task<patient> GetPatientByNameAsync(string PatientName);
+        Task<patient> GetPatientByRegNoAsync(string regNo);
         Task<patient> GetPatientByCodeAsync(string Ucode);
         Task<patient> ValidatePatientAsync(patient ret, AppUser au);
         Task<patient> SavePatientAsync(patient ret);
         Task<IImportExcelData<patient>> BulkValidatePatientAsync(IImportExcelData<patient> ret, AppUser au);
         Task<bool> SaveUploadPatientAsync(IReadOnlyList<patient> patients, AppUser au);
         Task<appointments> SaveAppointmentAsync(appointments ret);
+      //  Task<appointments> SaveAppointmentByRegNoAsync(string RegNo);
         Task<IReadOnlyList<appointments>> GetAppointmentsAsync(AppUser appUser);
         Task<appointments> ValidateAppointmentAsync(appointments ret, AppUser au);
         Task<IImportExcelData<appointments>> BulkValidateAppointmentAsync(IImportExcelData<appointments> ret, AppUser au);

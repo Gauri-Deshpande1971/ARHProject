@@ -17,6 +17,8 @@ using System.Globalization;
 using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Bibliography;
 using City = Core.Entities.City;
+using DocumentFormat.OpenXml.Drawing;
+using System.Text.RegularExpressions;
 //  using Infrastructure.Data.Migrations;
 
 namespace Infrastructure.Services
@@ -3686,10 +3688,10 @@ namespace Infrastructure.Services
 
             return r;
         }
-        public async Task<patient> GetPatientByNameAsync(string PatientName)
+        public async Task<patient> GetPatientByRegNoAsync(string RegNo)
         {
             var r = await _unitOfWork.Repository<patient>()
-                    .GetByNameAsync("full_name", PatientName);
+                    .GetByNameAsync("RegNo", RegNo);
 
             return r;
         }
@@ -3711,10 +3713,13 @@ namespace Infrastructure.Services
             ret.full_name = ret.full_name.UpperTrim();
 
             patient obj;
-            if (ret.UCode == null || ret.UCode.ToString().Replace("-", "").StartsWith("0000000000"))
+
+            //  if (ret.UCode == null || ret.UCode.ToString().Replace("-", "").StartsWith("0000000000"))           
+            if (ret.UCode == Guid.Empty)
             {
                 obj = ret;
                 obj.Id = 0;
+                obj.UCode = Guid.NewGuid();
                 //  obj.CreatedById = au.OfficeUserId;
                 obj.CreatedById = 1;
                 // obj.CreatedByName = au.UserName + "-" + au.DisplayName;
@@ -3766,7 +3771,8 @@ namespace Infrastructure.Services
         {
             var ssts = _config["SyncServerType"];
             bool isNew = false;
-            ret.CreatedOn = ret.CreatedOn.ToUniversalTime(); if (ret.DOB.HasValue)
+            ret.CreatedOn = ret.CreatedOn.ToUniversalTime(); 
+            if (ret.DOB.HasValue)
             {
                 ret.DOB = ret.DOB.Value.ToUniversalTime();
             }
@@ -3858,10 +3864,12 @@ namespace Infrastructure.Services
         public async Task<appointments> ValidateAppointmentAsync(appointments ret, AppUser au)
         {
             appointments obj;
-            if (ret.UCode == null || ret.UCode.ToString().Replace("-", "").StartsWith("0000000000"))
+            if (ret.UCode == Guid.Empty)
             {
+
                 obj = ret;
                 obj.Id = 0;
+                obj.UCode = Guid.NewGuid();
                 //  obj.CreatedById = au.OfficeUserId;
                 obj.CreatedById = 1;
                 // obj.CreatedByName = au.UserName + "-" + au.DisplayName;
@@ -3870,9 +3878,10 @@ namespace Infrastructure.Services
                 obj.IsDeleted = false;
                 obj.UCode = Guid.NewGuid();
                 obj.category = "FU";
+                obj.status = "A";
                 //  Check for Duplicate
                 var dup = await _unitOfWork.Repository<appointments>()
-                        .GetEntityWithSpec(new BaseSpecification<appointments>(x => x.patient_id==ret.patient_id && x.visit_date==ret.visit_date)
+                        .GetEntityWithSpec(new BaseSpecification<appointments>(x => x.Id == ret.Id)
                         );
                 if (dup != null)
                 {
@@ -3883,7 +3892,7 @@ namespace Infrastructure.Services
             else
             {
                 obj = await _unitOfWork.Repository<appointments>()
-                        .GetEntityWithSpec(new BaseSpecification<appointments>(x => x.UCode == ret.UCode));
+                        .GetEntityWithSpec(new BaseSpecification<appointments>(x => x.UCode == ret.UCode && x.status=="A"));
                 if (obj.category == null)
                     obj.category = "FU";
 
@@ -3918,7 +3927,7 @@ namespace Infrastructure.Services
                 ret.AddErrorMessage("Empty Data");
                 return ret;
             }
-            
+
             //if (au == null)
             //{
             //    ret.AddErrorMessage("Unknown User");

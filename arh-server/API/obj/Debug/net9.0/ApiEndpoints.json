@@ -301,6 +301,32 @@
   },
   {
     "ContainingType": "API.Controllers.AppointmentController",
+    "Method": "SaveAppointmentByFileNo",
+    "RelativePath": "api/Appointment/saveappointmentByFileNo",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "regNo",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "API.Dtos.appointmentsDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "API.Controllers.AppointmentController",
     "Method": "SaveBulkUpload",
     "RelativePath": "api/Appointment/savebulkupload",
     "HttpMethod": "POST",
