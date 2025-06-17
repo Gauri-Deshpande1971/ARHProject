@@ -178,6 +178,8 @@ namespace Core.Interfaces
         Task<IReadOnlyList<patient>> GetPatientsAsync(AppUser appUser);
         Task<patient> GetPatientByRegNoAsync(string regNo);
         Task<patient> GetPatientByCodeAsync(string Ucode);
+        Task<patient> GetPatientByPatientId(int patient_id);
+        Task<AppUser> GetdoctorBydoctorId(int doctor_id);
         Task<patient> ValidatePatientAsync(patient ret, AppUser au);
         Task<patient> SavePatientAsync(patient ret);
         Task<IImportExcelData<patient>> BulkValidatePatientAsync(IImportExcelData<patient> ret, AppUser au);

@@ -19,6 +19,7 @@ using DocumentFormat.OpenXml.Bibliography;
 using City = Core.Entities.City;
 using DocumentFormat.OpenXml.Drawing;
 using System.Text.RegularExpressions;
+using Microsoft.EntityFrameworkCore;
 //  using Infrastructure.Data.Migrations;
 
 namespace Infrastructure.Services
@@ -3693,6 +3694,17 @@ namespace Infrastructure.Services
             var r = await _unitOfWork.Repository<patient>()
                     .GetByNameAsync("RegNo", RegNo);
 
+            return r;
+        }
+        public async Task<patient> GetPatientByPatientId(int patient_id)
+        {
+            var r = await _unitOfWork.Repository<patient>().GetByIntPropertyAsync("Id", patient_id);
+            return r;
+        }
+        public async Task<AppUser> GetdoctorBydoctorId(int doctor_id)
+        {
+            var r= await _userManager.Users
+        .FirstOrDefaultAsync(u => u.OfficeUserId == doctor_id);
             return r;
         }
         public async Task<patient> GetPatientByCodeAsync(string Ucode)

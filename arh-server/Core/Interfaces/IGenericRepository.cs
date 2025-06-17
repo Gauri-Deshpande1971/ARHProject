@@ -14,9 +14,10 @@ namespace Core.Interfaces
     {
         Task<T> GetByIdAsync(int id);
         
-        Task<T> GetByNameAsync(string PropertyName, string PropertyValue);
+        Task<T> GetByNameAsync(string PropertyName, string PropertyValue);        
+        Task<T> GetByIntPropertyAsync(string PropertyName, int PropertyValue);
 
-         Task<IReadOnlyList<T>> ListAllAsync();
+        Task<IReadOnlyList<T>> ListAllAsync();
 
          Task<T> GetEntityWithSpec(ISpecification<T> spec);
 

@@ -23,7 +23,24 @@ namespace Infrastructure.Data
         {
             return await _context.Set<T>().FindAsync(id);
         }
+        public async Task<T> GetByIntPropertyAsync(string PropertyName, int PropertyValue)
+        {
+            var type = typeof(T);
 
+            var property = type.GetProperty(PropertyName);
+            if (property == null)
+                throw new ArgumentException($"Property '{PropertyName}' not found on type '{type.Name}'");
+
+            var parameter = Expression.Parameter(type, "p");
+            var propertyAccess = Expression.MakeMemberAccess(parameter, property);
+            var constantValue = Expression.Constant(PropertyValue, property.PropertyType);
+
+            var equality = Expression.Equal(propertyAccess, constantValue);
+            var criteria = Expression.Lambda<Func<T, bool>>(equality, parameter);
+
+            var spec = new BaseSpecification<T>(criteria);
+            return await GetEntityWithSpec(spec);
+        }
         public async Task<T> GetByNameAsync(string PropertyName, string PropertyValue)
         {
             var type = typeof(T);

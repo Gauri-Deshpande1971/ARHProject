@@ -5,6 +5,7 @@ using API.Middleware;
 using Core.Entities.Identity;
 using FluentValidation.AspNetCore;
 using Infrastructure.Data;
+
 using Infrastructure.Identity;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
@@ -16,17 +17,23 @@ using Scalar.AspNetCore;
 using Npgsql;
 using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using Core.Interfaces;
-
+using AutoMapper;
+//using AutoMapper.Extensions.Microsoft.DependencyInjection;
 var builder = WebApplication.CreateBuilder(args);
 
 var _config = builder.Configuration;
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IMastersService, MastersService>();
+builder.Services.AddScoped<IPaValidator, PaValidator>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+//AutoMapper.Extensions.Microsoft.DependencyInjection.ServiceCollectionExtensions
+//    .AddAutoMapper(builder.Services, typeof(MappingProfiles));
+builder.Services.AddAutoMapper(typeof(MappingProfiles));
+//builder.Services.AddScoped<IGoogleCalendarService,CalendarServiceHelper>();
 var services = builder.Services;
 services.AddDistributedMemoryCache();
 
@@ -36,7 +43,8 @@ services.AddSession(options => {
     options.Cookie.HttpOnly = false;
 });
 
-services.AddAutoMapper(typeof(MappingProfiles));
+//services.AddAutoMapper(typeof(MappingProfiles));
+//services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 services.AddControllers();
 //  services.AddDbContext<ARHServerContext>(x => x.UseSqlServer(_config.GetConnectionString("DefaultConnection")));
@@ -99,25 +107,38 @@ using (var scope = serviceProvider.CreateScope())
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
+//// Configure the HTTP request pipeline.
+//if (app.Environment.IsDevelopment())
+//{
+//    //app.MapOpenApi();
+
+//    app.MapScalarApiReference(options =>
+//    {
+//        // Fluent API
+//        options
+//            .WithTitle("Server API")
+//            .WithSidebar(true);
+
+//        // Object initializer
+//        options.Title = "Server API";
+//        options.ShowSidebar = true;
+//    });
+//    app.UseSwaggerUI(options =>
+//    {
+//        options.SwaggerEndpoint("/openapi/v1.json", "API");
+//    });
+//}
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    // Remove Scalar if you don't use it
+    // app.MapOpenApi(); 
+    // app.MapScalarApiReference(...)
 
-    app.MapScalarApiReference(options =>
-    {
-        // Fluent API
-        options
-            .WithTitle("Server API")
-            .WithSidebar(true);
-
-        // Object initializer
-        options.Title = "Server API";
-        options.ShowSidebar = true;
-    });
+    app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
-        options.SwaggerEndpoint("/openapi/v1.json", "API");
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
     });
 }
 

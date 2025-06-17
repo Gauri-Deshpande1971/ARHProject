@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
+using Google.Apis.Calendar.v3;
+using static API.Controllers.AppointmentController;
 
 namespace API.Controllers
 {
@@ -18,16 +20,36 @@ namespace API.Controllers
     {
         IFormGridService<appointmentsDto> _fgs;
         ILogger<AppointmentController> _logger;
-
+      //  IGoogleCalendarService _googleCalendarService;
         public AppointmentController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
                 IMapper mapper,
                 IMastersService ms,
                 ILogger<AppointmentController> logger,
                 IFormGridService<appointmentsDto> fgs
-                ) : base(userManager, signInManager, mapper, ms)
+                                ) : base(userManager, signInManager, mapper, ms)
         {
             _logger = logger;
             _fgs = fgs;
+         //   _googleCalendarService = googleCalendarService;
+        }
+        public enum DoctorId
+        {
+            DrSwapnil = 2,
+            DrSandeep =3,
+            DrAkshaya = 4
+        }
+        public static class DoctorCredentialPaths
+        {
+            public static string GetJsonFilePath(DoctorId doctor)
+            {
+                return doctor switch
+                {
+                    DoctorId.DrSwapnil => "C:\\Gauri\\drswapnil-googleapi.json",
+                    DoctorId.DrSandeep => "C:\\Gauri\\googleapikey.json",
+                    DoctorId.DrAkshaya => "C:\\Gauri\\drakshaya-googleapi.json",
+                    _ => throw new ArgumentOutOfRangeException(nameof(doctor), "Invalid doctor")
+                };
+            }
         }
 
         [HttpGet("getappointmentslist")]
@@ -65,6 +87,12 @@ namespace API.Controllers
             }
 
             var cu = await GetCurrentUser();
+            var patient = await _ms.GetPatientByPatientId(appointment.patient_id);
+            var doctor=await _ms.GetdoctorBydoctorId(patient.DoctorId);
+            if (patient == null)
+            {
+                return BadRequest(new ApiResponse(401, "Patient does not exist"));
+            }
 
             appointments a = null;
             try
@@ -84,6 +112,55 @@ namespace API.Controllers
                 {
                     return BadRequest(new ApiResponse(401, "Unable to Save"));
                 }
+                DoctorId doctorId = (DoctorId)doctor.OfficeUserId;
+                var credentialPath = DoctorCredentialPaths.GetJsonFilePath(doctorId);
+
+                var calendarService = new CalendarServiceHelper(credentialPath);
+                var summary = doctor.Email;
+                var description = $"Follow-up appointment for Patient ID: {patient.RegNo}";
+                var start = a.visit_date;
+                var end = a.visit_date.AddMinutes(30); // Default 30 min duration
+
+                string eventUrl = await calendarService.AddEventAsync(summary, description, start, end);
+
+                // Optionally store or log the calendar event URL
+                Console.WriteLine("Google Event Created: " + eventUrl);
+                var smtpHost = "smtp.gmail.com";
+                var smtpPort = 587;
+                var smtpUser = "deshpande.gauri.b@gmail.com";
+                var smtpPass = "fyad hhgl jnlf dgkl";
+                var smtpDisplayName = "Your Clinic";
+                var smtpSSL = true;
+
+                var subject = "Appointment Confirmation";
+                var body = $"Dear {patient.full_name}-{patient.RegNo},<br>Your appointment is confirmed for {DateTime.Now.AddDays(1):f}.<br>Thank you!";
+                var attachments = ""; // Pass file paths separated by commas if needed
+
+                var emailer = new EmailerService(); // or use DI
+                var result = emailer.SendEmail(
+                    gSMTPHost: smtpHost,
+                    gSMTPPort: smtpPort,
+                    gSMTPAuthentication: true,
+                    gSMTPUser: smtpUser,
+                    gUserDisplayName: smtpDisplayName,
+                    gSMTPPass: smtpPass,
+                    gSMTPDomain: "", // optional
+                    gSMTPSSL: smtpSSL,
+                    sendto: patient.emailId,
+                    sendToBCC: "",
+                    sendToCC: "",
+                    IsSendSeparate: false,
+                    Subject: subject,
+                    Matter: body,
+                    IsBodyHtml: true,
+                    Attachements: attachments
+                );
+
+                if (result.StartsWith("Error"))
+                    return StatusCode(500, result);
+
+                return Ok("Email sent successfully");
+
             }
             catch (Exception ex)
             {
@@ -133,7 +210,6 @@ namespace API.Controllers
                 {
                     return BadRequest(new ApiResponse(401, appointment.Errors.errormessage));
                 }
-
                 // Save
                 appointment = await _ms.SaveAppointmentAsync(appointment);
                 if (appointment == null)
