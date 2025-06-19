@@ -59,7 +59,10 @@ namespace Infrastructure.Services
                 "UserSecurity",
                 "CompanyAdmin",
                 "ActionLog",
-                "Appointment"
+                "Appointment",
+                "Session",
+                "SessionDoctor",
+                "SessionDispenseTeam"
             };
 
             if (!validForms.Contains(FormName))

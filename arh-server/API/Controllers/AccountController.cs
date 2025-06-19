@@ -10,6 +10,7 @@ using Core.Entities;
 using Core.Entities.Identity;
 using Core.Interfaces;
 using Core.Specifications;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,7 @@ using Microsoft.Extensions.Logging;
 
 namespace API.Controllers
 {
+    [AllowAnonymous]
     public class AccountController : BaseWithUserApiController
     {
         private readonly ITokenService _tokenService;
@@ -38,7 +40,6 @@ namespace API.Controllers
             _pavalidator = pavalidator;
         }
 
-        [Authorize]
         [HttpGet]
         public async Task<ActionResult<UserDto>> GetUserInfo()
         {
@@ -71,7 +72,7 @@ namespace API.Controllers
                 acux.ClientIP = HttpContext.Connection.RemoteIpAddress?.ToString();
                 acux.EntityName = "Handset";
                 acux.EntityValue = loginDto.HandsetCode?.ToString() + "," + loginDto.IMEINo?.ToString();
-                await AddActionLog(acux);
+               // await AddActionLog(acux);
             }
             catch { }
 
@@ -118,23 +119,46 @@ namespace API.Controllers
                 AppOwner = ds.FieldValue
             });
         }
+     
+        [HttpGet("getdispenseteam")]
+        public async Task<ActionResult<IEnumerable<AppUserDto>>> GetDispenseTeam()
+        {
+            var team = await _ms.GetDispenseTeamAsync();
+            if (team == null || !team.Any())
+            {
+                return NotFound(new ApiResponse(404, "No dispense team members found."));
+            }
+
+            var teamDto = _mapper.Map<IEnumerable<AppUserDto>>(team);
+            return Ok(teamDto);
+        }
+        [HttpGet("getdoctors")]
+        public async Task<ActionResult<IEnumerable<AppUserDto>>> GetDoctors()
+        {
+            var doctors = await _ms.GetDoctorsAsync();
+            if (doctors == null || !doctors.Any())
+            {
+                return NotFound(new ApiResponse(404, "No doctors found."));
+            }
+
+            var doctorList = _mapper.Map<IEnumerable<AppUserDto>>(doctors);
+            return Ok(doctorList);
+        }
 
         [HttpGet("getserverstatus")]
         public async Task<ActionResult<string>> GetServerStatus()
         {
             return Ok(String.Format("Server Okay - {0:yyyy-MM-dd HH:mm:ss}", DateTime.UtcNow));
         }
-
+       
         [HttpPost("login")]
-        public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
+        public async Task<ActionResult<UserDto>> Login([FromBody]LoginDto loginDto)
         {
             if (loginDto == null)
             {
                 //  _logger.LogInformation("Login information missing");
                 return Unauthorized(new ApiResponse(400, "Login information missing"));
             }
-
-
             try
             {
                 ActionLog acux = new ActionLog();
@@ -148,7 +172,7 @@ namespace API.Controllers
                // acux.ExtraValue2 = "b";
                 //acux.LogHistory = "ww";
                 //acux.JsonData = "{}";
-                await AddActionLog(acux);
+               // await AddActionLog(acux);
             }
             catch { }
 
@@ -190,7 +214,7 @@ namespace API.Controllers
                 //acu.ExtraValue2 = "a";
                 //acu.LogHistory = "hh";
                 //acu.JsonData = "{}";
-                await AddActionLog(acu);
+               // await AddActionLog(acu);
                 return NotFound(new ApiResponse(400, "User doesn't exist"));
             }
             
@@ -213,7 +237,7 @@ namespace API.Controllers
                 acu.ClientType = "Web";
                 acu.LogHistory = "bb";
                 acu.JsonData = "{}";
-                await AddActionLog(acu);
+             //   await AddActionLog(acu);
 
                 return NotFound(new ApiResponse(401, "Contact Admin !!"));
             }
@@ -428,17 +452,17 @@ namespace API.Controllers
                         if (sd.FieldValue == loginDto.Otp)
                         {
                             //  Valid Global OTP
-                            await AddActionLog(new ActionLog()
-                            {
-                                ActionName = "Global OTP Used",
-                                CreatedById = user.OfficeUserId,
-                                CreatedByName = user.UserName + "-" + user.DisplayName,
-                                Description = "User has used Global OTP",
-                                IsActive = true,
-                                IsDeleted = false,
-                                UCode = Guid.NewGuid(),
-                                SequenceNo = 0
-                            });
+                            //await AddActionLog(new ActionLog()
+                            //{
+                            //    ActionName = "Global OTP Used",
+                            //    CreatedById = user.OfficeUserId,
+                            //    CreatedByName = user.UserName + "-" + user.DisplayName,
+                            //    Description = "User has used Global OTP",
+                            //    IsActive = true,
+                            //    IsDeleted = false,
+                            //    UCode = Guid.NewGuid(),
+                            //    SequenceNo = 0
+                            //});
                         }
                         else
                         {

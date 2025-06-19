@@ -66,12 +66,20 @@ namespace Infrastructure.Data
                 .Where(x => x.IsDeleted == false)
                 .ToListAsync();
         }
-
+        public async Task<IReadOnlyList<T>> GetEntityListWithSpec(ISpecification<T> spec)
+        {
+            return await ApplySpecification(spec).Where(x => x.IsDeleted == false).ToListAsync();
+        }
         public async Task<T> GetEntityWithSpec(ISpecification<T> spec)
         {
             return await ApplySpecification(spec).Where(x => x.IsDeleted == false).FirstOrDefaultAsync() ;
         }
-
+        public async Task<T> GetActiveEntityWithSpec(ISpecification<T> spec)
+        {
+            return await ApplySpecification(spec)
+                .Where(x => x.IsActive == true && x.IsDeleted == false)
+                .FirstOrDefaultAsync();
+        }
         public async  Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec)
         {
             try
@@ -206,8 +214,6 @@ namespace Infrastructure.Data
 
             return max;
         }
-
-
         public IEnumerable<TResult> GetSelectColumns<TResult>(
             Expression<Func<T, TResult>> resultSelector,
             Expression<Func<T, bool>>? filter = null)
@@ -221,6 +227,6 @@ namespace Infrastructure.Data
 
             return query.Select(resultSelector);
         }
-
+       
     }
 }

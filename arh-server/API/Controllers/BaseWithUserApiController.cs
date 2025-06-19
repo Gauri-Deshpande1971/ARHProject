@@ -43,15 +43,22 @@ namespace API.Controllers
 
         protected async Task<AppUser> GetCurrentUser()
         {
-            var ux = await _userManager.FindUserFromClaimsNameAndRole(User);
+            //  var ux = await _userManager.FindUserFromClaimsNameAndRole(User);
 
-            if (ux == null)
-            {
-                return null;
-            }
+            //  if (ux == null)
+            //  {
+            //      return null;
+            //  }
 
-          //  return (await ux.("EDPNo", ux));
-            return ux;
+            ////  return (await ux.("EDPNo", ux));
+            //  return ux;
+            string mobile = User?.Claims
+    .FirstOrDefault(c => c.Type == ClaimTypes.MobilePhone ||
+                         c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/mobilephone")
+    ?.Value;
+            var userId = User.FindFirst("nameid")?.Value;
+           // var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier); // gets 'sub' claim from token
+            return await _userManager.FindUserFromClaimsPrinciple(mobile);
         }
         protected async Task<ActionLog> AddActionLog(ActionLog actlg)
         {

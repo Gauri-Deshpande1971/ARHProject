@@ -25,6 +25,7 @@ namespace Infrastructure.Services
         {
             var claims = new List<Claim>
             {
+                new Claim("nameid", user.Id),
                 new Claim(ClaimTypes.MobilePhone, user.MobileNo),
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.GivenName, user.DisplayName),

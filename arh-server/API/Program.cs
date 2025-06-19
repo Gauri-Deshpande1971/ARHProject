@@ -1,4 +1,4 @@
-using System.Data.Common;
+﻿using System.Data.Common;
 using API.Extensions;
 using API.Helpers;
 using API.Middleware;
@@ -13,11 +13,13 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Builder;
-using Scalar.AspNetCore;
+//using Scalar.AspNetCore;
 using Npgsql;
 using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using Core.Interfaces;
 using AutoMapper;
+using Microsoft.OpenApi.Models;
+
 //using AutoMapper.Extensions.Microsoft.DependencyInjection;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,8 +34,36 @@ builder.Services.AddScoped<IPaValidator, PaValidator>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 //AutoMapper.Extensions.Microsoft.DependencyInjection.ServiceCollectionExtensions
 //    .AddAutoMapper(builder.Services, typeof(MappingProfiles));
-builder.Services.AddAutoMapper(typeof(MappingProfiles));
-//builder.Services.AddScoped<IGoogleCalendarService,CalendarServiceHelper>();
+builder.Services.AddAutoMapper(typeof(MappingProfiles)); builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+
+    //// 🔐 Enable JWT Bearer authentication in Swagger
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Enter 'Bearer' followed by a space and the JWT token.\r\nExample: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6..."
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
 var services = builder.Services;
 services.AddDistributedMemoryCache();
 
@@ -43,25 +73,10 @@ services.AddSession(options => {
     options.Cookie.HttpOnly = false;
 });
 
-//services.AddAutoMapper(typeof(MappingProfiles));
-//services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
 services.AddControllers();
-//  services.AddDbContext<ARHServerContext>(x => x.UseSqlServer(_config.GetConnectionString("DefaultConnection")));
-
-//services.AddDbContext<DBServerContext>(x =>
-//{
-
-//    //   x.UseSqlServer(_config.GetConnectionString("IdentityConnection"));
-//    x.UseNpgsql(_config.GetConnectionString("IdentityConnection"));
-//});
 services.AddDbContext<AppIdentityDbContext>(options =>
 {
 options.UseNpgsql(_config.GetConnectionString("IdentityConnection"));
-//        npgsqlOptions =>
-//        {
-//            npgsqlOptions.MigrationsAssembly("Infrastructure"); // Change if your migrations are in another project
-//        });
 });
 services.AddDbContext<DBServerContext>(options =>
 {
@@ -135,10 +150,11 @@ if (app.Environment.IsDevelopment())
     // app.MapOpenApi(); 
     // app.MapScalarApiReference(...)
 
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
+    app.UseSwagger(); // ✅ generates /swagger/v1/swagger.json
+    app.UseSwaggerUI(c =>
     {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"); // ✅ match this
+        c.RoutePrefix = "swagger"; // access it via /swagger
     });
 }
 
@@ -148,7 +164,6 @@ app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
 app.UseHttpsRedirection();
 
-app.UseRouting();
 app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions
 {
@@ -158,15 +173,17 @@ app.UseStaticFiles(new StaticFileOptions
     ), 
     RequestPath = "/content"
 });
-
+app.UseRouting();
 if (!string.IsNullOrEmpty(_config["AllowCORS"]))
 {
     if (_config["AllowCORS"].ToString().ToUpper() == "YES")
     {
-        app.UseCors("CorsPolicy");
+        //  app.UseCors("CorsPolicy");
+        app.UseCors("AllowAll");
     }
 }
 
+//app.UseCors("CorsPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -183,10 +200,10 @@ if (!string.IsNullOrEmpty(_config["AllowAPIAccess"]))
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
-    endpoints.MapFallbackToController("Index", "Fallback");
+  //  endpoints.MapFallbackToController("Index", "Fallback");
 });
 
-using(var scope = app.Services.CreateScope())
+using (var scope = app.Services.CreateScope())
 {
     var srx = scope.ServiceProvider;
     var loggerFactory = srx.GetRequiredService<ILoggerFactory>();

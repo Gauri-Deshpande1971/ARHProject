@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 using Core.Entities;
 using Core.Interfaces;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
+   // [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class BaseApiController : ControllerBase

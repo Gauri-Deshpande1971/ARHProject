@@ -5,6 +5,7 @@ using Core.Entities;
 using System.Linq;
 using System.Globalization;
 using Core.Models;
+using Core.Entities.Identity;
 
 namespace API.Helpers
 {
@@ -18,6 +19,10 @@ namespace API.Helpers
 
             CreateMap<Attachment, AttachmentDto>()
             .ReverseMap();
+            CreateMap<SessionSetup, SessionSetupDto>() .ReverseMap();
+            CreateMap<SessionDoctors, SessionDoctorsDto>().ReverseMap();
+            CreateMap<SessionDispenseTeam, SessionDispenseTeamDto>().ReverseMap();
+            CreateMap<AppUser, AppUserDto>() .ReverseMap(); 
 
             //CreateMap<AppRole, AppRoleDto>()
             //    .ForMember(d => d.CreatedOn, o => o.MapFrom(s => String.Format("{0:dd-MM-yyyy}", s.CreatedOn)))

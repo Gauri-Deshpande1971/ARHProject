@@ -50,6 +50,9 @@ namespace Infrastructure.Data
         public DbSet<opd> opd { get; set; }
         public DbSet<opd_doc> opd_doc { get; set; }
         public DbSet<prescription> prescription { get; set; }
+        public DbSet<SessionSetup> SessionSetup { get; set; }
+        public DbSet<SessionDoctors> SessionDoctors { get; set; }
+        public DbSet<SessionDispenseTeam> SessionDispenseTeam { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

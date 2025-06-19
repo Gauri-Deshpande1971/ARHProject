@@ -20,6 +20,7 @@ using City = Core.Entities.City;
 using DocumentFormat.OpenXml.Drawing;
 using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
+using DocumentFormat.OpenXml.InkML;
 //  using Infrastructure.Data.Migrations;
 
 namespace Infrastructure.Services
@@ -3872,7 +3873,7 @@ namespace Infrastructure.Services
             r = r.OrderBy(x => x.patient_id).ToList();
             r = r.Where(x => x.IsActive == true).ToList();
             return r;
-        }
+         }
         public async Task<appointments> ValidateAppointmentAsync(appointments ret, AppUser au)
         {
             appointments obj;
@@ -3910,18 +3911,18 @@ namespace Infrastructure.Services
 
                 if (obj == null)
                 {
-                    ret.AddErrorMessage("Unknown Appointment for editing");
+                    ret.AddErrorMessage("Appointment cannot be edited");
                     return ret;
                 }
 
-                //  Check for Duplicate
-                var dup = await _unitOfWork.Repository<appointments>()
-                        .GetEntityWithSpec(new BaseSpecification<appointments>(x => x.patient_id == ret.patient_id && x.visit_date == ret.visit_date && x.UCode != ret.UCode));
-                if (dup != null)
-                {
-                    ret.AddErrorMessage("Appointment already exists !!");
-                    return ret;
-                }
+                ////  Check for Duplicate
+                //var dup = await _unitOfWork.Repository<appointments>()
+                //        .GetEntityWithSpec(new BaseSpecification<appointments>(x => x.patient_id == ret.patient_id && x.visit_date == ret.visit_date && x.UCode != ret.UCode));
+                //if (dup != null)
+                //{
+                //    ret.AddErrorMessage("Appointment already exists !!");
+                //    return ret;
+                //}
             }
             obj.patient_id = ret.patient_id;
             obj.category = ret.category;
@@ -4017,7 +4018,282 @@ namespace Infrastructure.Services
             }
             return ret;
         }
+        public async Task<IReadOnlyList<SessionSetup>> GetSessionsAsync(AppUser appUser)
+        {
+            var r = await _unitOfWork.Repository<SessionSetup>().ListAllAsync();
+            r = r.OrderBy(x => x.Id).ToList();
+            r = r.Where(x => x.SessionDate == DateTime.UtcNow).ToList();
+            return r;
+        }
+        public async Task<SessionSetup> ValidateSessionAsync(SessionSetup ret, AppUser au)
+        {
+            SessionSetup obj;
+            if (ret.UCode == Guid.Empty)
+            {
+                obj = ret;
+                obj.Id = 0;
+                obj.UCode = Guid.NewGuid();
+                //  obj.CreatedById = au.OfficeUserId;
+                obj.CreatedById = 1;
+                // obj.CreatedByName = au.UserName + "-" + au.DisplayName;
+                obj.CreatedByName = "Admin";
+                obj.CreatedOn = DateTime.Now;
+                obj.IsDeleted = false;
+                //  Check for Duplicate
+                var dup = await _unitOfWork.Repository<SessionSetup>()
+                        .GetEntityWithSpec(new BaseSpecification<SessionSetup>(x => x.SessionName == ret.SessionName && x.SessionDate==DateTime.UtcNow)
+                        );
+                if (dup != null)
+                {
+                    ret.AddErrorMessage("Session already exists !!");
+                    return ret;
+                }
+            }
+            else
+            {
+                obj = await _unitOfWork.Repository<SessionSetup>()
+                        .GetEntityWithSpec(new BaseSpecification<SessionSetup>(x => x.UCode == ret.UCode));
+                
+                if (obj == null)
+                {
+                    ret.AddErrorMessage("Session doesnot exist");
+                    return ret;
+                }
+            }
+            obj.SessionDate = ret.SessionDate;
+            obj.SessionName = ret.SessionName;
+            obj.IsActive = ret.IsActive;
+            return obj;
+        }
+        public async Task<SessionSetup> SaveSessionAsync(SessionSetup ret)
+        {
+            bool isNew = false;
+            ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
+            if (ret.Id == 0)
+            {               
+                isNew = true;
+                _unitOfWork.Repository<SessionSetup>().Add(ret);
+            }
+            else
+            {
+                _unitOfWork.Repository<SessionSetup>().Update(ret);
+            }
+            try
+            {
+                var res = await _unitOfWork.Repository<SessionSetup>().Complete();
+                if (res <= 0)
+                {
+                    ret.AddErrorMessage("Unable to Save");
+                }
+                else
+                {
+                    await _unitOfWork.Repository<SessionSetup>().Complete();
 
+                }
+            }
+            catch (Exception ex)
+            {
+                ret.AddErrorMessage("Exception: " + ex.Message);
+            }
+
+            return ret;
+        }
+        
+        public async Task<SessionSetup> GetActiveSessionAsync(AppUser appUser)
+        {
+            var ar = await _unitOfWork.Repository<SessionSetup>().GetEntityWithSpec(new BaseSpecification<SessionSetup>(x => x.IsActive == true && x.SessionDate==DateTime.UtcNow));
+            return ar;
+        }
+        public async Task<IReadOnlyList<SessionDoctors>> GetSessionDoctorsAsync(AppUser appUser,int id)
+        {
+            var r = await _unitOfWork.Repository<SessionDoctors>().ListAllAsync();
+            r = r.OrderBy(x => x.DoctorId).ToList();
+            r = r.Where(x => x.SessionId == id).ToList();
+            return r;
+        }
+        public async Task<IReadOnlyList<SessionDispenseTeam>> GetSessionDispenseTeamAsync(AppUser appUser, int id)
+        {
+            var r = await _unitOfWork.Repository<SessionDispenseTeam>().ListAllAsync();
+            r = r.OrderBy(x => x.MemberId).ToList();
+            r = r.Where(x => x.SessionId == id).ToList();
+            return r;
+        }
+        public async Task<IEnumerable<SessionDoctors>> ValidateSessionDoctorsAsync(IEnumerable<SessionDoctors> retList, AppUser au)
+        {
+            var validatedList = new List<SessionDoctors>();
+
+            foreach (var item in retList)
+            {
+                var obj = item;
+
+                if (item.UCode == Guid.Empty)
+                {
+                    obj.Id = 0;
+                    obj.UCode = Guid.NewGuid();
+                   // obj.CreatedById = au?.OfficeUserId ?? 1; // fallback if au is null
+                    //obj.CreatedByName = au != null ? $"{au.UserName}-{au.DisplayName}" : "Admin";
+                    obj.CreatedOn = DateTime.UtcNow;
+                    obj.IsDeleted = false;
+                  
+                }
+                else
+                {
+                    var existing = await _unitOfWork.Repository<SessionDoctors>()
+                                .GetEntityWithSpec(new BaseSpecification<SessionDoctors>(x => x.DoctorId == item.DoctorId && x.SessionId == item.SessionId));
+
+                    if (existing != null)
+                    {
+                        item.AddErrorMessage("Doctor already exists");
+                        continue;
+                    }
+                }
+
+                // Copy other values like SessionId, IsActive, etc.
+                obj.SessionId = item.SessionId;
+                obj.DoctorId = item.DoctorId;
+                obj.IsActive = item.IsActive;
+
+                validatedList.Add(obj);
+            }
+
+            return validatedList;
+        }
+        public async Task<IEnumerable<SessionDoctors>> SaveSessionDoctorsAsync(IEnumerable<SessionDoctors> doctors)
+        {
+            var savedDoctors = new List<SessionDoctors>();
+            var ssts = _config["SyncServerType"];
+
+            foreach (var doctor in doctors)
+            {
+                try
+                {
+                    doctor.CreatedOn = doctor.CreatedOn.ToUniversalTime();
+
+                    if (doctor.Id == 0)
+                    {
+                        // New entity
+                        _unitOfWork.Repository<SessionDoctors>().Add(doctor);
+                    }
+                    else
+                    {
+                        // Existing entity
+                        _unitOfWork.Repository<SessionDoctors>().Update(doctor);
+                    }
+
+                    var result = await _unitOfWork.Repository<SessionDoctors>().Complete();
+
+                    if (result <= 0)
+                    {
+                        doctor.AddErrorMessage("Unable to save doctor with Id: " + doctor.Id);
+                    }
+                    else
+                    {
+                        savedDoctors.Add(doctor);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    doctor.AddErrorMessage($"Exception for doctor with Id {doctor.Id}: {ex.Message}");
+                }
+            }
+
+            return savedDoctors;
+        }
+        public async Task<IEnumerable<SessionDispenseTeam>> ValidateSessionDispenseTeamAsync(IEnumerable<SessionDispenseTeam> team, AppUser au)
+        {
+            var validatedList = new List<SessionDispenseTeam>();
+
+            foreach (var item in team)
+            {
+                var obj = item;
+
+                if (item.UCode == Guid.Empty)
+                {
+                    obj.Id = 0;
+                    obj.UCode = Guid.NewGuid();
+                    // obj.CreatedById = au?.OfficeUserId ?? 1; // fallback if au is null
+                    //obj.CreatedByName = au != null ? $"{au.UserName}-{au.DisplayName}" : "Admin";
+                    obj.CreatedOn = DateTime.UtcNow;
+                    obj.IsDeleted = false;
+
+                }
+                else
+                {
+                    var existing = await _unitOfWork.Repository<SessionDispenseTeam>()
+                                .GetEntityWithSpec(new BaseSpecification<SessionDispenseTeam>(x => x.MemberId==item.MemberId && x.SessionId==item.SessionId));
+
+                    if (existing != null)
+                    {
+                        item.AddErrorMessage("Team member already exists");
+                        continue;
+                    }
+                }
+
+                // Copy other values like SessionId, IsActive, etc.
+                obj.SessionId = item.SessionId;
+                obj.MemberId = item.MemberId;
+                obj.IsActive = item.IsActive;
+
+                validatedList.Add(obj);
+            }
+            return validatedList;
+        }
+       public async Task<IEnumerable<SessionDispenseTeam>> SaveSessionDispenseTeamAsync(IEnumerable<SessionDispenseTeam> members)
+        {
+            var savedDispenseTeam = new List<SessionDispenseTeam>();
+            
+            foreach (var dispense in members)
+            {
+                try
+                {
+                    dispense.CreatedOn = dispense.CreatedOn.ToUniversalTime();
+
+                    if (dispense.Id == 0)
+                    {
+                        // New entity
+                        _unitOfWork.Repository<SessionDispenseTeam>().Add(dispense);
+                    }
+                    else
+                    {
+                        // Existing entity
+                        _unitOfWork.Repository<SessionDispenseTeam>().Update(dispense);
+                    }
+
+                    var result = await _unitOfWork.Repository<SessionDispenseTeam>().Complete();
+
+                    if (result <= 0)
+                    {
+                        dispense.AddErrorMessage("Unable to save dispense team member with Id: " + dispense.Id);
+                    }
+                    else
+                    {
+                        savedDispenseTeam.Add(dispense);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    dispense.AddErrorMessage($"Exception for Dispense team memeber with Id {dispense.Id}: {ex.Message}");
+                }
+            }
+            return savedDispenseTeam;
+        }
+        public async Task<IEnumerable<AppUser>> GetDoctorsAsync()
+        {           
+            var doctors = await _userManager.Users
+        .Where(u => u.AppRoleCode == "DOC" || u.AppRoleCode=="ADOC")
+        .ToListAsync();
+
+            return doctors;
+        }
+        public async Task<IEnumerable<AppUser>> GetDispenseTeamAsync()
+        {
+            List<AppUser> list = new List<AppUser>();
+            var team = await _userManager.Users
+        .Where(u => u.AppRoleCode == "DIS")
+        .ToListAsync();
+
+            return team;
+        }
         Task<OfficeUser> IMastersService.GetOfficeUser(AppUser appUser)
         {
             throw new NotImplementedException();

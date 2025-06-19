@@ -13,9 +13,11 @@ using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 using Google.Apis.Calendar.v3;
 using static API.Controllers.AppointmentController;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace API.Controllers
-{
+{   
     public class AppointmentController : BaseWithUserApiController
     {
         IFormGridService<appointmentsDto> _fgs;
@@ -330,12 +332,16 @@ namespace API.Controllers
             SessionManager.Delete("PatientUpload-" + currentuser.Id.ToString());
 
             return Ok();
-        }
-
+        }   
+      
         [HttpGet("getgridcols")]
         public async Task<ActionResult> GetGridCols(string FormName)
         {
             var currentuser = await GetCurrentUser();
+            foreach (var claim in User.Claims)
+            {
+                Console.WriteLine($"{claim.Type} = {claim.Value}");
+            }
             var doctorColors = new Dictionary<int, string>
 {
     { 2, "#FFEBEE" },  // Light Red
@@ -371,6 +377,7 @@ namespace API.Controllers
                                 PatientFullName = pat?.full_name,
                                 PatientRegNo = pat?.RegNo,
                                 DoctorId = pat?.DoctorId,
+                                AssistanDoctorId=appt.assistantDoctorId,
                                 DoctorName = doc?.DisplayName,
                                 status = appt.status,
                                 CreatedByName="Admin",
