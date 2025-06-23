@@ -466,6 +466,30 @@
         }
       }
     },
+    "/api/Appointment/test-claims": {
+      "get": {
+        "tags": [
+          "Appointment"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Appointment/checkheader": {
+      "get": {
+        "tags": [
+          "Appointment"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Appointment/getappointmentslist": {
       "get": {
         "tags": [
@@ -504,7 +528,141 @@
         }
       }
     },
+    "/api/Appointment/getappointmentsforRetrieverlist": {
+      "get": {
+        "tags": [
+          "Appointment"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/appointmentsDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/appointmentsDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/appointmentsDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Appointment/saveappointment": {
+      "post": {
+        "tags": [
+          "Appointment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/appointmentsDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/appointmentsDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/appointmentsDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/appointmentsDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/appointmentsDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/appointmentsDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Appointment/saveappointmentMilestone": {
+      "post": {
+        "tags": [
+          "Appointment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/appointmentMilestoneDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/appointmentMilestoneDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/appointmentMilestoneDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/appointmentMilestoneDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/appointmentMilestoneDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/appointmentMilestoneDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Appointment/updateRetrieverStatus": {
       "post": {
         "tags": [
           "Appointment"
@@ -1041,7 +1199,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/OrganizationDto"
+                    "$ref": "#/components/schemas/patientDto"
                   }
                 }
               },
@@ -1049,7 +1207,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/OrganizationDto"
+                    "$ref": "#/components/schemas/patientDto"
                   }
                 }
               },
@@ -1057,7 +1215,45 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/OrganizationDto"
+                    "$ref": "#/components/schemas/patientDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Patient/getpatientHistorylist": {
+      "get": {
+        "tags": [
+          "Patient"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/patientDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/patientDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/patientDto"
                   }
                 }
               }
@@ -2227,6 +2423,82 @@
         },
         "additionalProperties": false
       },
+      "appointmentMilestoneDto": {
+        "type": "object",
+        "properties": {
+          "createdOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdByName": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "isUpdated": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "isExisting": {
+            "type": "boolean"
+          },
+          "uCode": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sequenceNo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "extraId1": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraId2": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraValue1": {
+            "type": "string",
+            "nullable": true
+          },
+          "extraValue2": {
+            "type": "string",
+            "nullable": true
+          },
+          "jsonData": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "appointmentId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "milestone": {
+            "type": "string",
+            "nullable": true
+          },
+          "milestoneTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "userId": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "appointmentsDto": {
         "type": "object",
         "properties": {
@@ -2291,6 +2563,18 @@
           "visit_date": {
             "type": "string",
             "format": "date-time"
+          },
+          "retId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "casepaperretrievaltime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "casepaperretrieved": {
+            "type": "boolean"
           },
           "category": {
             "type": "string",
@@ -2455,6 +2739,9 @@
             "type": "string",
             "format": "email",
             "nullable": true
+          },
+          "history": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -2462,10 +2749,10 @@
     },
     "securitySchemes": {
       "Bearer": {
-        "type": "apiKey",
+        "type": "http",
         "description": "Enter 'Bearer' followed by a space and the JWT token.\r\nExample: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6...",
-        "name": "Authorization",
-        "in": "header"
+        "scheme": "Bearer",
+        "bearerFormat": "JWT"
       }
     }
   },

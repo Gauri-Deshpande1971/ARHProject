@@ -26,5 +26,6 @@ namespace Core.Entities
         public string? RegNo { get; set; }
         public bool medicalkit { get; set; }
         public string? emailId { get; set; }
+        public bool history { get; set; } = false;
     }
 }

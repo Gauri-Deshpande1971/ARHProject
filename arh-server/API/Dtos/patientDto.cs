@@ -22,5 +22,6 @@ namespace API.Dtos
         public bool medicalkit { get; set; }
         [EmailAddress]
         public string? emailId { get; set; }
+        public bool history { get; set; } = false;
     }
 }

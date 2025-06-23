@@ -11,9 +11,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Infrastructure.Data;
 using DocumentFormat.OpenXml.Vml.Office;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
+  //  [Authorize]
     public class PatientController : BaseWithUserApiController
     {
         IFormGridService<patientDto> _fgs;
@@ -31,7 +33,7 @@ namespace API.Controllers
         }
 
         [HttpGet("getpatientslist")]
-        public async Task<ActionResult<IReadOnlyList<OrganizationDto>>> GetPatientsList()
+        public async Task<ActionResult<IReadOnlyList<patientDto>>> GetPatientsList()
         {
             var currentuser = await GetCurrentUser();
 
@@ -44,6 +46,23 @@ namespace API.Controllers
             }
 
             //	ars = ars.Where(x => {{USER_CONDITION}}).ToList();
+
+            var ldx = _mapper.Map<IReadOnlyList<patient>, IReadOnlyList<patientDto>>(ars);
+
+            return Ok(ldx);
+        }
+        [HttpGet("getpatientHistorylist")]
+        public async Task<ActionResult<IReadOnlyList<patientDto>>> GetHistoryPatientsList()
+        {
+            var currentuser = new AppUser { AppRoleCode="DOC",DisplayName="Swapnil",OfficeUserCode="2"};
+
+            var ars = await _ms.GetPatientByhistoryAsync(currentuser);
+
+            if (currentuser.UserName == "admin" || currentuser.AppRoleCode == "ADMINISTRATOR" || currentuser.AppRoleCode == "SUPER")
+            {
+                var ldxx = _mapper.Map<IReadOnlyList<patient>, IReadOnlyList<patientDto>>(ars);
+                return Ok(ldxx);
+            }
 
             var ldx = _mapper.Map<IReadOnlyList<patient>, IReadOnlyList<patientDto>>(ars);
 

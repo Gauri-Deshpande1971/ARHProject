@@ -1,6 +1,6 @@
 ﻿namespace API.Dtos
 {
-    public class appointmentMilestoneDto
+    public class appointmentMilestoneDto:BaseDto
     {
         public int Id { get; set; }
         public int appointmentId { get; set; }

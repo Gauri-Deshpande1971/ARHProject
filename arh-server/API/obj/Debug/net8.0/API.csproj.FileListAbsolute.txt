@@ -165,7 +165,6 @@ C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net8.0\staticwebassets\msbui
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.API.props
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.API.props
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net8.0\staticwebassets.pack.json
-C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net8.0\API.csproj.Up2Date
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net8.0\API.dll
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net8.0\refint\API.dll

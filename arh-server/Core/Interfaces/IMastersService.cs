@@ -181,11 +181,17 @@ namespace Core.Interfaces
         Task<patient> GetPatientByPatientId(int patient_id);
         Task<AppUser> GetdoctorBydoctorId(int doctor_id);
         Task<patient> ValidatePatientAsync(patient ret, AppUser au);
+        Task<IReadOnlyList<patient>> GetPatientByhistoryAsync(AppUser appUser);
         Task<patient> SavePatientAsync(patient ret);
         Task<IImportExcelData<patient>> BulkValidatePatientAsync(IImportExcelData<patient> ret, AppUser au);
         Task<bool> SaveUploadPatientAsync(IReadOnlyList<patient> patients, AppUser au);
         Task<appointments> SaveAppointmentAsync(appointments ret);
+        Task<appointments> UpdateRetrieverAppointmentAsync(appointments ret);
+        Task<appointmentMilestone> SaveAppointmentMilestoneAsync(appointmentMilestone ret);
+        Task<appointmentMilestone> ValidateAppointmentMilestoneAsync(appointmentMilestone ret, AppUser au);
         Task<IReadOnlyList<appointments>> GetAppointmentsAsync(AppUser appUser);
+        Task<IReadOnlyList<appointments>> GetAppointmentsForRetrieversAsync(AppUser appUser);
+        Task<IReadOnlyList<appointments>> GetAppointmentByPatientIdAsync(AppUser appUser,int patient_id);
         Task<appointments> ValidateAppointmentAsync(appointments ret, AppUser au);
         Task<IImportExcelData<appointments>> BulkValidateAppointmentAsync(IImportExcelData<appointments> ret, AppUser au);
         Task<SessionSetup> SaveSessionAsync(SessionSetup ret);

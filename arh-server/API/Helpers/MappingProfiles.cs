@@ -23,6 +23,7 @@ namespace API.Helpers
             CreateMap<SessionDoctors, SessionDoctorsDto>().ReverseMap();
             CreateMap<SessionDispenseTeam, SessionDispenseTeamDto>().ReverseMap();
             CreateMap<AppUser, AppUserDto>() .ReverseMap(); 
+            CreateMap<appointmentMilestone, appointmentMilestoneDto>() .ReverseMap();
 
             //CreateMap<AppRole, AppRoleDto>()
             //    .ForMember(d => d.CreatedOn, o => o.MapFrom(s => String.Format("{0:dd-MM-yyyy}", s.CreatedOn)))

@@ -5,6 +5,9 @@
         public int Id { get; set; }
         public int patient_id { get; set; }
         public DateTime visit_date { get; set; }
+        public int retId { get; set; }
+        public DateTime? casepaperretrievaltime { get; set; }
+        public bool casepaperretrieved { get; set; } = false;
         public string category { get; set; }//FU,PC,CR
         public string status { get; set; }// (A/D/AD/DIS/CAS/DISP)				
         public int? assistantDoctorId { get; set; }//if assistant doctor does the followUp

@@ -9,6 +9,7 @@ using Infrastructure.Services;
 using Infrastructure.Utility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -16,7 +17,6 @@ namespace API.Controllers
     {
         IFormGridService<MedicineDto> _fgs;
         ILogger<MedicineController> _logger;
-
         public MedicineController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
                 IMapper mapper,
                 IMastersService ms,
@@ -191,7 +191,7 @@ namespace API.Controllers
 
         //    return Ok();
         //}
-
+       
         [HttpGet("getgridcols")]
         public async Task<ActionResult> GetGridCols(string FormName)
         {

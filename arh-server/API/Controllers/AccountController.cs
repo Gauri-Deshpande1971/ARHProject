@@ -26,7 +26,7 @@ namespace API.Controllers
 
         IConfiguration _config;
         IPaValidator _pavalidator;
-
+        IHttpContextAccessor _contextAccessor;
         public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
             IMapper mapper,
             IMastersService ms,
@@ -399,6 +399,15 @@ namespace API.Controllers
             
             //  For WEB Login OTP not required
             var res = await _ms.LoginSucceeded(oe.FirstOrDefault());
+            if(res!=null)
+            {
+                var claims = new []
+                {
+                    new Claim("UserId",user.OfficeUserId.ToString()),
+                    new Claim("MobileNo",user.MobileNo)
+
+                };
+            }
             if (!res)
             {
                 return Unauthorized(new ApiResponse(401));

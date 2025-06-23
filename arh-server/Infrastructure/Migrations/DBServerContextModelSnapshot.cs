@@ -1831,6 +1831,66 @@ namespace Infrastructure.Migrations
                     b.ToTable("UserNavMenus");
                 });
 
+            modelBuilder.Entity("Core.Entities.additionalreports", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CreatedById")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("CreatedByName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("ExtraId1")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ExtraId2")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ExtraValue1")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ExtraValue2")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("JsonData")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LogHistory")
+                        .HasColumnType("text");
+
+                    b.Property<int>("SequenceNo")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UCode")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("patient_id")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("reports")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("additionalreports");
+                });
+
             modelBuilder.Entity("Core.Entities.appointmentMilestone", b =>
                 {
                     b.Property<int>("Id")
@@ -1955,6 +2015,12 @@ namespace Infrastructure.Migrations
                     b.Property<int?>("assistantDoctorId")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime?>("casepaperretrievaltime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("casepaperretrieved")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("category")
                         .IsRequired()
                         .HasColumnType("text");
@@ -1972,6 +2038,9 @@ namespace Infrastructure.Migrations
                         .HasColumnType("numeric");
 
                     b.Property<int>("patient_id")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("retId")
                         .HasColumnType("integer");
 
                     b.Property<string>("status")
@@ -2082,6 +2151,71 @@ namespace Infrastructure.Migrations
                     b.ToTable("clinical_diagnosis");
                 });
 
+            modelBuilder.Entity("Core.Entities.complaints", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CreatedById")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("CreatedByName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("ExtraId1")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ExtraId2")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ExtraValue1")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ExtraValue2")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("JsonData")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Large")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LogHistory")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Medium")
+                        .HasColumnType("text");
+
+                    b.Property<int>("SequenceNo")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Small")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UCode")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("patient_id")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("complaints");
+                });
+
             modelBuilder.Entity("Core.Entities.dosage", b =>
                 {
                     b.Property<int>("Id")
@@ -2137,6 +2271,197 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("dosage");
+                });
+
+            modelBuilder.Entity("Core.Entities.family", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CreatedById")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("CreatedByName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("ExtraId1")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ExtraId2")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ExtraValue1")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ExtraValue2")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("JsonData")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LogHistory")
+                        .HasColumnType("text");
+
+                    b.Property<int>("SequenceNo")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UCode")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("familyhistory")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("familysetup")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("patient_id")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("family");
+                });
+
+            modelBuilder.Entity("Core.Entities.investigations", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CreatedById")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("CreatedByName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("ExtraId1")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ExtraId2")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ExtraValue1")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ExtraValue2")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("JsonData")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LogHistory")
+                        .HasColumnType("text");
+
+                    b.Property<int>("SequenceNo")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UCode")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("findings")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("investigationdate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("patient_id")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("testname")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("investigations");
+                });
+
+            modelBuilder.Entity("Core.Entities.medications", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CreatedById")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("CreatedByName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("ExtraId1")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ExtraId2")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ExtraValue1")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ExtraValue2")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("JsonData")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LogHistory")
+                        .HasColumnType("text");
+
+                    b.Property<int>("SequenceNo")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UCode")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("details")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("patient_id")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("medications");
                 });
 
             modelBuilder.Entity("Core.Entities.medicineKit", b =>
@@ -2330,6 +2655,65 @@ namespace Infrastructure.Migrations
                     b.ToTable("opd_doc");
                 });
 
+            modelBuilder.Entity("Core.Entities.pasthistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CreatedById")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("CreatedByName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("ExtraId1")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ExtraId2")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ExtraValue1")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ExtraValue2")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("JsonData")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LogHistory")
+                        .HasColumnType("text");
+
+                    b.Property<int>("SequenceNo")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UCode")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("history")
+                        .HasColumnType("text");
+
+                    b.Property<int>("patient_id")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("pasthistory");
+                });
+
             modelBuilder.Entity("Core.Entities.patient", b =>
                 {
                     b.Property<int>("Id")
@@ -2413,6 +2797,9 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("history")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("medicalkit")
                         .HasColumnType("boolean");
 
@@ -2426,6 +2813,178 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("patient");
+                });
+
+            modelBuilder.Entity("Core.Entities.physicalexam", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BP")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("CreatedById")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("CreatedByName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ENTSkin")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("ExtraId1")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ExtraId2")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ExtraValue1")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ExtraValue2")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Glands")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("JsonData")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LogHistory")
+                        .HasColumnType("text");
+
+                    b.Property<string>("P")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("RR")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("SequenceNo")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("T")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UCode")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("height")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("patient_id")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("weight")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("physicalexam");
+                });
+
+            modelBuilder.Entity("Core.Entities.physicalgen", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CreatedById")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("CreatedByName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("ExtraId1")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ExtraId2")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ExtraValue1")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ExtraValue2")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("JsonData")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LogHistory")
+                        .HasColumnType("text");
+
+                    b.Property<int>("SequenceNo")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UCode")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("appetite")
+                        .HasColumnType("text");
+
+                    b.Property<string>("aversions")
+                        .HasColumnType("text");
+
+                    b.Property<string>("cravings")
+                        .HasColumnType("text");
+
+                    b.Property<string>("menstrualobs")
+                        .HasColumnType("text");
+
+                    b.Property<int>("patient_id")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("perspiration")
+                        .HasColumnType("text");
+
+                    b.Property<string>("sleepdream")
+                        .HasColumnType("text");
+
+                    b.Property<string>("stools")
+                        .HasColumnType("text");
+
+                    b.Property<string>("themalreaction")
+                        .HasColumnType("text");
+
+                    b.Property<string>("thirst")
+                        .HasColumnType("text");
+
+                    b.Property<string>("urine")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("physicalgen");
                 });
 
             modelBuilder.Entity("Core.Entities.potency", b =>
@@ -2638,6 +3197,66 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("remedy_plans");
+                });
+
+            modelBuilder.Entity("Core.Entities.systemeticexam", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CreatedById")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("CreatedByName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int?>("ExtraId1")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ExtraId2")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ExtraValue1")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ExtraValue2")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("JsonData")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LogHistory")
+                        .HasColumnType("text");
+
+                    b.Property<int>("SequenceNo")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UCode")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("details")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("patient_id")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("systemeticexam");
                 });
 
             modelBuilder.Entity("Core.Entities.FormGridDetail", b =>

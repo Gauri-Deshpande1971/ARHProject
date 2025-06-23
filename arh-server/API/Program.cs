@@ -19,6 +19,10 @@ using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using Core.Interfaces;
 using AutoMapper;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using System.Text;
 
 //using AutoMapper.Extensions.Microsoft.DependencyInjection;
 var builder = WebApplication.CreateBuilder(args);
@@ -42,7 +46,7 @@ builder.Services.AddAutoMapper(typeof(MappingProfiles)); builder.Services.AddSwa
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
-        Type = SecuritySchemeType.ApiKey,
+        Type = SecuritySchemeType.Http,
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
@@ -50,19 +54,19 @@ builder.Services.AddAutoMapper(typeof(MappingProfiles)); builder.Services.AddSwa
     });
 
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
+{
     {
+        new OpenApiSecurityScheme
         {
-            new OpenApiSecurityScheme
+            Reference = new OpenApiReference
             {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            new string[] {}
-        }
-    });
+                Type = ReferenceType.SecurityScheme,
+                Id = "Bearer"
+            }
+        },
+        Array.Empty<string>()
+    }
+});
 });
 var services = builder.Services;
 services.AddDistributedMemoryCache();
@@ -86,7 +90,7 @@ services.AddIdentity<AppUser, IdentityRole>()
     .AddEntityFrameworkStores<AppIdentityDbContext>()
     .AddDefaultTokenProviders();
 services.AddApplicationServices();
-services.AddIdentityServices(_config);
+//services.AddIdentityServices(_config);
 
 // //  This will enable Emailer service
 // if (!string.IsNullOrEmpty(_config["AllowMailer"]))
@@ -114,6 +118,21 @@ services.AddCors(opt =>
             .AllowAnyOrigin();
     });
 });
+services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Token:Key"])),
+                        ValidIssuer = _config["Token:Issuer"],
+                        ValidateIssuer = true,
+                        ValidateAudience = false,
+                        // NameClaimType = ClaimTypes.NameIdentifier,
+                        NameClaimType = "nameid",
+                        RoleClaimType = ClaimTypes.Role
+                    };
+                });
 var serviceProvider = services.BuildServiceProvider();
 using (var scope = serviceProvider.CreateScope())
 {
@@ -162,7 +181,7 @@ app.UseMiddleware<ExceptionMiddleware>();
             
 app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions
@@ -179,11 +198,12 @@ if (!string.IsNullOrEmpty(_config["AllowCORS"]))
     if (_config["AllowCORS"].ToString().ToUpper() == "YES")
     {
         //  app.UseCors("CorsPolicy");
-        app.UseCors("AllowAll");
+        app.UseCors("CorsPolicy");
     }
 }
 
 //app.UseCors("CorsPolicy");
+
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -202,7 +222,12 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllers();
   //  endpoints.MapFallbackToController("Index", "Fallback");
 });
-
+app.Use(async (context, next) =>
+{
+    var isAuth = context.User.Identity?.IsAuthenticated ?? false;
+    Console.WriteLine($"Is Authenticated: {isAuth}");
+    await next();
+});
 using (var scope = app.Services.CreateScope())
 {
     var srx = scope.ServiceProvider;

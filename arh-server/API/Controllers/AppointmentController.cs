@@ -15,6 +15,7 @@ using Google.Apis.Calendar.v3;
 using static API.Controllers.AppointmentController;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Security.Claims;
 
 namespace API.Controllers
 {   
@@ -22,6 +23,7 @@ namespace API.Controllers
     {
         IFormGridService<appointmentsDto> _fgs;
         ILogger<AppointmentController> _logger;
+        IHttpContextAccessor _contextAccessor;
       //  IGoogleCalendarService _googleCalendarService;
         public AppointmentController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
                 IMapper mapper,
@@ -53,7 +55,21 @@ namespace API.Controllers
                 };
             }
         }
+        [HttpGet("test-claims")]
+        public IActionResult TestClaims()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var role = User.FindFirstValue(ClaimTypes.Role);
+            var name = User.FindFirstValue(ClaimTypes.GivenName);
 
+            return Ok(new { userId, role, name });
+        }
+        [HttpGet("checkheader")]
+        public IActionResult CheckHeader()
+        {
+            var authHeader = Request.Headers["Authorization"].FirstOrDefault();
+            return Ok(authHeader);
+        }
         [HttpGet("getappointmentslist")]
         public async Task<ActionResult<IReadOnlyList<appointmentsDto>>> GetAppointmentsList()
         {
@@ -73,7 +89,23 @@ namespace API.Controllers
 
             return Ok(ldx);
         }
+        [HttpGet("getappointmentsforRetrieverlist")]
+        public async Task<ActionResult<IReadOnlyList<appointmentsDto>>> GetAppointmentsforRetrievers()
+        {
+            var currentuser = await GetCurrentUser();
 
+            var ars = await _ms.GetAppointmentsForRetrieversAsync(currentuser);
+
+            if (currentuser.UserName == "admin" || currentuser.AppRoleCode == "ADMINISTRATOR" || currentuser.AppRoleCode == "SUPER")
+            {
+                var ldxx = _mapper.Map<IReadOnlyList<appointments>, IReadOnlyList<appointmentsDto>>(ars);
+                return Ok(ldxx);
+            }
+
+            var ldx = _mapper.Map<IReadOnlyList<appointments>, IReadOnlyList<appointmentsDto>>(ars);
+
+            return Ok(ldx);
+        }
 
         [HttpPost("saveappointment")]
         public async Task<ActionResult<appointmentsDto>> SaveAppointment(appointmentsDto appointment)
@@ -87,8 +119,20 @@ namespace API.Controllers
             {
                 return BadRequest(new ApiResponse(401, "Incomplete info received !!"));
             }
+             AppUser user = new AppUser
+            {
+                DisplayName = "Admin",
+                MobileNo ="9820240596",
+                Email = "deshpande.gauri.b@gmail.com",
+                UserName = "Gauri",
+                AppRoleCode = "Admin",
+                OfficeUserId = 2,
+                ChangePassword = true,
+                OfficeUserCode = "2"
+            };
 
-            var cu = await GetCurrentUser();
+            var existingappointment = await _ms.GetAppointmentByPatientIdAsync(user,appointment.patient_id);            
+
             var patient = await _ms.GetPatientByPatientId(appointment.patient_id);
             var doctor=await _ms.GetdoctorBydoctorId(patient.DoctorId);
             if (patient == null)
@@ -97,13 +141,12 @@ namespace API.Controllers
             }
 
             appointments a = null;
+            bool emailCalendar = false;
             try
             {
-               // appointment.CreatedOn = "";
-            //    appointment.UCode = null;
-                a = _mapper.Map<appointmentsDto, appointments>(appointment);
+                a = _mapper.Map<appointmentsDto, appointments>(appointment);                   
 
-                a = await _ms.ValidateAppointmentAsync(a, cu);
+                a = await _ms.ValidateAppointmentAsync(a, user);
                 if (a.Errors != null && !String.IsNullOrEmpty(a.Errors.errormessage))
                 {
                     return BadRequest(new ApiResponse(401, a.Errors.errormessage));
@@ -114,55 +157,56 @@ namespace API.Controllers
                 {
                     return BadRequest(new ApiResponse(401, "Unable to Save"));
                 }
-                DoctorId doctorId = (DoctorId)doctor.OfficeUserId;
-                var credentialPath = DoctorCredentialPaths.GetJsonFilePath(doctorId);
+                if (existingappointment.Count== 0)
+                {
+                    DoctorId doctorId = (DoctorId)doctor.OfficeUserId;
+                    var credentialPath = DoctorCredentialPaths.GetJsonFilePath(doctorId);
 
-                var calendarService = new CalendarServiceHelper(credentialPath);
-                var summary = doctor.Email;
-                var description = $"Follow-up appointment for Patient ID: {patient.RegNo}";
-                var start = a.visit_date;
-                var end = a.visit_date.AddMinutes(30); // Default 30 min duration
+                    var calendarService = new CalendarServiceHelper(credentialPath);
+                    var summary = doctor.Email;
+                    var description = $"Follow-up appointment for Patient ID: {patient.RegNo}";
+                    var start = a.visit_date;
+                    var end = a.visit_date.AddMinutes(30); // Default 30 min duration
 
-                string eventUrl = await calendarService.AddEventAsync(summary, description, start, end);
+                    string eventUrl = await calendarService.AddEventAsync(summary, description, start, end);
 
-                // Optionally store or log the calendar event URL
-                Console.WriteLine("Google Event Created: " + eventUrl);
-                var smtpHost = "smtp.gmail.com";
-                var smtpPort = 587;
-                var smtpUser = "deshpande.gauri.b@gmail.com";
-                var smtpPass = "fyad hhgl jnlf dgkl";
-                var smtpDisplayName = "Your Clinic";
-                var smtpSSL = true;
+                    // Optionally store or log the calendar event URL
+                    Console.WriteLine("Google Event Created: " + eventUrl);
+                    var smtpHost = "smtp.gmail.com";
+                    var smtpPort = 587;
+                    var smtpUser = "deshpande.gauri.b@gmail.com";
+                    var smtpPass = "fyad hhgl jnlf dgkl";
+                    var smtpDisplayName = "Your Clinic";
+                    var smtpSSL = true;
 
-                var subject = "Appointment Confirmation";
-                var body = $"Dear {patient.full_name}-{patient.RegNo},<br>Your appointment is confirmed for {DateTime.Now.AddDays(1):f}.<br>Thank you!";
-                var attachments = ""; // Pass file paths separated by commas if needed
+                    var subject = "Appointment Confirmation";
+                    var body = $"Dear {patient.full_name}-{patient.RegNo},<br>Your appointment is confirmed for {DateTime.Now.AddDays(1):f}.<br>Thank you!";
+                    var attachments = ""; // Pass file paths separated by commas if needed
 
-                var emailer = new EmailerService(); // or use DI
-                var result = emailer.SendEmail(
-                    gSMTPHost: smtpHost,
-                    gSMTPPort: smtpPort,
-                    gSMTPAuthentication: true,
-                    gSMTPUser: smtpUser,
-                    gUserDisplayName: smtpDisplayName,
-                    gSMTPPass: smtpPass,
-                    gSMTPDomain: "", // optional
-                    gSMTPSSL: smtpSSL,
-                    sendto: patient.emailId,
-                    sendToBCC: "",
-                    sendToCC: "",
-                    IsSendSeparate: false,
-                    Subject: subject,
-                    Matter: body,
-                    IsBodyHtml: true,
-                    Attachements: attachments
-                );
+                    var emailer = new EmailerService(); // or use DI
+                    var result = emailer.SendEmail(
+                        gSMTPHost: smtpHost,
+                        gSMTPPort: smtpPort,
+                        gSMTPAuthentication: true,
+                        gSMTPUser: smtpUser,
+                        gUserDisplayName: smtpDisplayName,
+                        gSMTPPass: smtpPass,
+                        gSMTPDomain: "", // optional
+                        gSMTPSSL: smtpSSL,
+                        sendto: patient.emailId,
+                        sendToBCC: "",
+                        sendToCC: "",
+                        IsSendSeparate: false,
+                        Subject: subject,
+                        Matter: body,
+                        IsBodyHtml: true,
+                        Attachements: attachments
+                    );
 
-                if (result.StartsWith("Error"))
-                    return StatusCode(500, result);
+                    if (result.StartsWith("Error"))
+                        return StatusCode(500, result);
 
-                return Ok("Email sent successfully");
-
+                }
             }
             catch (Exception ex)
             {
@@ -171,6 +215,79 @@ namespace API.Controllers
 
             return Ok(_mapper.Map<appointments, appointmentsDto>(a));
         }
+        [HttpPost("saveappointmentMilestone")]
+        public async Task<ActionResult<appointmentMilestoneDto>> SaveAppointmentMilestone(appointmentMilestoneDto appointmentMilestone)
+        {
+            if (appointmentMilestone == null)
+            {
+                return BadRequest(new ApiResponse(401, "No User info received !!"));
+            }
+
+            if (!appointmentMilestone.IsValidForSave())
+            {
+                return BadRequest(new ApiResponse(401, "Incomplete info received !!"));
+            }
+
+            var cu = await GetCurrentUser();
+            
+            appointmentMilestone a = null;
+            try
+            {
+                a = _mapper.Map<appointmentMilestoneDto, appointmentMilestone>(appointmentMilestone);
+
+                a = await _ms.ValidateAppointmentMilestoneAsync(a, cu);
+                if (a.Errors != null && !String.IsNullOrEmpty(a.Errors.errormessage))
+                {
+                    return BadRequest(new ApiResponse(401, a.Errors.errormessage));
+                }
+
+                a = await _ms.SaveAppointmentMilestoneAsync(a);
+                if (a == null)
+                {
+                    return BadRequest(new ApiResponse(401, "Unable to Save"));
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse(401, "Data received issue:\r\n" + ex.Message));
+            }
+
+            return Ok(_mapper.Map<appointmentMilestone, appointmentMilestoneDto>(a));
+        }
+        [HttpPost("updateRetrieverStatus")]
+        public async Task<ActionResult<appointmentsDto>> UpdateRetrieverStatus(appointmentsDto appointments)
+        {
+            if (appointments == null)
+            {
+                return BadRequest(new ApiResponse(401, "No User info received !!"));
+            }
+
+            if (!appointments.IsValidForSave())
+            {
+                return BadRequest(new ApiResponse(401, "Incomplete info received !!"));
+            }
+
+            var cu = await GetCurrentUser();
+
+            appointments a = null;
+            try
+            {
+                a = _mapper.Map<appointmentsDto, appointments>(appointments);
+              
+                a = await _ms.UpdateRetrieverAppointmentAsync(a);
+                if (a == null)
+                {
+                    return BadRequest(new ApiResponse(401, "Unable to Save"));
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse(401, "Data received issue:\r\n" + ex.Message));
+            }
+
+            return Ok(_mapper.Map<appointments, appointmentsDto>(a));
+        }
+
         [HttpPost("saveappointmentByFileNo")]
         public async Task<ActionResult<appointmentsDto>> SaveAppointmentByFileNo(string regNo)
         {
@@ -332,7 +449,8 @@ namespace API.Controllers
             SessionManager.Delete("PatientUpload-" + currentuser.Id.ToString());
 
             return Ok();
-        }   
+        }
+
       
         [HttpGet("getgridcols")]
         public async Task<ActionResult> GetGridCols(string FormName)
@@ -377,7 +495,7 @@ namespace API.Controllers
                                 PatientFullName = pat?.full_name,
                                 PatientRegNo = pat?.RegNo,
                                 DoctorId = pat?.DoctorId,
-                                AssistanDoctorId=appt.assistantDoctorId,
+                                AssistantDoctorId=appt.assistantDoctorId,
                                 DoctorName = doc?.DisplayName,
                                 status = appt.status,
                                 CreatedByName="Admin",

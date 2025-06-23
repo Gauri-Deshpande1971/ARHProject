@@ -3704,7 +3704,7 @@ namespace Infrastructure.Services
         }
         public async Task<AppUser> GetdoctorBydoctorId(int doctor_id)
         {
-            var r= await _userManager.Users
+            var r = await _userManager.Users
         .FirstOrDefaultAsync(u => u.OfficeUserId == doctor_id);
             return r;
         }
@@ -3714,6 +3714,13 @@ namespace Infrastructure.Services
                    .GetByNameAsync("UCode", Ucode);
 
             return r;
+        }
+        public async Task<IReadOnlyList<patient>> GetPatientByhistoryAsync(AppUser appUser)
+        {
+            var historyPatients = await _unitOfWork.Repository<patient>()
+                       .GetEntityListWithSpec(new BaseSpecification<patient>(x => x.history == false && x.TypeofPatient != "New")
+                       );
+            return historyPatients;
         }
         public async Task<patient> ValidatePatientAsync(patient ret, AppUser au = null)
         {
@@ -3784,7 +3791,7 @@ namespace Infrastructure.Services
         {
             var ssts = _config["SyncServerType"];
             bool isNew = false;
-            ret.CreatedOn = ret.CreatedOn.ToUniversalTime(); 
+            ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
             if (ret.DOB.HasValue)
             {
                 ret.DOB = ret.DOB.Value.ToUniversalTime();
@@ -3793,9 +3800,10 @@ namespace Infrastructure.Services
             {
                 // Get all RegNo values, extract numeric part, find max
                 isNew = true;
-                int maxNum = await _unitOfWork.Repository<patient>()
-           .MaxNumericPrefixFromStringFieldAsync(p => p.RegNo, p => !p.IsDeleted);
-                ret.RegNo = $"{maxNum + 1}-C";
+                //     int maxNum = await _unitOfWork.Repository<patient>()
+                //.MaxNumericPrefixFromStringFieldAsync(p => p.RegNo, p => !p.IsDeleted);
+                // ret.RegNo = $"{maxNum + 1}-C";
+                ret.RegNo = await GenerateNewRegNo();
                 _unitOfWork.Repository<patient>().Add(ret);
             }
             else
@@ -3822,6 +3830,40 @@ namespace Infrastructure.Services
 
             return ret;
         }
+        public async Task<string> GenerateNewRegNo()
+        {
+            var repo = _unitOfWork.Repository<patient>();
+
+            // Get max numeric prefix from RegNo
+            int maxNum = await repo.MaxNumericPrefixFromStringFieldAsync(p => p.RegNo, p => !p.IsDeleted);
+
+            // Get the last RegNo to extract current suffix character
+            string? lastRegNo = repo
+                .GetSelectColumns(p => p.RegNo, p => !p.IsDeleted)
+                .OrderByDescending(x => x)
+                .FirstOrDefault();
+
+            char suffix = 'C'; // Default starting character
+
+            if (!string.IsNullOrEmpty(lastRegNo) && lastRegNo.Contains('-'))
+            {
+                var parts = lastRegNo.Split('-');
+                if (parts.Length == 2 && parts[1].Length == 1)
+                {
+                    suffix = parts[1][0];
+                }
+            }
+
+            // Rollover logic: reset number and increment suffix
+            if (maxNum >= 9999)
+            {
+                maxNum = 0;
+                suffix = suffix == 'Z' ? 'A' : (char)(suffix + 1);
+            }
+
+            return $"{maxNum + 1}-{suffix}";
+        }
+
         public async Task<bool> SaveUploadPatientAsync(IReadOnlyList<patient> patients, AppUser au)
         {
             foreach (var t in patients)
@@ -3867,13 +3909,92 @@ namespace Infrastructure.Services
 
             return ret;
         }
+        public async Task<appointmentMilestone> SaveAppointmentMilestoneAsync(appointmentMilestone ret)
+        {
+            bool isNew = false;
+            ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
+            if (ret.Id == 0)
+            {
+                // Get all RegNo values, extract numeric part, find max
+                isNew = true;
+                _unitOfWork.Repository<appointmentMilestone>().Add(ret);
+            }
+            else
+            {
+                _unitOfWork.Repository<appointmentMilestone>().Update(ret);
+            }
+            try
+            {
+                var res = await _unitOfWork.Repository<appointmentMilestone>().Complete();
+                if (res <= 0)
+                {
+                    ret.AddErrorMessage("Unable to Save");
+                }
+                else
+                {
+                    await _unitOfWork.Repository<appointmentMilestone>().Complete();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ret.AddErrorMessage("Exception: " + ex.Message);
+            }
+
+            return ret;
+
+        }
+        public async Task<IReadOnlyList<appointments>> GetAppointmentByPatientIdAsync(AppUser appUser, int patient_id)
+        {
+            var appointments = await _unitOfWork.Repository<appointments>()
+                        .GetEntityListWithSpec(new BaseSpecification<appointments>(x => x.patient_id == patient_id)
+                        );
+            return appointments;
+        }
+        public async Task<appointments> UpdateRetrieverAppointmentAsync(appointments ret)//when retriever clicks done
+        {
+            ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
+            ret.retId = 1;
+            ret.casepaperretrieved = true;
+            ret.casepaperretrievaltime = DateTime.UtcNow;
+            
+            _unitOfWork.Repository<appointments>().Update(ret);
+
+            try
+            {
+                var res = await _unitOfWork.Repository<appointments>().Complete();
+                if (res <= 0)
+                {
+                    ret.AddErrorMessage("Unable to Save");
+                }
+                else
+                {
+                    await _unitOfWork.Repository<appointments>().Complete();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ret.AddErrorMessage("Exception: " + ex.Message);
+            }
+
+            return ret;
+
+        }
+        public async Task<IReadOnlyList<appointments>> GetAppointmentsForRetrieversAsync(AppUser appUser)
+        {
+            var listofappointments = await _unitOfWork.Repository<appointments>()
+                        .GetEntityListWithSpec(new BaseSpecification<appointments>(x => x.status == "A" && x.casepaperretrieved == false)
+                        );
+            return listofappointments;
+        }
         public async Task<IReadOnlyList<appointments>> GetAppointmentsAsync(AppUser appUser)
         {
             var r = await _unitOfWork.Repository<appointments>().ListAllAsync();
             r = r.OrderBy(x => x.patient_id).ToList();
             r = r.Where(x => x.IsActive == true).ToList();
             return r;
-         }
+        }
         public async Task<appointments> ValidateAppointmentAsync(appointments ret, AppUser au)
         {
             appointments obj;
@@ -3905,7 +4026,7 @@ namespace Infrastructure.Services
             else
             {
                 obj = await _unitOfWork.Repository<appointments>()
-                        .GetEntityWithSpec(new BaseSpecification<appointments>(x => x.UCode == ret.UCode && x.status=="A"));
+                        .GetEntityWithSpec(new BaseSpecification<appointments>(x => x.UCode == ret.UCode && x.status == "A"));
                 if (obj.category == null)
                     obj.category = "FU";
 
@@ -3932,6 +4053,38 @@ namespace Infrastructure.Services
 
             return obj;
 
+        }
+        public async Task<appointmentMilestone> ValidateAppointmentMilestoneAsync(appointmentMilestone ret, AppUser au)
+        {
+            if (ret.UCode == Guid.Empty)
+            {
+                var obj = ret;
+                obj.Id = 0;
+                obj.UCode = Guid.NewGuid();
+                obj.CreatedById = 1; // Replace with au.OfficeUserId if available
+                obj.CreatedByName = "Admin"; // Replace with actual user info if needed
+                obj.CreatedOn = DateTime.Now;
+                obj.IsDeleted = false;
+                obj.appointmentId = ret.appointmentId;
+                obj.milestone = ret.milestone;
+                obj.milestoneTime = ret.milestoneTime;
+
+                // Check for Duplicate
+                var dup = await _unitOfWork.Repository<appointmentMilestone>()
+                    .GetEntityWithSpec(new BaseSpecification<appointmentMilestone>(
+                        x => x.appointmentId == ret.appointmentId && x.milestone == ret.milestone));
+
+                if (dup != null)
+                {
+                    ret.AddErrorMessage("Appointment Status already exists !!");
+                    return ret;
+                }
+
+                return obj;
+            }
+
+            // If ret.UCode is not empty, just return as is (or apply other logic)
+            return ret;
         }
         public async Task<IImportExcelData<appointments>> BulkValidateAppointmentAsync(IImportExcelData<appointments> ret, AppUser au)
         {
@@ -4041,7 +4194,7 @@ namespace Infrastructure.Services
                 obj.IsDeleted = false;
                 //  Check for Duplicate
                 var dup = await _unitOfWork.Repository<SessionSetup>()
-                        .GetEntityWithSpec(new BaseSpecification<SessionSetup>(x => x.SessionName == ret.SessionName && x.SessionDate==DateTime.UtcNow)
+                        .GetEntityWithSpec(new BaseSpecification<SessionSetup>(x => x.SessionName == ret.SessionName && x.SessionDate == DateTime.UtcNow)
                         );
                 if (dup != null)
                 {
@@ -4053,7 +4206,7 @@ namespace Infrastructure.Services
             {
                 obj = await _unitOfWork.Repository<SessionSetup>()
                         .GetEntityWithSpec(new BaseSpecification<SessionSetup>(x => x.UCode == ret.UCode));
-                
+
                 if (obj == null)
                 {
                     ret.AddErrorMessage("Session doesnot exist");
@@ -4070,7 +4223,7 @@ namespace Infrastructure.Services
             bool isNew = false;
             ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
             if (ret.Id == 0)
-            {               
+            {
                 isNew = true;
                 _unitOfWork.Repository<SessionSetup>().Add(ret);
             }
@@ -4098,13 +4251,13 @@ namespace Infrastructure.Services
 
             return ret;
         }
-        
+
         public async Task<SessionSetup> GetActiveSessionAsync(AppUser appUser)
         {
-            var ar = await _unitOfWork.Repository<SessionSetup>().GetEntityWithSpec(new BaseSpecification<SessionSetup>(x => x.IsActive == true && x.SessionDate==DateTime.UtcNow));
+            var ar = await _unitOfWork.Repository<SessionSetup>().GetEntityWithSpec(new BaseSpecification<SessionSetup>(x => x.IsActive == true && x.SessionDate == DateTime.UtcNow));
             return ar;
         }
-        public async Task<IReadOnlyList<SessionDoctors>> GetSessionDoctorsAsync(AppUser appUser,int id)
+        public async Task<IReadOnlyList<SessionDoctors>> GetSessionDoctorsAsync(AppUser appUser, int id)
         {
             var r = await _unitOfWork.Repository<SessionDoctors>().ListAllAsync();
             r = r.OrderBy(x => x.DoctorId).ToList();
@@ -4130,11 +4283,11 @@ namespace Infrastructure.Services
                 {
                     obj.Id = 0;
                     obj.UCode = Guid.NewGuid();
-                   // obj.CreatedById = au?.OfficeUserId ?? 1; // fallback if au is null
+                    // obj.CreatedById = au?.OfficeUserId ?? 1; // fallback if au is null
                     //obj.CreatedByName = au != null ? $"{au.UserName}-{au.DisplayName}" : "Admin";
                     obj.CreatedOn = DateTime.UtcNow;
                     obj.IsDeleted = false;
-                  
+
                 }
                 else
                 {
@@ -4220,7 +4373,7 @@ namespace Infrastructure.Services
                 else
                 {
                     var existing = await _unitOfWork.Repository<SessionDispenseTeam>()
-                                .GetEntityWithSpec(new BaseSpecification<SessionDispenseTeam>(x => x.MemberId==item.MemberId && x.SessionId==item.SessionId));
+                                .GetEntityWithSpec(new BaseSpecification<SessionDispenseTeam>(x => x.MemberId == item.MemberId && x.SessionId == item.SessionId));
 
                     if (existing != null)
                     {
@@ -4238,10 +4391,10 @@ namespace Infrastructure.Services
             }
             return validatedList;
         }
-       public async Task<IEnumerable<SessionDispenseTeam>> SaveSessionDispenseTeamAsync(IEnumerable<SessionDispenseTeam> members)
+        public async Task<IEnumerable<SessionDispenseTeam>> SaveSessionDispenseTeamAsync(IEnumerable<SessionDispenseTeam> members)
         {
             var savedDispenseTeam = new List<SessionDispenseTeam>();
-            
+
             foreach (var dispense in members)
             {
                 try
@@ -4278,9 +4431,9 @@ namespace Infrastructure.Services
             return savedDispenseTeam;
         }
         public async Task<IEnumerable<AppUser>> GetDoctorsAsync()
-        {           
+        {
             var doctors = await _userManager.Users
-        .Where(u => u.AppRoleCode == "DOC" || u.AppRoleCode=="ADOC")
+        .Where(u => u.AppRoleCode == "DOC" || u.AppRoleCode == "ADOC")
         .ToListAsync();
 
             return doctors;

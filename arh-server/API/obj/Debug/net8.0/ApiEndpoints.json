@@ -269,6 +269,16 @@
   },
   {
     "ContainingType": "API.Controllers.AppointmentController",
+    "Method": "CheckHeader",
+    "RelativePath": "api/Appointment/checkheader",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.AppointmentController",
     "Method": "AppointmentsDownloadData",
     "RelativePath": "api/Appointment/downloaddata",
     "HttpMethod": "GET",
@@ -276,6 +286,26 @@
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.AppointmentController",
+    "Method": "GetAppointmentsforRetrievers",
+    "RelativePath": "api/Appointment/getappointmentsforRetrieverlist",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IReadOnlyList\u00601[[API.Dtos.appointmentsDto, API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "API.Controllers.AppointmentController",
@@ -367,6 +397,32 @@
   },
   {
     "ContainingType": "API.Controllers.AppointmentController",
+    "Method": "SaveAppointmentMilestone",
+    "RelativePath": "api/Appointment/saveappointmentMilestone",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "appointmentMilestone",
+        "Type": "API.Dtos.appointmentMilestoneDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "API.Dtos.appointmentMilestoneDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "API.Controllers.AppointmentController",
     "Method": "SaveBulkUpload",
     "RelativePath": "api/Appointment/savebulkupload",
     "HttpMethod": "POST",
@@ -390,6 +446,42 @@
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.AppointmentController",
+    "Method": "TestClaims",
+    "RelativePath": "api/Appointment/test-claims",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.AppointmentController",
+    "Method": "UpdateRetrieverStatus",
+    "RelativePath": "api/Appointment/updateRetrieverStatus",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "appointments",
+        "Type": "API.Dtos.appointmentsDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "API.Dtos.appointmentsDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "API.Controllers.BuggyController",
@@ -677,6 +769,26 @@
   },
   {
     "ContainingType": "API.Controllers.PatientController",
+    "Method": "GetHistoryPatientsList",
+    "RelativePath": "api/Patient/getpatientHistorylist",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IReadOnlyList\u00601[[API.Dtos.patientDto, API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "API.Controllers.PatientController",
     "Method": "GetPatientsList",
     "RelativePath": "api/Patient/getpatientslist",
     "HttpMethod": "GET",
@@ -685,7 +797,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IReadOnlyList\u00601[[API.Dtos.OrganizationDto, API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IReadOnlyList\u00601[[API.Dtos.patientDto, API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
