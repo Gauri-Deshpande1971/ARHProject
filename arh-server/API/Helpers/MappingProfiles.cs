@@ -24,7 +24,15 @@ namespace API.Helpers
             CreateMap<SessionDispenseTeam, SessionDispenseTeamDto>().ReverseMap();
             CreateMap<AppUser, AppUserDto>() .ReverseMap(); 
             CreateMap<appointmentMilestone, appointmentMilestoneDto>() .ReverseMap();
-
+            CreateMap<complaints, complaintsDto>() .ReverseMap();
+            CreateMap<physicalexam, physicalexamDto>() .ReverseMap();
+            CreateMap<physicalgen, physicalgenDto>() .ReverseMap();
+            CreateMap<pasthistory, pasthistoryDto>() .ReverseMap();
+            CreateMap<medications, medicationsDto>().ReverseMap();
+            CreateMap<additionalreports, additionalreportsDto>() .ReverseMap();
+            CreateMap<family, familyDto>() .ReverseMap();
+            CreateMap<systemeticexam,systemeticDto>() .ReverseMap();
+            CreateMap<investigations, investigationsDto>() .ReverseMap();
             //CreateMap<AppRole, AppRoleDto>()
             //    .ForMember(d => d.CreatedOn, o => o.MapFrom(s => String.Format("{0:dd-MM-yyyy}", s.CreatedOn)))
             //.ReverseMap()

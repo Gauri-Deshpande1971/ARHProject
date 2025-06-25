@@ -1388,6 +1388,504 @@
         }
       }
     },
+    "/api/PatientHistory/savepatientComplaints": {
+      "post": {
+        "tags": [
+          "PatientHistory"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/complaintsDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/complaintsDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/complaintsDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/complaintsDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/complaintsDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/complaintsDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientHistory/savepatientPhysicalExam": {
+      "post": {
+        "tags": [
+          "PatientHistory"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/physicalexamDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/physicalexamDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/physicalexamDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/physicalexamDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/physicalexamDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/physicalexamDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientHistory/savepatientPhysicalGeneral": {
+      "post": {
+        "tags": [
+          "PatientHistory"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/physicalgenDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/physicalgenDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/physicalgenDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/physicalexamDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/physicalexamDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/physicalexamDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientHistory/savepatientPastHistory": {
+      "post": {
+        "tags": [
+          "PatientHistory"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/pasthistoryDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/pasthistoryDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/pasthistoryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/pasthistory"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pasthistory"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pasthistory"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientHistory/savepatientMedications": {
+      "post": {
+        "tags": [
+          "PatientHistory"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/medicationsDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/medicationsDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/medicationsDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/pasthistory"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pasthistory"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/pasthistory"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientHistory/savepatientAdditionalReports": {
+      "post": {
+        "tags": [
+          "PatientHistory"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/additionalreportsDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/additionalreportsDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/additionalreportsDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/additionalreports"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/additionalreports"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/additionalreports"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientHistory/savepatientfamilyHistory": {
+      "post": {
+        "tags": [
+          "PatientHistory"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/familyDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/familyDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/familyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/family"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/family"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/family"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientHistory/savepatientsystemeticExam": {
+      "post": {
+        "tags": [
+          "PatientHistory"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/systemeticDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/systemeticDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/systemeticDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/family"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/family"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/family"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientHistory/save-investigations": {
+      "post": {
+        "tags": [
+          "PatientHistory"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/investigationsDto"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/investigationsDto"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/investigationsDto"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/investigationsDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/investigationsDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/investigationsDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientHistory/updatepatientHistory": {
+      "post": {
+        "tags": [
+          "PatientHistory"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/patientDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/patientDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/patientDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/family"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/family"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/family"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Rate/templatedownload": {
       "get": {
         "tags": [
@@ -1885,6 +2383,24 @@
             "nullable": true
           },
           "confirmPassword": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExcelUploadError": {
+        "type": "object",
+        "properties": {
+          "rowno": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fieldname": {
+            "type": "string",
+            "nullable": true
+          },
+          "errormessage": {
             "type": "string",
             "nullable": true
           }
@@ -2423,6 +2939,147 @@
         },
         "additionalProperties": false
       },
+      "additionalreports": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdById": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdByName": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "uCode": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sequenceNo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "extraId1": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraId2": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraValue1": {
+            "type": "string",
+            "nullable": true
+          },
+          "extraValue2": {
+            "type": "string",
+            "nullable": true
+          },
+          "logHistory": {
+            "type": "string",
+            "nullable": true
+          },
+          "jsonData": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "$ref": "#/components/schemas/ExcelUploadError"
+          },
+          "patient_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "reports": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "additionalreportsDto": {
+        "type": "object",
+        "properties": {
+          "createdOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdByName": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "isUpdated": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "isExisting": {
+            "type": "boolean"
+          },
+          "uCode": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sequenceNo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "extraId1": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraId2": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraValue1": {
+            "type": "string",
+            "nullable": true
+          },
+          "extraValue2": {
+            "type": "string",
+            "nullable": true
+          },
+          "jsonData": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "patient_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "reports": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "appointmentMilestoneDto": {
         "type": "object",
         "properties": {
@@ -2620,6 +3277,516 @@
         },
         "additionalProperties": false
       },
+      "complaintsDto": {
+        "type": "object",
+        "properties": {
+          "createdOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdByName": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "isUpdated": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "isExisting": {
+            "type": "boolean"
+          },
+          "uCode": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sequenceNo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "extraId1": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraId2": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraValue1": {
+            "type": "string",
+            "nullable": true
+          },
+          "extraValue2": {
+            "type": "string",
+            "nullable": true
+          },
+          "jsonData": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "patient_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "large": {
+            "type": "string",
+            "nullable": true
+          },
+          "small": {
+            "type": "string",
+            "nullable": true
+          },
+          "medium": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "family": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdById": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdByName": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "uCode": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sequenceNo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "extraId1": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraId2": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraValue1": {
+            "type": "string",
+            "nullable": true
+          },
+          "extraValue2": {
+            "type": "string",
+            "nullable": true
+          },
+          "logHistory": {
+            "type": "string",
+            "nullable": true
+          },
+          "jsonData": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "$ref": "#/components/schemas/ExcelUploadError"
+          },
+          "patient_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "familyhistory": {
+            "type": "string",
+            "nullable": true
+          },
+          "familysetup": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "familyDto": {
+        "type": "object",
+        "properties": {
+          "createdOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdByName": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "isUpdated": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "isExisting": {
+            "type": "boolean"
+          },
+          "uCode": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sequenceNo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "extraId1": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraId2": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraValue1": {
+            "type": "string",
+            "nullable": true
+          },
+          "extraValue2": {
+            "type": "string",
+            "nullable": true
+          },
+          "jsonData": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "patient_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "familyhistory": {
+            "type": "string",
+            "nullable": true
+          },
+          "familysetup": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "investigationsDto": {
+        "type": "object",
+        "properties": {
+          "createdOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdByName": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "isUpdated": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "isExisting": {
+            "type": "boolean"
+          },
+          "uCode": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sequenceNo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "extraId1": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraId2": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraValue1": {
+            "type": "string",
+            "nullable": true
+          },
+          "extraValue2": {
+            "type": "string",
+            "nullable": true
+          },
+          "jsonData": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "patient_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "testname": {
+            "type": "string",
+            "nullable": true
+          },
+          "findings": {
+            "type": "string",
+            "nullable": true
+          },
+          "investigationdate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "medicationsDto": {
+        "type": "object",
+        "properties": {
+          "createdOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdByName": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "isUpdated": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "isExisting": {
+            "type": "boolean"
+          },
+          "uCode": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sequenceNo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "extraId1": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraId2": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraValue1": {
+            "type": "string",
+            "nullable": true
+          },
+          "extraValue2": {
+            "type": "string",
+            "nullable": true
+          },
+          "jsonData": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "patient_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "details": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "pasthistory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdById": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdByName": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "uCode": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sequenceNo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "extraId1": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraId2": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraValue1": {
+            "type": "string",
+            "nullable": true
+          },
+          "extraValue2": {
+            "type": "string",
+            "nullable": true
+          },
+          "logHistory": {
+            "type": "string",
+            "nullable": true
+          },
+          "jsonData": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "$ref": "#/components/schemas/ExcelUploadError"
+          },
+          "patient_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "history": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "pasthistoryDto": {
+        "type": "object",
+        "properties": {
+          "createdOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdByName": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "isUpdated": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "isExisting": {
+            "type": "boolean"
+          },
+          "uCode": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sequenceNo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "extraId1": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraId2": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraValue1": {
+            "type": "string",
+            "nullable": true
+          },
+          "extraValue2": {
+            "type": "string",
+            "nullable": true
+          },
+          "jsonData": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "patient_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "history": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "patientDto": {
         "required": [
           "mobileNo"
@@ -2742,6 +3909,274 @@
           },
           "history": {
             "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "physicalexamDto": {
+        "type": "object",
+        "properties": {
+          "createdOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdByName": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "isUpdated": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "isExisting": {
+            "type": "boolean"
+          },
+          "uCode": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sequenceNo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "extraId1": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraId2": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraValue1": {
+            "type": "string",
+            "nullable": true
+          },
+          "extraValue2": {
+            "type": "string",
+            "nullable": true
+          },
+          "jsonData": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "patient_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "t": {
+            "type": "string",
+            "nullable": true
+          },
+          "p": {
+            "type": "string",
+            "nullable": true
+          },
+          "rr": {
+            "type": "string",
+            "nullable": true
+          },
+          "bp": {
+            "type": "string",
+            "nullable": true
+          },
+          "glands": {
+            "type": "string",
+            "nullable": true
+          },
+          "entSkin": {
+            "type": "string",
+            "nullable": true
+          },
+          "height": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "weight": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "physicalgenDto": {
+        "type": "object",
+        "properties": {
+          "createdOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdByName": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "isUpdated": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "isExisting": {
+            "type": "boolean"
+          },
+          "uCode": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sequenceNo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "extraId1": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraId2": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraValue1": {
+            "type": "string",
+            "nullable": true
+          },
+          "extraValue2": {
+            "type": "string",
+            "nullable": true
+          },
+          "jsonData": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "patient_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "appetite": {
+            "type": "string",
+            "nullable": true
+          },
+          "thirst": {
+            "type": "string",
+            "nullable": true
+          },
+          "cravings": {
+            "type": "string",
+            "nullable": true
+          },
+          "aversions": {
+            "type": "string",
+            "nullable": true
+          },
+          "stools": {
+            "type": "string",
+            "nullable": true
+          },
+          "urine": {
+            "type": "string",
+            "nullable": true
+          },
+          "perspiration": {
+            "type": "string",
+            "nullable": true
+          },
+          "sleepdream": {
+            "type": "string",
+            "nullable": true
+          },
+          "menstrualobs": {
+            "type": "string",
+            "nullable": true
+          },
+          "themalreaction": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "systemeticDto": {
+        "type": "object",
+        "properties": {
+          "createdOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdByName": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "isUpdated": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "isExisting": {
+            "type": "boolean"
+          },
+          "uCode": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sequenceNo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "extraId1": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraId2": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraValue1": {
+            "type": "string",
+            "nullable": true
+          },
+          "extraValue2": {
+            "type": "string",
+            "nullable": true
+          },
+          "jsonData": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "patient_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "details": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

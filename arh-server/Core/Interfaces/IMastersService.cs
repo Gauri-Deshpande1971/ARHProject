@@ -183,6 +183,16 @@ namespace Core.Interfaces
         Task<patient> ValidatePatientAsync(patient ret, AppUser au);
         Task<IReadOnlyList<patient>> GetPatientByhistoryAsync(AppUser appUser);
         Task<patient> SavePatientAsync(patient ret);
+        Task<complaints> SaveComplaintsAsync(complaints ret);
+        Task<physicalexam> SavePhysicalexamAsync(physicalexam ret);
+        Task<physicalgen> SavePhysicalgeneralAsync(physicalgen ret);
+        Task<pasthistory> SavePastHistoryAsync(pasthistory ret);
+        Task<medications> SaveMedicationsAsync(medications ret);
+        Task<additionalreports> SaveAdditionalReportsAsync(additionalreports ret);
+        Task<family> SaveFamilyHistoryAsync(family ret);
+        Task<systemeticexam> SavesystemicExamAsync(systemeticexam ret);
+        Task<List<investigations>> SaveInvestigationsAsync(List<investigations> ret);
+        Task<patient> UpdatePatientHistoryAsync(patient ret);
         Task<IImportExcelData<patient>> BulkValidatePatientAsync(IImportExcelData<patient> ret, AppUser au);
         Task<bool> SaveUploadPatientAsync(IReadOnlyList<patient> patients, AppUser au);
         Task<appointments> SaveAppointmentAsync(appointments ret);

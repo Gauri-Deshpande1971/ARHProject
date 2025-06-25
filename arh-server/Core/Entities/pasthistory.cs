@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.Entities
 {
-    public class pasthistory :BaseEntity
+    public class pasthistory:BaseEntity
     {
         public int patient_id { get; set; }
         public string? history {  get; set; }    

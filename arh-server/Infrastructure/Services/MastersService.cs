@@ -21,6 +21,7 @@ using DocumentFormat.OpenXml.Drawing;
 using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Office2010.ExcelAc;
 //  using Infrastructure.Data.Migrations;
 
 namespace Infrastructure.Services
@@ -3829,6 +3830,354 @@ namespace Infrastructure.Services
             }
 
             return ret;
+        }
+        public async Task<complaints> SaveComplaintsAsync(complaints ret)
+        {
+            bool isNew = false;
+            ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
+            
+            if (ret.Id == 0)
+            {
+                // Get all RegNo values, extract numeric part, find max
+                isNew = true;
+                _unitOfWork.Repository<complaints>().Add(ret);
+            }
+            else
+            {
+                _unitOfWork.Repository<complaints>().Update(ret);
+            }
+            try
+            {
+                var res = await _unitOfWork.Repository<complaints>().Complete();
+                if (res <= 0)
+                {
+                    ret.AddErrorMessage("Unable to Save");
+                }
+                else
+                {
+                    await _unitOfWork.Repository<complaints>().Complete();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ret.AddErrorMessage("Exception: " + ex.Message);
+            }
+            return ret;
+        }
+        public async Task<physicalexam> SavePhysicalexamAsync(physicalexam ret)
+        {
+            bool isNew = false;
+            ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
+
+            if (ret.Id == 0)
+            {
+                // Get all RegNo values, extract numeric part, find max
+                isNew = true;
+                _unitOfWork.Repository<physicalexam>().Add(ret);
+            }
+            else
+            {
+                _unitOfWork.Repository<physicalexam>().Update(ret);
+            }
+            try
+            {
+                var res = await _unitOfWork.Repository<physicalexam>().Complete();
+                if (res <= 0)
+                {
+                    ret.AddErrorMessage("Unable to Save");
+                }
+                else
+                {
+                    await _unitOfWork.Repository<physicalexam>().Complete();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ret.AddErrorMessage("Exception: " + ex.Message);
+            }
+
+            return ret;
+
+        }
+        public async Task<medications> SaveMedicationsAsync(medications ret)
+        {
+            bool isNew = false;
+            ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
+
+            if (ret.Id == 0)
+            {
+                // Get all RegNo values, extract numeric part, find max
+                isNew = true;
+                _unitOfWork.Repository<medications>().Add(ret);
+            }
+            else
+            {
+                _unitOfWork.Repository<medications>().Update(ret);
+            }
+            try
+            {
+                var res = await _unitOfWork.Repository<medications>().Complete();
+                if (res <= 0)
+                {
+                    ret.AddErrorMessage("Unable to Save");
+                }
+                else
+                {
+                    await _unitOfWork.Repository<medications>().Complete();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ret.AddErrorMessage("Exception: " + ex.Message);
+            }
+
+            return ret;
+        }
+        public async Task<family> SaveFamilyHistoryAsync(family ret)
+        {
+            bool isNew = false;
+            ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
+
+            if (ret.Id == 0)
+            {
+                // Get all RegNo values, extract numeric part, find max
+                isNew = true;
+                _unitOfWork.Repository<family>().Add(ret);
+            }
+            else
+            {
+                _unitOfWork.Repository<family>().Update(ret);
+            }
+            try
+            {
+                var res = await _unitOfWork.Repository<family>().Complete();
+                if (res <= 0)
+                {
+                    ret.AddErrorMessage("Unable to Save");
+                }
+                else
+                {
+                    await _unitOfWork.Repository<family>().Complete();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ret.AddErrorMessage("Exception: " + ex.Message);
+            }
+
+            return ret;
+
+        }
+        public async Task<systemeticexam> SavesystemicExamAsync(systemeticexam ret)
+        {
+            bool isNew = false;
+            ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
+
+            if (ret.Id == 0)
+            {
+                // Get all RegNo values, extract numeric part, find max
+                isNew = true;
+                _unitOfWork.Repository<systemeticexam>().Add(ret);
+            }
+            else
+            {
+                _unitOfWork.Repository<systemeticexam>().Update(ret);
+            }
+            try
+            {
+                var res = await _unitOfWork.Repository<systemeticexam>().Complete();
+                if (res <= 0)
+                {
+                    ret.AddErrorMessage("Unable to Save");
+                }
+                else
+                {
+                    await _unitOfWork.Repository<systemeticexam>().Complete();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ret.AddErrorMessage("Exception: " + ex.Message);
+            }
+
+            return ret;
+
+        }
+        public async Task<patient> UpdatePatientHistoryAsync(patient ret)
+        {
+            bool isNew = false;
+            ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
+
+            if (ret.Id == 0)
+            {
+                // Get all RegNo values, extract numeric part, find max
+                isNew = true;
+                _unitOfWork.Repository<patient>().Add(ret);
+            }
+            else
+            {
+                _unitOfWork.Repository<patient>().Update(ret);
+            }
+            try
+            {
+                var res = await _unitOfWork.Repository<patient>().Complete();
+                if (res <= 0)
+                {
+                    ret.AddErrorMessage("Unable to Save");
+                }
+                else
+                {
+                    await _unitOfWork.Repository<patient>().Complete();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ret.AddErrorMessage("Exception: " + ex.Message);
+            }
+
+            return ret;
+
+        }
+        public async Task<List<investigations>> SaveInvestigationsAsync(List<investigations> ret)
+        {
+            foreach (var item in ret)
+            {
+                item.CreatedOn = DateTime.UtcNow;
+
+                if (item.Id == 0)
+                    _unitOfWork.Repository<investigations>().Add(item);
+                else
+                    _unitOfWork.Repository<investigations>().Update(item);
+            }
+
+            try
+            {
+                var res = await _unitOfWork.Repository<investigations>().Complete();
+                if (res <= 0)
+                {
+                    ret.First().AddErrorMessage("Unable to save investigations");
+                }
+            }
+            catch (Exception ex)
+            {
+                ret.First().AddErrorMessage("Exception: " + ex.Message);
+            }
+
+            return ret;
+
+        }
+        public async Task<additionalreports> SaveAdditionalReportsAsync(additionalreports ret)
+        {
+            bool isNew = false;
+            ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
+
+            if (ret.Id == 0)
+            {
+                // Get all RegNo values, extract numeric part, find max
+                isNew = true;
+                _unitOfWork.Repository<additionalreports>().Add(ret);
+            }
+            else
+            {
+                _unitOfWork.Repository<additionalreports>().Update(ret);
+            }
+            try
+            {
+                var res = await _unitOfWork.Repository<medications>().Complete();
+                if (res <= 0)
+                {
+                    ret.AddErrorMessage("Unable to Save");
+                }
+                else
+                {
+                    await _unitOfWork.Repository<additionalreports>().Complete();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ret.AddErrorMessage("Exception: " + ex.Message);
+            }
+
+            return ret;
+        }
+        public async Task<pasthistory> SavePastHistoryAsync(pasthistory ret)
+        {
+            bool isNew = false;
+            ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
+
+            if (ret.Id == 0)
+            {
+                // Get all RegNo values, extract numeric part, find max
+                isNew = true;
+                _unitOfWork.Repository<pasthistory>().Add(ret);
+            }
+            else
+            {
+                _unitOfWork.Repository<pasthistory>().Update(ret);
+            }
+            try
+            {
+                var res = await _unitOfWork.Repository<pasthistory>().Complete();
+                if (res <= 0)
+                {
+                    ret.AddErrorMessage("Unable to Save");
+                }
+                else
+                {
+                    await _unitOfWork.Repository<pasthistory>().Complete();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ret.AddErrorMessage("Exception: " + ex.Message);
+            }
+
+            return ret;
+
+        }
+        public async Task<physicalgen> SavePhysicalgeneralAsync(physicalgen ret)
+        {
+            bool isNew = false;
+            ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
+
+            if (ret.Id == 0)
+            {
+                // Get all RegNo values, extract numeric part, find max
+                isNew = true;
+                _unitOfWork.Repository<physicalgen>().Add(ret);
+            }
+            else
+            {
+                _unitOfWork.Repository<physicalgen>().Update(ret);
+            }
+            try
+            {
+                var res = await _unitOfWork.Repository<physicalgen>().Complete();
+                if (res <= 0)
+                {
+                    ret.AddErrorMessage("Unable to Save");
+                }
+                else
+                {
+                    await _unitOfWork.Repository<physicalgen>().Complete();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ret.AddErrorMessage("Exception: " + ex.Message);
+            }
+
+            return ret;
+
         }
         public async Task<string> GenerateNewRegNo()
         {

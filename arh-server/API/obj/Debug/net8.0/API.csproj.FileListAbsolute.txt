@@ -152,7 +152,6 @@ C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net8.0\API.GeneratedMSBuildE
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net8.0\API.AssemblyInfoInputs.cache
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net8.0\API.AssemblyInfo.cs
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net8.0\API.csproj.CoreCompileInputs.cache
-C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net8.0\API.MvcApplicationPartsAssemblyInfo.cs
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net8.0\API.MvcApplicationPartsAssemblyInfo.cache
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net8.0\API.sourcelink.json
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net8.0\scopedcss\bundle\API.styles.css
@@ -171,3 +170,4 @@ C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net8.0\refint\API.dll
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net8.0\API.pdb
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net8.0\API.genruntimeconfig.cache
 C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net8.0\ref\API.dll
+C:\Gauri\ARHOPD\ARHProject\arh-server\API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
