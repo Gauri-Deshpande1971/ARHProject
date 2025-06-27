@@ -483,75 +483,72 @@ namespace Infrastructure.Services
 
         public async Task<IReadOnlyList<NavmenuOfUser>> GetNavmenuOfUserAsync(string appUserId)
         {
-            var appUser = _userManager.Users.Where(x => x.Id == appUserId).FirstOrDefault();
+            var appUser = _userManager.Users.FirstOrDefault(x => x.Id == appUserId);
 
             var nms = await _unitOfWork.Repository<NavMenu>().ListAllAsync();
-            var emp = await _unitOfWork.Repository<OfficeUser>()
-                .GetByNameAsync("AppUserId", appUserId);
 
             var ums = await _unitOfWork.Repository<UserNavMenu>()
-                .ListAsync(new BaseSpecification<UserNavMenu>(x => x.AppUserId == appUserId && x.IsDeleted == false));
+                .ListAsync(new BaseSpecification<UserNavMenu>(x => x.AppUserId == appUserId && !x.IsDeleted));
 
-            var nmids = new List<int>();
+            List<int> nmids;
 
             if (ums == null || ums.Count == 0)
             {
-                nmids = nms.Where(x => !string.IsNullOrEmpty(x.AppRoleCode) &&
-                    x.AppRoleCode.Contains(appUser.AppRoleCode))
-                .Select(x => x.Id)
-                .ToList();
+                nmids = nms
+                    .Where(x => !string.IsNullOrEmpty(x.AppRoleCode) && x.AppRoleCode.Contains(appUser.AppRoleCode))
+                    .Select(x => x.Id)
+                    .ToList();
             }
             else
             {
                 nmids = ums.Select(x => x.NavMenuId).ToList();
             }
 
-            var parids = nms.Where(x => nmids.Contains(x.Id)).Select(x => x.ParId).ToList();
+            var menuDict = nms.ToDictionary(x => x.Id, x => x);
 
-            List<NavmenuOfUser> nous = new List<NavmenuOfUser>();
-            foreach (var n in nms.Where(x => x.ParId == 0).ToList())
+            var nous = new List<NavmenuOfUser>();
+
+            // Get parent menus either directly selected or whose children are selected
+            var topMenus = nms
+                .Where(x => x.ParId == 0 && (nmids.Contains(x.Id) || nms.Any(c => c.ParId == x.Id && nmids.Contains(c.Id))))
+                .OrderBy(x => x.SequenceNo)
+                .ToList();
+
+            foreach (var parent in topMenus)
             {
-                //  If Top Level Menu
-                if (nmids.Contains(n.Id))
+                var nou = new NavmenuOfUser
                 {
-                    NavmenuOfUser nou = new NavmenuOfUser();
-                    nou.Id = n.Id;
-                    nou.NavLink = n.NavLink;
-                    nou.NavMenuName = n.NavMenuName;
-                    nou.IconClass = n.IconClass;
-                    nou.Description = n.Description;
+                    Id = parent.Id,
+                    NavLink = parent.NavLink,
+                    NavMenuName = parent.NavMenuName,
+                    IconClass = parent.IconClass,
+                    Description = parent.Description,
+                    Submenus = new List<NavmenuOfUser>()
+                };
 
-                    nous.Add(nou);
-                }
-                else if (parids.Contains(n.Id))
+                // Add child submenus if present in allowed ids
+                var submenus = nms
+                    .Where(x => x.ParId == parent.Id && nmids.Contains(x.Id))
+                    .OrderBy(x => x.SequenceNo)
+                    .ToList();
+
+                foreach (var sub in submenus)
                 {
-                    NavmenuOfUser nou = new NavmenuOfUser();
-                    nou.Id = n.Id;
-                    nou.NavLink = n.NavLink;
-                    nou.NavMenuName = n.NavMenuName;
-                    nou.IconClass = n.IconClass;
-                    nou.Description = n.Description;
-
-                    nou.Submenus = new List<NavmenuOfUser>();
-                    foreach (var nx in nms.Where(x => x.ParId == n.Id && nmids.Contains(x.Id)).OrderBy(x => x.NavMenuName).ToList())
+                    nou.Submenus.Add(new NavmenuOfUser
                     {
-                        NavmenuOfUser nox = new NavmenuOfUser();
-                        nox.Id = nx.Id;
-                        nox.NavLink = nx.NavLink;
-                        nox.NavMenuName = nx.NavMenuName;
-                        nox.IconClass = nx.IconClass;
-                        nox.Description = nx.Description;
-
-                        nou.Submenus.Add(nox);
-                    }
-
-                    nous.Add(nou);
+                        Id = sub.Id,
+                        NavLink = sub.NavLink,
+                        NavMenuName = sub.NavMenuName,
+                        IconClass = sub.IconClass,
+                        Description = sub.Description
+                    });
                 }
+
+                nous.Add(nou);
             }
 
             return nous;
         }
-
         public async Task<OfficeUser> GetEmployeeFromAppUserAsync(AppUser user)
         {
             var emp = await _unitOfWork.Repository<OfficeUser>()

@@ -624,6 +624,26 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "API.Controllers.MenuController",
+    "Method": "GetUserNavMenus",
+    "RelativePath": "api/Menu/getnavmenus",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IReadOnlyList\u00601[[Core.Models.NavmenuOfUser, Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "API.Controllers.OrganizationController",
     "Method": "OrganizationsBulkUpload",
     "RelativePath": "api/Organization/bulkupload",

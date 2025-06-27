@@ -10,6 +10,7 @@ using Infrastructure.Utility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace API.Controllers
 {
@@ -195,8 +196,11 @@ namespace API.Controllers
         [HttpGet("getgridcols")]
         public async Task<ActionResult> GetGridCols(string FormName)
         {
-            var currentuser = await GetCurrentUser();
+            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+            var user = await _userManager.FindByIdAsync(username);
 
+            var users = GetCurrentUser();
             if (FormName == "Medicine" || FormName == "Medicines")
             {
                 var fgs = new FormGridService<MedicineDto>(_fgs.GetUnitOfWork());

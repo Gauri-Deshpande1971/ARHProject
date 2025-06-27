@@ -15,7 +15,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
-  //  [Authorize]
     public class PatientController : BaseWithUserApiController
     {
         IFormGridService<patientDto> _fgs;
@@ -54,7 +53,7 @@ namespace API.Controllers
         [HttpGet("getpatientHistorylist")]
         public async Task<ActionResult<IReadOnlyList<patientDto>>> GetHistoryPatientsList()
         {
-            var currentuser = new AppUser { AppRoleCode="DOC",DisplayName="Swapnil",OfficeUserCode="2"};
+            var currentuser = new AppUser { AppRoleCode = "DOC", DisplayName = "Swapnil", OfficeUserCode = "2" };
 
             var ars = await _ms.GetPatientByhistoryAsync(currentuser);
 
@@ -90,7 +89,7 @@ namespace API.Controllers
             {
                 // patient.CreatedOn = "";
                 //patient.UCode = null;
-               
+
                 o = _mapper.Map<patientDto, patient>(patient);
                 //if ( patient.UCode == Guid.Empty)
                 //{
@@ -156,7 +155,7 @@ namespace API.Controllers
         {
             var currentuser = await GetCurrentUser();
 
-           // string datefields = "CurrentStartDate,CurrentEndDate,ApplicationEndDate,ApprovalEndDate";
+            // string datefields = "CurrentStartDate,CurrentEndDate,ApplicationEndDate,ApprovalEndDate";
 
             var fgs = new FormGridService<patientDto>(_fgs.GetUnitOfWork());
 

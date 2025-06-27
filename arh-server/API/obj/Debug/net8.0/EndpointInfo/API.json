@@ -1022,6 +1022,44 @@
         }
       }
     },
+    "/api/Menu/getnavmenus": {
+      "get": {
+        "tags": [
+          "Menu"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NavmenuOfUser"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NavmenuOfUser"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NavmenuOfUser"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Organization/getorganizationslist": {
       "get": {
         "tags": [
@@ -2578,6 +2616,47 @@
           },
           "otp": {
             "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "NavmenuOfUser": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "parId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "navMenuName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "navLink": {
+            "type": "string",
+            "nullable": true
+          },
+          "iconClass": {
+            "type": "string",
+            "nullable": true
+          },
+          "srNo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "submenus": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NavmenuOfUser"
+            },
             "nullable": true
           }
         },

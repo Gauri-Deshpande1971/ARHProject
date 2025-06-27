@@ -38,7 +38,8 @@ builder.Services.AddScoped<IPaValidator, PaValidator>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 //AutoMapper.Extensions.Microsoft.DependencyInjection.ServiceCollectionExtensions
 //    .AddAutoMapper(builder.Services, typeof(MappingProfiles));
-builder.Services.AddAutoMapper(typeof(MappingProfiles)); builder.Services.AddSwaggerGen(c =>
+builder.Services.AddAutoMapper(typeof(MappingProfiles)); 
+builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
 
@@ -80,7 +81,7 @@ services.AddSession(options => {
 services.AddControllers();
 services.AddDbContext<AppIdentityDbContext>(options =>
 {
-options.UseNpgsql(_config.GetConnectionString("IdentityConnection"));
+    options.UseNpgsql(_config.GetConnectionString("IdentityConnection"));
 });
 services.AddDbContext<DBServerContext>(options =>
 {
@@ -104,12 +105,12 @@ services.AddApplicationServices();
 //  services.AddSwaggerDocumentation();
 
 services.AddMvc();
-    // .AddJsonOptions(options => {
-    //     options.JsonSerializerOptions.PropertyNamingPolicy = null;
-    // })
+// .AddJsonOptions(options => {
+//     options.JsonSerializerOptions.PropertyNamingPolicy = null;
+// })
 services.AddFluentValidationAutoValidation();
 
-services.AddCors(opt => 
+services.AddCors(opt =>
 {
     opt.AddPolicy("CorsPolicy", policy =>
     {
@@ -118,21 +119,23 @@ services.AddCors(opt =>
             .AllowAnyOrigin();
     });
 });
-services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Token:Key"])),
-                        ValidIssuer = _config["Token:Issuer"],
-                        ValidateIssuer = true,
-                        ValidateAudience = false,
-                        // NameClaimType = ClaimTypes.NameIdentifier,
-                        NameClaimType = "nameid",
-                        RoleClaimType = ClaimTypes.Role
-                    };
-                });
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        var key = Encoding.UTF8.GetBytes(_config["Token:Key"]);
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = true,
+            ValidIssuer = _config["Token:Issuer"],
+            ValidateAudience = false,
+            NameClaimType = ClaimTypes.NameIdentifier,
+            RoleClaimType = ClaimTypes.Role
+        };
+    });
+builder.Services.AddAuthorization();
+
 var serviceProvider = services.BuildServiceProvider();
 using (var scope = serviceProvider.CreateScope())
 {
@@ -178,7 +181,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseMiddleware<ExceptionMiddleware>();
-            
+
 app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
 //app.UseHttpsRedirection();
@@ -189,7 +192,7 @@ app.UseStaticFiles(new StaticFileOptions
     ServeUnknownFileTypes = true,
     FileProvider = new PhysicalFileProvider(
         Path.Combine(Directory.GetCurrentDirectory(), "Content")
-    ), 
+    ),
     RequestPath = "/content"
 });
 app.UseRouting();
@@ -220,7 +223,7 @@ if (!string.IsNullOrEmpty(_config["AllowAPIAccess"]))
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
-  //  endpoints.MapFallbackToController("Index", "Fallback");
+    //  endpoints.MapFallbackToController("Index", "Fallback");
 });
 app.Use(async (context, next) =>
 {
@@ -245,19 +248,19 @@ using (var scope = app.Services.CreateScope())
         // await context.Database.MigrateAsync();
         // await SServerSeed.SeedAsync(context, loggerFactory, identityContext, userManager);
     }
-    catch(PostgresException ex)
+    catch (PostgresException ex)
     {
         var logger = loggerFactory.CreateLogger<Program>();
         logger.LogError(ex, "SQL Exception");
         Console.WriteLine("SQL Exception - " + ex.Message);
     }
-    catch(DbException ex)
+    catch (DbException ex)
     {
         var logger = loggerFactory.CreateLogger<Program>();
         logger.LogError(ex, "DB Exception");
         Console.WriteLine("DB Exception - " + ex.Message);
     }
-    catch(Exception ex)
+    catch (Exception ex)
     {
         var logger = loggerFactory.CreateLogger<Program>();
         logger.LogError(ex, "An error occured during migration");

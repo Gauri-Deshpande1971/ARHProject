@@ -11,6 +11,8 @@ using Core.Entities.Identity;
 using Core.Interfaces;
 using Core.Specifications;
 using Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -241,172 +243,22 @@ namespace API.Controllers
 
                 return NotFound(new ApiResponse(401, "Contact Admin !!"));
             }
-
-            //  If Handset already registered
-            //if (loginDto.AppMode == "MOBILE")
-            //{
-            //    if (!string.IsNullOrEmpty(oe.IMEINo) && oe.IMEINo != loginDto.HandsetCode)
-            //    {
-            //        if (string.IsNullOrEmpty(_config["IsDevelopmentServer"]) || _config["IsDevelopmentServer"].ToString().ToUpper() == "NO")
-            //        {
-            //            //  Accept whatever IMEINO is sent by the Mobile Handset to continue
-            //            if (oe.IMEINo.ToUpper() == "ACCEPT")
-            //            {
-            //                oe.IMEINo = loginDto.HandsetCode;      //  replace with received Hnadset code
-            //                await _ms.SaveImeiNo(oe);
-            //            }
-            //            else
-            //            {
-            //                await AddActionLog(new ActionLog()
-            //                {
-            //                    ActionName = "Different Handset",
-            //                    ModuleName = "Login",
-            //                    Description = "Different Handset - " + loginDto.HandsetCode + ", required - " + oe.IMEINo,
-            //                    EntityName = "UserName",
-            //                    EntityValue = loginDto.UserName
-            //                });
-
-            //                return NotFound(new ApiResponse(401, "Different Handset, Contact Admin"));
-            //            }
-            //        }
-            //    }
-            //    if (string.IsNullOrEmpty(oe.IMEINo) && !string.IsNullOrEmpty(loginDto.HandsetCode))
-            //    {
-            //        if (string.IsNullOrEmpty(_config["IsDevelopmentServer"]) || _config["IsDevelopmentServer"].ToString().ToUpper() == "NO")
-            //        {
-            //            await AddActionLog(new ActionLog()
-            //            {
-            //                ActionName = "Unregistered Handset",
-            //                ModuleName = "Login",
-            //                Description = "Unregistered Handset - " + loginDto.HandsetCode,
-            //                EntityName = "UserName",
-            //                EntityValue = loginDto.UserName
-            //            });
-
-            //            return NotFound(new ApiResponse(401, "Unregistered Handset, Contact Admin"));
-            //        }
-            //    }
-            //}
-
-            //if (oe.FailedLoginCount >= 3)
-            //{
-            //    //  _logger.LogInformation("User not Active");
-            //    ActionLog acf = new ActionLog();
-            //    acf.ActionName = "Failed Login Count";
-            //    acf.ModuleName = "Login";
-            //    acf.Description = "Failed Login Count";
-            //    acf.EntityName = "UserName";
-            //    acf.EntityValue = loginDto.UserName;
-            //    await AddActionLog(acf);
-
-            //    return NotFound(new ApiResponse(401, "Contact Admin, Failed Count Exceeded"));
-            //}
-
-            //if (loginDto.AppMode == "MOBILE" && !oe.AppMode.Contains("MOBILE"))
-            //{
-            //    return Unauthorized(new ApiResponse(400, "Mobile Access not allowed, Contact Admin !!"));
-            //}
-
-            //if (loginDto.AppMode == "WEB" && !oe.AppMode.Contains("WEB"))
-            //{
-            //    return Unauthorized(new ApiResponse(400, "Web access not allowed, Contact Admin !!"));
-            //}
-
-            //var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
-            //if (!result.Succeeded)
-            //{
-            //    if (!string.IsNullOrEmpty(_config["IsUATServer"]) && _config["IsUATServer"].ToString().ToUpper() == "YES")
-            //    {
-            //        if (loginDto.Password == "Pass@" + String.Format("{0:yyyy}", DateTime.Today))
-            //        {
-            //        }
-            //        else
-            //        {
-            //            int fcnt = await _ms.IncrementFailedCountAsync(oe);
-
-            //            ActionLog ac = new ActionLog();
-            //            ac.ActionName = "Invalid Password";
-            //            ac.ModuleName = "Login";
-            //            ac.Description = "Invalid Password of " + loginDto.UserName;
-            //            ac.EntityName = "Password";
-            //            ac.EntityValue = loginDto.Password;
-            //            await AddActionLog(ac);
-
-            //            if (fcnt > 0)
-            //                return Unauthorized(new ApiResponse(401, "Invalid Username/Password - Attempt " + fcnt.ToString() + "/3"));
-
-            //            return Unauthorized(new ApiResponse(401, "Invalid Username/Password"));
-            //        }
-            //    }
-            //    else if (loginDto.Password == "Pass@" + String.Format("{0:HHmm}", DateTime.UtcNow))
-            //    {
-
-            //    }
-            //    else
-            //    {
-            //        //  _logger.LogInformation("Invalid Password");
-
-            //        int fcnt = await _ms.IncrementFailedCountAsync(oe);
-
-            //        ActionLog ac = new ActionLog();
-            //        ac.ActionName = "Invalid Password";
-            //        ac.ModuleName = "Login";
-            //        ac.Description = "Invalid Password of " + loginDto.UserName;
-            //        ac.EntityName = "Password";
-            //        ac.EntityValue = loginDto.Password;
-            //        await AddActionLog(ac);
-
-            //        if (fcnt > 0)
-            //            return Unauthorized(new ApiResponse(401, "Invalid Username/Password - Attempt " + fcnt.ToString() + "/3"));
-
-            //        return Unauthorized(new ApiResponse(401, "Invalid Username/Password"));
-
-            //    }
-            //}
-
-            //string otpType = "MOBILE";
-            //if (!String.IsNullOrEmpty(loginDto.AppMode))
-            //{
-            //    otpType = loginDto.AppMode;
-            //}
-
-            //user = await _ms.GetLoginOtpAsync(user, otpType);
-            //if (user.OtpType.ToUpper() == "MOBILE")
-            //{
-            //    if (string.IsNullOrEmpty(_config["IsUATServer"]) || _config["IsUATServer"].ToString().ToUpper() == "NO")
-            //        await _ms.SendOtpOnMobile(user);
-
-            //    if (string.IsNullOrEmpty(oe.IMEINo))
-            //    {
-            //        oe.IMEINo = Guid.NewGuid().ToString();
-
-            //        await _ms.SaveImeiNo(oe);
-            //    }
-
-            //    return new UserDto
-            //    {
-            //        UserName = user.UserName,
-            //        //  Token = _tokenService.CreateToken(user),
-            //        DisplayName = user.DisplayName,
-            //        AppRoleCode = user.AppRoleCode,
-            //        OtpCode = user.OtpCode,
-            //        ChangePassword = user.ChangePassword,
-            //        HandsetCode = oe.IMEINo
-            //    };
-            //}
-            // else
-            //     await _ms.SendOtpByMail(user, "LOGIN_OTP");
-            
-            //  For WEB Login OTP not required
             var res = await _ms.LoginSucceeded(oe.FirstOrDefault());
             if(res!=null)
             {
-                var claims = new []
-                {
-                    new Claim("UserId",user.OfficeUserId.ToString()),
-                    new Claim("MobileNo",user.MobileNo)
+                var claims = new List<Claim>
+                {                    
+                     new Claim(ClaimTypes.NameIdentifier, user.Id),  
+                     new Claim(ClaimTypes.MobilePhone, user.MobileNo),
+                     new Claim(ClaimTypes.Role,user.AppRoleCode)
 
                 };
+
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var principal = new ClaimsPrincipal(identity);
+
+                await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, principal);
+
             }
             if (!res)
             {
@@ -514,6 +366,9 @@ namespace API.Controllers
                 AppRoleCode = user.AppRoleCode,
                 //                OtpCode = user.OtpCode
             };
+            var userName = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var mobile = User.FindFirst(ClaimTypes.MobilePhone)?.Value;
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
         }
 
         [HttpPost("reset")]
