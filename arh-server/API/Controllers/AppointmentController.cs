@@ -119,19 +119,8 @@ namespace API.Controllers
             {
                 return BadRequest(new ApiResponse(401, "Incomplete info received !!"));
             }
-             AppUser user = new AppUser
-            {
-                DisplayName = "Admin",
-                MobileNo ="9820240596",
-                Email = "deshpande.gauri.b@gmail.com",
-                UserName = "Gauri",
-                AppRoleCode = "Admin",
-                OfficeUserId = 2,
-                ChangePassword = true,
-                OfficeUserCode = "2"
-            };
-
-            var existingappointment = await _ms.GetAppointmentByPatientIdAsync(user,appointment.patient_id);            
+            var currentuser=await GetCurrentUser();
+            var existingappointment = await _ms.GetAppointmentByPatientIdAsync(appointment.patient_id);            
 
             var patient = await _ms.GetPatientByPatientId(appointment.patient_id);
             var doctor=await _ms.GetdoctorBydoctorId(patient.DoctorId);
@@ -146,7 +135,7 @@ namespace API.Controllers
             {
                 a = _mapper.Map<appointmentsDto, appointments>(appointment);                   
 
-                a = await _ms.ValidateAppointmentAsync(a, user);
+                a = await _ms.ValidateAppointmentAsync(a, currentuser);
                 if (a.Errors != null && !String.IsNullOrEmpty(a.Errors.errormessage))
                 {
                     return BadRequest(new ApiResponse(401, a.Errors.errormessage));
@@ -274,7 +263,7 @@ namespace API.Controllers
             {
                 a = _mapper.Map<appointmentsDto, appointments>(appointments);
               
-                a = await _ms.UpdateRetrieverAppointmentAsync(a);
+                a = await _ms.UpdateRetrieverAppointmentAsync(a, cu );
                 if (a == null)
                 {
                     return BadRequest(new ApiResponse(401, "Unable to Save"));
@@ -498,7 +487,7 @@ namespace API.Controllers
                                 AssistantDoctorId=appt.assistantDoctorId,
                                 DoctorName = doc?.DisplayName,
                                 status = appt.status,
-                                CreatedByName="Admin",
+                                CreatedByName=currentuser.UserName,
                                 OfficeUserId = doc.OfficeUserId,
                                 RowBackColor = doctorColors.TryGetValue(doc.OfficeUserId, out var color) ? color : null
                              };
@@ -511,6 +500,41 @@ namespace API.Controllers
 
             }
             return null;
+        }
+        [HttpGet("getAppointmentForDoctor")]
+        public async Task<IActionResult> GetAppointmentsForDoctor()
+        {
+            var currentuser= await GetCurrentUser();
+           
+            var patients = await _fgs.GetUnitOfWork().Repository<patient>().ListAllAsync();
+            var appUsers = await _userManager.Users.ToListAsync();
+            var result = await _ms.GetAppointmentsForDoctor(currentuser.OfficeUserId, currentuser.AppRoleCode);
+
+            if (result == null || !result.Any())
+            {
+                return NotFound("No appointments found for this doctor.");
+            }
+            var appointmentlist = from appt in result
+                         join pat in patients on appt.patient_id equals pat.Id into patJoin
+                         from pat in patJoin.DefaultIfEmpty()
+                         join doc in appUsers on pat.DoctorId equals doc.OfficeUserId into docJoin
+                         from doc in docJoin.DefaultIfEmpty()
+                         select new appointmentsViewDto
+                         {
+                             Id = appt.Id,
+                             AppointmentDate = appt.visit_date,
+                             IsActive = appt.IsActive,
+                             PatientFullName = pat?.full_name,
+                             PatientRegNo = pat?.RegNo,
+                             DoctorId = pat?.DoctorId,
+                             AssistantDoctorId = appt.assistantDoctorId,
+                             DoctorName = doc?.DisplayName,
+                             status = appt.status,
+                             CreatedByName = currentuser.UserName,
+                             OfficeUserId = doc.OfficeUserId,
+                             RowBackColor = ""
+                         };
+            return Ok(result);
         }
     }
 

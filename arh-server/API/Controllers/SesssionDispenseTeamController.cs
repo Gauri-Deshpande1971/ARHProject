@@ -28,25 +28,13 @@ namespace API.Controllers
 
         [HttpGet("getSessionDispenseTeamlist")]
         public async Task<ActionResult<IReadOnlyList<SessionDispenseTeamDto>>> GetSessionDispenseTeamsList(int id)
-        {
-            var currentuser = await GetCurrentUser();
+        {        
 
-            var ars = await _ms.GetSessionDispenseTeamAsync(currentuser, id);
-
-            //if (currentuser.UserName == "admin" || currentuser.AppRoleCode == "ADMINISTRATOR" || currentuser.AppRoleCode == "SUPER")
-            //{
-            //    var ldxx = _mapper.Map<IReadOnlyList<SessionSetup>, IReadOnlyList<SessionSetupDto>>(ars);
-            //    return Ok(ldxx);
-            //}
-
-            //	ars = ars.Where(x => {{USER_CONDITION}}).ToList();
-
+            var ars = await _ms.GetSessionDispenseTeamAsync(id);
             var ldx = _mapper.Map<IReadOnlyList<SessionDispenseTeam>, IReadOnlyList<SessionDispenseTeam>>(ars);
 
             return Ok(ldx);
         }
-
-
         [HttpPost("savesessionDispenseTeam")]
         public async Task<ActionResult<IEnumerable<SessionDispenseTeamDto>>> SaveSessionDoctors( IEnumerable<SessionDispenseTeamDto> sessionList)
         {
@@ -54,9 +42,7 @@ namespace API.Controllers
             {
                 return BadRequest(new ApiResponse(401, "No user info received !!"));
             }
-
             var currentUser = await GetCurrentUser();
-
             try
             {
                 // Map DTOs to Entities

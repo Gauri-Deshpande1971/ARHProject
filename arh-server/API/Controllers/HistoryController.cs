@@ -43,13 +43,14 @@ namespace API.Controllers
             }
 
             var cu = await GetCurrentUser();
-            if(complaints.UCode==Guid.Empty) 
+            
+            if (complaints.UCode==Guid.Empty) 
                 complaints.UCode = Guid.NewGuid();
             complaints o = null;
             try
             {
                 o = _mapper.Map<complaintsDto, complaints>(complaints);
-                o = await _ms.SaveComplaintsAsync(o);
+                o = await _ms.SaveComplaintsAsync(o,cu);
                 if (o == null)
                 {
                     return BadRequest(new ApiResponse(401, "Unable to Save"));
@@ -82,7 +83,7 @@ namespace API.Controllers
             try
             {
                 o = _mapper.Map<physicalexamDto, physicalexam>(physicalexam);
-                o = await _ms.SavePhysicalexamAsync(o);
+                o = await _ms.SavePhysicalexamAsync(o,cu);
                 if (o == null)
                 {
                     return BadRequest(new ApiResponse(401, "Unable to Save"));
@@ -115,7 +116,7 @@ namespace API.Controllers
             try
             {
                 o = _mapper.Map<physicalgenDto, physicalgen>(physicalgen);
-                o = await _ms.SavePhysicalgeneralAsync(o);
+                o = await _ms.SavePhysicalgeneralAsync(o,cu);
                 if (o == null)
                 {
                     return BadRequest(new ApiResponse(401, "Unable to Save"));
@@ -148,7 +149,7 @@ namespace API.Controllers
             try
             {
                 o = _mapper.Map<pasthistoryDto, pasthistory>(pasthistory);
-                o = await _ms.SavePastHistoryAsync(o);
+                o = await _ms.SavePastHistoryAsync(o, cu);
                 if (o == null)
                 {
                     return BadRequest(new ApiResponse(401, "Unable to Save"));
@@ -181,7 +182,7 @@ namespace API.Controllers
             try
             {
                 o = _mapper.Map<medicationsDto, medications>(medications);
-                o = await _ms.SaveMedicationsAsync(o);
+                o = await _ms.SaveMedicationsAsync(o, cu);
                 if (o == null)
                 {
                     return BadRequest(new ApiResponse(401, "Unable to Save"));
@@ -214,7 +215,7 @@ namespace API.Controllers
             try
             {
                 o = _mapper.Map<additionalreportsDto, additionalreports>(additionalreports);
-                o = await _ms.SaveAdditionalReportsAsync(o);
+                o = await _ms.SaveAdditionalReportsAsync(o, cu);
                 if (o == null)
                 {
                     return BadRequest(new ApiResponse(401, "Unable to Save"));
@@ -247,7 +248,7 @@ namespace API.Controllers
             try
             {
                 o = _mapper.Map<familyDto, family>(family);
-                o = await _ms.SaveFamilyHistoryAsync(o);
+                o = await _ms.SaveFamilyHistoryAsync(o, cu);
                 if (o == null)
                 {
                     return BadRequest(new ApiResponse(401, "Unable to Save"));
@@ -280,7 +281,7 @@ namespace API.Controllers
             try
             {
                 o = _mapper.Map<systemeticDto, systemeticexam>(systemetic);
-                o = await _ms.SavesystemicExamAsync(o);
+                o = await _ms.SavesystemicExamAsync(o, cu);
                 if (o == null)
                 {
                     return BadRequest(new ApiResponse(401, "Unable to Save"));
@@ -315,7 +316,7 @@ namespace API.Controllers
             try
             {
                 var mappedList = _mapper.Map<List<investigationsDto>, List<investigations>>(investigationsDtoList);
-                var savedList = await _ms.SaveInvestigationsAsync(mappedList);
+                var savedList = await _ms.SaveInvestigationsAsync(mappedList, cu);
 
                 if (savedList.Any(x => x.HasErrors()))
                 {
@@ -351,7 +352,7 @@ namespace API.Controllers
             try
             {
                 o = _mapper.Map<patientDto, patient>(history);
-                o = await _ms.UpdatePatientHistoryAsync(o);
+                o = await _ms.UpdatePatientHistoryAsync(o, cu);
                 if (o == null)
                 {
                     return BadRequest(new ApiResponse(401, "Unable to Save"));

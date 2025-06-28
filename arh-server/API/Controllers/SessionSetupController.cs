@@ -35,22 +35,12 @@ namespace API.Controllers
         public async Task<ActionResult<IReadOnlyList<SessionSetupDto>>> GetSessionsList()
         {
             var currentuser = await GetCurrentUser();
-
-            var ars = await _ms.GetSessionsAsync(currentuser);
-
-            //if (currentuser.UserName == "admin" || currentuser.AppRoleCode == "ADMINISTRATOR" || currentuser.AppRoleCode == "SUPER")
-            //{
-            //    var ldxx = _mapper.Map<IReadOnlyList<SessionSetup>, IReadOnlyList<SessionSetupDto>>(ars);
-            //    return Ok(ldxx);
-            //}
-
-            //	ars = ars.Where(x => {{USER_CONDITION}}).ToList();
+            var ars = await _ms.GetSessionsAsync();         
 
             var ldx = _mapper.Map<IReadOnlyList<SessionSetup>, IReadOnlyList<SessionSetupDto>>(ars);
 
             return Ok(ldx);
         }
-
 
         [HttpPost("savesession")]
         public async Task<ActionResult<SessionSetupDto>> SaveSession(SessionSetupDto session)

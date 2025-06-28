@@ -31,22 +31,12 @@ namespace API.Controllers
         {
             var currentuser = await GetCurrentUser();
 
-            var ars = await _ms.GetSessionDoctorsAsync(currentuser,id);
-
-            //if (currentuser.UserName == "admin" || currentuser.AppRoleCode == "ADMINISTRATOR" || currentuser.AppRoleCode == "SUPER")
-            //{
-            //    var ldxx = _mapper.Map<IReadOnlyList<SessionSetup>, IReadOnlyList<SessionSetupDto>>(ars);
-            //    return Ok(ldxx);
-            //}
-
-            //	ars = ars.Where(x => {{USER_CONDITION}}).ToList();
+            var ars = await _ms.GetSessionDoctorsAsync(id);
 
             var ldx = _mapper.Map<IReadOnlyList<SessionDoctors>, IReadOnlyList<SessionDoctorsDto>>(ars);
 
             return Ok(ldx);
         }
-
-
         [HttpPost("savesessionDoctors")]
         public async Task<ActionResult<IEnumerable<SessionDoctorsDto>>> SaveSessionDoctors([FromBody] IEnumerable<SessionDoctorsDto> sessionList)
         {
@@ -56,7 +46,6 @@ namespace API.Controllers
             }
 
             var currentUser = await GetCurrentUser();
-
             try
             {
                 // Map DTOs to Entities

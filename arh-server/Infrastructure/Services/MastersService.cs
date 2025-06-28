@@ -3722,29 +3722,25 @@ namespace Infrastructure.Services
         }
         public async Task<patient> ValidatePatientAsync(patient ret, AppUser au = null)
         {
-            //if (au == null)
-            //{
-            //    ret.AddErrorMessage("Unknown User");
-            //    return ret;
-            //}
+            if (au == null)
+            {
+                ret.AddErrorMessage("Unknown User");
+                return ret;
+            }
 
             ret.full_name = ret.full_name.UpperTrim();
 
             patient obj;
-
-            //  if (ret.UCode == null || ret.UCode.ToString().Replace("-", "").StartsWith("0000000000"))           
+          
             if (ret.UCode == Guid.Empty)
             {
                 obj = ret;
                 obj.Id = 0;
                 obj.UCode = Guid.NewGuid();
-                //  obj.CreatedById = au.OfficeUserId;
-                obj.CreatedById = 1;
-                // obj.CreatedByName = au.UserName + "-" + au.DisplayName;
-                obj.CreatedByName = "Admin";
-                obj.CreatedOn = DateTime.Now;
-                obj.IsDeleted = false;
-                obj.UCode = Guid.NewGuid();
+                obj.CreatedById = au.OfficeUserId;
+                obj.CreatedByName = au.UserName + "-" + au.DisplayName;
+                obj.CreatedOn = DateTime.UtcNow;
+                obj.IsDeleted = false;               
 
                 //  Check for Duplicate
                 var dup = await _unitOfWork.Repository<patient>()
@@ -3765,15 +3761,7 @@ namespace Infrastructure.Services
                     ret.AddErrorMessage("Unknown Patient for editing");
                     return ret;
                 }
-
-                //  Check for Duplicate
-                var dup = await _unitOfWork.Repository<patient>()
-                        .GetEntityWithSpec(new BaseSpecification<patient>(x => x.mobileNo == ret.mobileNo && x.UCode != ret.UCode));
-                if (dup != null)
-                {
-                    ret.AddErrorMessage("Patient already exists !!");
-                    return ret;
-                }
+               
             }
             obj.full_name = ret.full_name;
             obj.address = ret.address;
@@ -3795,12 +3783,8 @@ namespace Infrastructure.Services
                 ret.DOB = ret.DOB.Value.ToUniversalTime();
             }
             if (ret.Id == 0)
-            {
-                // Get all RegNo values, extract numeric part, find max
-                isNew = true;
-                //     int maxNum = await _unitOfWork.Repository<patient>()
-                //.MaxNumericPrefixFromStringFieldAsync(p => p.RegNo, p => !p.IsDeleted);
-                // ret.RegNo = $"{maxNum + 1}-C";
+            {                
+                isNew = true;              
                 ret.RegNo = await GenerateNewRegNo();
                 _unitOfWork.Repository<patient>().Add(ret);
             }
@@ -3828,15 +3812,17 @@ namespace Infrastructure.Services
 
             return ret;
         }
-        public async Task<complaints> SaveComplaintsAsync(complaints ret)
+        public async Task<complaints> SaveComplaintsAsync(complaints ret, AppUser cu)
         {
             bool isNew = false;
             ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
-            
+            ret.CreatedById=cu.OfficeUserId;
+            ret.CreatedByName = cu.UserName + "-" + cu.DisplayName;
+
             if (ret.Id == 0)
             {
-                // Get all RegNo values, extract numeric part, find max
                 isNew = true;
+                ret.ExtraValue1 = "Saved";
                 _unitOfWork.Repository<complaints>().Add(ret);
             }
             else
@@ -3862,15 +3848,17 @@ namespace Infrastructure.Services
             }
             return ret;
         }
-        public async Task<physicalexam> SavePhysicalexamAsync(physicalexam ret)
+        public async Task<physicalexam> SavePhysicalexamAsync(physicalexam ret, AppUser cu)
         {
             bool isNew = false;
             ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
-
+            ret.CreatedById = cu.OfficeUserId;
+            ret.CreatedByName = cu.UserName + "-" + cu.DisplayName;
             if (ret.Id == 0)
             {
                 // Get all RegNo values, extract numeric part, find max
                 isNew = true;
+                ret.ExtraValue1 = "Saved";
                 _unitOfWork.Repository<physicalexam>().Add(ret);
             }
             else
@@ -3898,15 +3886,17 @@ namespace Infrastructure.Services
             return ret;
 
         }
-        public async Task<medications> SaveMedicationsAsync(medications ret)
+        public async Task<medications> SaveMedicationsAsync(medications ret, AppUser cu)
         {
             bool isNew = false;
             ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
-
+            ret.CreatedById = cu.OfficeUserId;
+            ret.CreatedByName = cu.UserName + "-" + cu.DisplayName;
             if (ret.Id == 0)
             {
                 // Get all RegNo values, extract numeric part, find max
                 isNew = true;
+                ret.ExtraValue1 = "Saved";
                 _unitOfWork.Repository<medications>().Add(ret);
             }
             else
@@ -3933,14 +3923,16 @@ namespace Infrastructure.Services
 
             return ret;
         }
-        public async Task<family> SaveFamilyHistoryAsync(family ret)
+        public async Task<family> SaveFamilyHistoryAsync(family ret, AppUser cu)
         {
             bool isNew = false;
             ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
+            ret.CreatedById = cu.OfficeUserId;
+            ret.CreatedByName = cu.UserName + "-" + cu.DisplayName;
 
             if (ret.Id == 0)
             {
-                // Get all RegNo values, extract numeric part, find max
+                ret.ExtraValue1 = "Saved";
                 isNew = true;
                 _unitOfWork.Repository<family>().Add(ret);
             }
@@ -3969,14 +3961,15 @@ namespace Infrastructure.Services
             return ret;
 
         }
-        public async Task<systemeticexam> SavesystemicExamAsync(systemeticexam ret)
+        public async Task<systemeticexam> SavesystemicExamAsync(systemeticexam ret, AppUser cu)
         {
-            bool isNew = false;
-            ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
+            bool isNew = false; ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
+            ret.CreatedById = cu.OfficeUserId;
+            ret.CreatedByName = cu.UserName + "-" + cu.DisplayName;
 
             if (ret.Id == 0)
             {
-                // Get all RegNo values, extract numeric part, find max
+                ret.ExtraValue1 = "Saved";
                 isNew = true;
                 _unitOfWork.Repository<systemeticexam>().Add(ret);
             }
@@ -4005,10 +3998,11 @@ namespace Infrastructure.Services
             return ret;
 
         }
-        public async Task<patient> UpdatePatientHistoryAsync(patient ret)
+        public async Task<patient> UpdatePatientHistoryAsync(patient ret,AppUser cu)
         {
-            bool isNew = false;
-            ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
+            bool isNew = false; ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
+            ret.CreatedById = cu.OfficeUserId;
+            ret.CreatedByName = cu.UserName + "-" + cu.DisplayName;
 
             if (ret.Id == 0)
             {
@@ -4041,14 +4035,19 @@ namespace Infrastructure.Services
             return ret;
 
         }
-        public async Task<List<investigations>> SaveInvestigationsAsync(List<investigations> ret)
+        public async Task<List<investigations>> SaveInvestigationsAsync(List<investigations> ret,AppUser cu)
         {
             foreach (var item in ret)
             {
-                item.CreatedOn = DateTime.UtcNow;
+                item.CreatedOn = DateTime.UtcNow;               
+                item.CreatedById = cu.OfficeUserId;
+                item.CreatedByName = cu.UserName + "-" + cu.DisplayName;
 
                 if (item.Id == 0)
+                {
                     _unitOfWork.Repository<investigations>().Add(item);
+                    item.ExtraValue1 = "Saved";
+                }
                 else
                     _unitOfWork.Repository<investigations>().Update(item);
             }
@@ -4069,14 +4068,16 @@ namespace Infrastructure.Services
             return ret;
 
         }
-        public async Task<additionalreports> SaveAdditionalReportsAsync(additionalreports ret)
+        public async Task<additionalreports> SaveAdditionalReportsAsync(additionalreports ret,AppUser cu)
         {
             bool isNew = false;
             ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
+            ret.CreatedById = cu.OfficeUserId;
+            ret.CreatedByName = cu.UserName + "-" + cu.DisplayName;
 
             if (ret.Id == 0)
             {
-                // Get all RegNo values, extract numeric part, find max
+                ret.ExtraValue1 = "Saved";
                 isNew = true;
                 _unitOfWork.Repository<additionalreports>().Add(ret);
             }
@@ -4104,14 +4105,16 @@ namespace Infrastructure.Services
 
             return ret;
         }
-        public async Task<pasthistory> SavePastHistoryAsync(pasthistory ret)
+        public async Task<pasthistory> SavePastHistoryAsync(pasthistory ret,AppUser cu)
         {
-            bool isNew = false;
+            bool isNew = false; 
             ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
+            ret.CreatedById = cu.OfficeUserId;
+            ret.CreatedByName = cu.UserName + "-" + cu.DisplayName;
 
             if (ret.Id == 0)
             {
-                // Get all RegNo values, extract numeric part, find max
+                ret.ExtraValue1 = "Saved";
                 isNew = true;
                 _unitOfWork.Repository<pasthistory>().Add(ret);
             }
@@ -4140,14 +4143,16 @@ namespace Infrastructure.Services
             return ret;
 
         }
-        public async Task<physicalgen> SavePhysicalgeneralAsync(physicalgen ret)
+        public async Task<physicalgen> SavePhysicalgeneralAsync(physicalgen ret,AppUser cu)
         {
-            bool isNew = false;
+            bool isNew = false; 
             ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
+            ret.CreatedById = cu.OfficeUserId;
+            ret.CreatedByName = cu.UserName + "-" + cu.DisplayName;
 
             if (ret.Id == 0)
             {
-                // Get all RegNo values, extract numeric part, find max
+                ret.ExtraValue1 = "Saved";
                 isNew = true;
                 _unitOfWork.Repository<physicalgen>().Add(ret);
             }
@@ -4222,12 +4227,11 @@ namespace Infrastructure.Services
         }
         public async Task<appointments> SaveAppointmentAsync(appointments ret)
         {
-            var ssts = _config["SyncServerType"];
             bool isNew = false;
             ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
             if (ret.Id == 0)
             {
-                // Get all RegNo values, extract numeric part, find max
+                ret.ExtraValue1 = "Save";
                 isNew = true;
                 _unitOfWork.Repository<appointments>().Add(ret);
             }
@@ -4261,7 +4265,7 @@ namespace Infrastructure.Services
             ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
             if (ret.Id == 0)
             {
-                // Get all RegNo values, extract numeric part, find max
+                ret.ExtraValue1 = "Save";
                 isNew = true;
                 _unitOfWork.Repository<appointmentMilestone>().Add(ret);
             }
@@ -4290,17 +4294,18 @@ namespace Infrastructure.Services
             return ret;
 
         }
-        public async Task<IReadOnlyList<appointments>> GetAppointmentByPatientIdAsync(AppUser appUser, int patient_id)
+        public async Task<IReadOnlyList<appointments>> GetAppointmentByPatientIdAsync( int patient_id)
         {
             var appointments = await _unitOfWork.Repository<appointments>()
                         .GetEntityListWithSpec(new BaseSpecification<appointments>(x => x.patient_id == patient_id)
                         );
             return appointments;
         }
-        public async Task<appointments> UpdateRetrieverAppointmentAsync(appointments ret)//when retriever clicks done
+        public async Task<appointments> UpdateRetrieverAppointmentAsync(appointments ret,AppUser cu)//when retriever clicks done
         {
             ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
-            ret.retId = 1;
+            ret.retId = cu.OfficeUserId;
+            ret.CreatedByName= cu.UserName + "-" + cu.DisplayName;
             ret.casepaperretrieved = true;
             ret.casepaperretrievaltime = DateTime.UtcNow;
             
@@ -4350,13 +4355,10 @@ namespace Infrastructure.Services
                 obj = ret;
                 obj.Id = 0;
                 obj.UCode = Guid.NewGuid();
-                //  obj.CreatedById = au.OfficeUserId;
-                obj.CreatedById = 1;
-                // obj.CreatedByName = au.UserName + "-" + au.DisplayName;
-                obj.CreatedByName = "Admin";
-                obj.CreatedOn = DateTime.Now;
+                obj.CreatedById = au.OfficeUserId;
+                obj.CreatedByName = au.UserName + "-" + au.DisplayName;
+                obj.CreatedOn = DateTime.UtcNow;
                 obj.IsDeleted = false;
-                obj.UCode = Guid.NewGuid();
                 obj.category = "FU";
                 obj.status = "A";
                 //  Check for Duplicate
@@ -4381,15 +4383,6 @@ namespace Infrastructure.Services
                     ret.AddErrorMessage("Appointment cannot be edited");
                     return ret;
                 }
-
-                ////  Check for Duplicate
-                //var dup = await _unitOfWork.Repository<appointments>()
-                //        .GetEntityWithSpec(new BaseSpecification<appointments>(x => x.patient_id == ret.patient_id && x.visit_date == ret.visit_date && x.UCode != ret.UCode));
-                //if (dup != null)
-                //{
-                //    ret.AddErrorMessage("Appointment already exists !!");
-                //    return ret;
-                //}
             }
             obj.patient_id = ret.patient_id;
             obj.category = ret.category;
@@ -4407,9 +4400,9 @@ namespace Infrastructure.Services
                 var obj = ret;
                 obj.Id = 0;
                 obj.UCode = Guid.NewGuid();
-                obj.CreatedById = 1; // Replace with au.OfficeUserId if available
-                obj.CreatedByName = "Admin"; // Replace with actual user info if needed
-                obj.CreatedOn = DateTime.Now;
+                obj.CreatedById = au.OfficeUserId;
+                obj.CreatedByName = au.UserName + "-" + au.DisplayName;
+                obj.CreatedOn = DateTime.UtcNow;
                 obj.IsDeleted = false;
                 obj.appointmentId = ret.appointmentId;
                 obj.milestone = ret.milestone;
@@ -4517,7 +4510,7 @@ namespace Infrastructure.Services
             }
             return ret;
         }
-        public async Task<IReadOnlyList<SessionSetup>> GetSessionsAsync(AppUser appUser)
+        public async Task<IReadOnlyList<SessionSetup>> GetSessionsAsync()
         {
             var r = await _unitOfWork.Repository<SessionSetup>().ListAllAsync();
             r = r.OrderBy(x => x.Id).ToList();
@@ -4532,11 +4525,9 @@ namespace Infrastructure.Services
                 obj = ret;
                 obj.Id = 0;
                 obj.UCode = Guid.NewGuid();
-                //  obj.CreatedById = au.OfficeUserId;
-                obj.CreatedById = 1;
-                // obj.CreatedByName = au.UserName + "-" + au.DisplayName;
-                obj.CreatedByName = "Admin";
-                obj.CreatedOn = DateTime.Now;
+                obj.CreatedById = au.OfficeUserId;
+                obj.CreatedByName = au.UserName + "-" + au.DisplayName;
+                obj.CreatedOn = DateTime.UtcNow;
                 obj.IsDeleted = false;
                 //  Check for Duplicate
                 var dup = await _unitOfWork.Repository<SessionSetup>()
@@ -4598,19 +4589,19 @@ namespace Infrastructure.Services
             return ret;
         }
 
-        public async Task<SessionSetup> GetActiveSessionAsync(AppUser appUser)
+        public async Task<SessionSetup> GetActiveSessionAsync()
         {
             var ar = await _unitOfWork.Repository<SessionSetup>().GetEntityWithSpec(new BaseSpecification<SessionSetup>(x => x.IsActive == true && x.SessionDate == DateTime.UtcNow));
             return ar;
         }
-        public async Task<IReadOnlyList<SessionDoctors>> GetSessionDoctorsAsync(AppUser appUser, int id)
+        public async Task<IReadOnlyList<SessionDoctors>> GetSessionDoctorsAsync(int id)
         {
             var r = await _unitOfWork.Repository<SessionDoctors>().ListAllAsync();
             r = r.OrderBy(x => x.DoctorId).ToList();
             r = r.Where(x => x.SessionId == id).ToList();
             return r;
         }
-        public async Task<IReadOnlyList<SessionDispenseTeam>> GetSessionDispenseTeamAsync(AppUser appUser, int id)
+        public async Task<IReadOnlyList<SessionDispenseTeam>> GetSessionDispenseTeamAsync( int id)
         {
             var r = await _unitOfWork.Repository<SessionDispenseTeam>().ListAllAsync();
             r = r.OrderBy(x => x.MemberId).ToList();
@@ -4629,11 +4620,10 @@ namespace Infrastructure.Services
                 {
                     obj.Id = 0;
                     obj.UCode = Guid.NewGuid();
-                    // obj.CreatedById = au?.OfficeUserId ?? 1; // fallback if au is null
-                    //obj.CreatedByName = au != null ? $"{au.UserName}-{au.DisplayName}" : "Admin";
+                    obj.CreatedById = au?.OfficeUserId ?? 1; // fallback if au is null
+                    obj.CreatedByName = au != null ? $"{au.UserName}-{au.DisplayName}" : "Admin";
                     obj.CreatedOn = DateTime.UtcNow;
                     obj.IsDeleted = false;
-
                 }
                 else
                 {
@@ -4646,21 +4636,17 @@ namespace Infrastructure.Services
                         continue;
                     }
                 }
-
-                // Copy other values like SessionId, IsActive, etc.
                 obj.SessionId = item.SessionId;
                 obj.DoctorId = item.DoctorId;
                 obj.IsActive = item.IsActive;
 
                 validatedList.Add(obj);
             }
-
             return validatedList;
         }
         public async Task<IEnumerable<SessionDoctors>> SaveSessionDoctorsAsync(IEnumerable<SessionDoctors> doctors)
         {
             var savedDoctors = new List<SessionDoctors>();
-            var ssts = _config["SyncServerType"];
 
             foreach (var doctor in doctors)
             {
@@ -4710,8 +4696,8 @@ namespace Infrastructure.Services
                 {
                     obj.Id = 0;
                     obj.UCode = Guid.NewGuid();
-                    // obj.CreatedById = au?.OfficeUserId ?? 1; // fallback if au is null
-                    //obj.CreatedByName = au != null ? $"{au.UserName}-{au.DisplayName}" : "Admin";
+                    obj.CreatedById = au?.OfficeUserId ?? 1; // fallback if au is null
+                    obj.CreatedByName = au != null ? $"{au.UserName}-{au.DisplayName}" : "Admin";
                     obj.CreatedOn = DateTime.UtcNow;
                     obj.IsDeleted = false;
 
@@ -4793,6 +4779,35 @@ namespace Infrastructure.Services
 
             return team;
         }
+        public async Task<IEnumerable<appointments>> GetAppointmentsForDoctor(int userId, string approle)
+        {
+            // Ensure this is a doctor role
+            if (!approle.ToLower().Contains("doc"))
+            {
+                return Enumerable.Empty<appointments>();
+            }
+
+            // Get the doctor user
+            var doctor = await _userManager.Users.FirstOrDefaultAsync(u => u.OfficeUserId == userId);
+
+            if (doctor == null || doctor.OfficeUserId == null)
+            {
+                return Enumerable.Empty<appointments>();
+            }
+
+            int doctorId = doctor.OfficeUserId;
+
+            // Get patients assigned to this doctor
+            var patients = await _unitOfWork.Repository<patient>()
+                .ListAsync(new BaseSpecification<patient>(p => p.DoctorId == doctorId));
+
+            var patientIds = patients.Select(p => p.Id).ToList();
+
+            var appointments = await _unitOfWork.Repository<appointments>()
+         .ListAsync(new BaseSpecification<appointments>(a => patientIds.Contains(a.patient_id) && a.assistantDoctorId==0 && a.IsActive==true));
+            
+            return appointments;
+        }
         Task<OfficeUser> IMastersService.GetOfficeUser(AppUser appUser)
         {
             throw new NotImplementedException();
@@ -4801,27 +4816,22 @@ namespace Infrastructure.Services
         {
             throw new NotImplementedException();
         }
-
         Task<OfficeUser> IMastersService.GetOfficeUserByCode(string OfficeUserCode)
         {
             throw new NotImplementedException();
         }
-
         Task<OfficeUser> IMastersService.ValidateOfficeUserAsync(OfficeUser ret, AppUser au)
         {
             throw new NotImplementedException();
         }
-
         Task<IImportExcelData<OfficeUser>> IMastersService.BulkValidateOfficeUserAsync(IImportExcelData<OfficeUser> ret, AppUser au)
         {
             throw new NotImplementedException();
         }
-
         Task<OfficeUser> IMastersService.SaveOfficeUser(OfficeUser officeUser, AppUser au)
         {
             throw new NotImplementedException();
         }
-
         Task<bool> IMastersService.SaveUploadOfficeUser(IReadOnlyList<OfficeUser> officeUsers, AppUser au)
         {
             throw new NotImplementedException();

@@ -826,6 +826,18 @@
         }
       }
     },
+    "/api/Appointment/getAppointmentForDoctor": {
+      "get": {
+        "tags": [
+          "Appointment"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Buggy/badrequest": {
       "get": {
         "tags": [

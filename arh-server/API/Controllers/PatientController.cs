@@ -86,15 +86,8 @@ namespace API.Controllers
 
             patient o = null;
             try
-            {
-                // patient.CreatedOn = "";
-                //patient.UCode = null;
-
-                o = _mapper.Map<patientDto, patient>(patient);
-                //if ( patient.UCode == Guid.Empty)
-                //{
-                //    o.UCode = Guid.NewGuid();
-                //}
+            {               
+                o = _mapper.Map<patientDto, patient>(patient);               
 
                 o = await _ms.ValidatePatientAsync(o, cu);
                 if (o.Errors != null && !String.IsNullOrEmpty(o.Errors.errormessage))
