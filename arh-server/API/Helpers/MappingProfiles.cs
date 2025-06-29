@@ -45,24 +45,19 @@ namespace API.Helpers
             .ReverseMap();
 
             CreateMap<patient,patientDto>() .ReverseMap();
-            CreateMap<appointments, appointmentsDto>() .ReverseMap();   
+            CreateMap<appointments, appointmentsDto>() .ReverseMap();
 
-      //      CreateMap<patientDto, patient>()
-      //.ForMember(d => d.CreatedOn, o => o.MapFrom(s =>
-      //    string.IsNullOrEmpty(s.CreatedOn)
-      //        ? DateTime.MinValue
-      //        : DateTime.ParseExact(s.CreatedOn, "dd-MM-yyyy", CultureInfo.InvariantCulture)));
-           
-      //      CreateMap<patient, patientDto>()
-      //          .ForMember(d => d.CreatedOn, o => o.MapFrom(s => s.CreatedOn.ToString("dd-MM-yyyy")));
+            CreateMap<patientDto, patient>()
+     .ForMember(d => d.CreatedOn, o => o.MapFrom(_ => DateTime.UtcNow));
 
-      //      CreateMap<appointmentsDto, appointments>()
-      //   .ForMember(d => d.CreatedOn, o => o.MapFrom(s =>
-      //       string.IsNullOrEmpty(s.CreatedOn)
-      //           ? DateTime.MinValue
-      //           : DateTime.ParseExact(s.CreatedOn, "dd-MM-yyyy", CultureInfo.InvariantCulture)));
-      // //  .ForMember(d => d.UCode, o => o.MapFrom(s => ParseGuid(s.UCode)));
-                
+
+            //      CreateMap<appointmentsDto, appointments>()
+            //   .ForMember(d => d.CreatedOn, o => o.MapFrom(s =>
+            //       string.IsNullOrEmpty(s.CreatedOn)
+            //           ? DateTime.MinValue
+            //           : DateTime.ParseExact(s.CreatedOn, "dd-MM-yyyy", CultureInfo.InvariantCulture)));
+            // //  .ForMember(d => d.UCode, o => o.MapFrom(s => ParseGuid(s.UCode)));
+
 
             // Helper method
             // Helper method

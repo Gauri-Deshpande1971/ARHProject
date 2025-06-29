@@ -11,7 +11,7 @@ namespace API.Dtos
         public bool IsActive { get; set; }
 
         public bool IsUpdated { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; } = false;
         public bool IsExisting { get; set; }
 
         public Guid UCode { get; set; }

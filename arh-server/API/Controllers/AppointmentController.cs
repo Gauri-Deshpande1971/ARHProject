@@ -94,13 +94,7 @@ namespace API.Controllers
         {
             var currentuser = await GetCurrentUser();
 
-            var ars = await _ms.GetAppointmentsForRetrieversAsync(currentuser);
-
-            if (currentuser.UserName == "admin" || currentuser.AppRoleCode == "ADMINISTRATOR" || currentuser.AppRoleCode == "SUPER")
-            {
-                var ldxx = _mapper.Map<IReadOnlyList<appointments>, IReadOnlyList<appointmentsDto>>(ars);
-                return Ok(ldxx);
-            }
+            var ars = await _ms.GetAppointmentsForRetrieversAsync(currentuser);          
 
             var ldx = _mapper.Map<IReadOnlyList<appointments>, IReadOnlyList<appointmentsDto>>(ars);
 

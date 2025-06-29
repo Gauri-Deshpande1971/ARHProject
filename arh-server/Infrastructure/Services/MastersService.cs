@@ -22,6 +22,7 @@ using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 using DocumentFormat.OpenXml.InkML;
 using DocumentFormat.OpenXml.Office2010.ExcelAc;
+using DocumentFormat.OpenXml.Wordprocessing;
 //  using Infrastructure.Data.Migrations;
 
 namespace Infrastructure.Services
@@ -4335,7 +4336,7 @@ namespace Infrastructure.Services
         public async Task<IReadOnlyList<appointments>> GetAppointmentsForRetrieversAsync(AppUser appUser)
         {
             var listofappointments = await _unitOfWork.Repository<appointments>()
-                        .GetEntityListWithSpec(new BaseSpecification<appointments>(x => x.status == "A" && x.casepaperretrieved == false)
+                        .GetEntityListWithSpec(new BaseSpecification<appointments>(x => x.status == "A" && x.casepaperretrieved == false && x.IsActive==true)
                         );
             return listofappointments;
         }
@@ -4520,39 +4521,51 @@ namespace Infrastructure.Services
         public async Task<SessionSetup> ValidateSessionAsync(SessionSetup ret, AppUser au)
         {
             SessionSetup obj;
+
             if (ret.UCode == Guid.Empty)
             {
                 obj = ret;
                 obj.Id = 0;
                 obj.UCode = Guid.NewGuid();
                 obj.CreatedById = au.OfficeUserId;
-                obj.CreatedByName = au.UserName + "-" + au.DisplayName;
+                obj.CreatedByName = $"{au.UserName}-{au.DisplayName}";
                 obj.CreatedOn = DateTime.UtcNow;
                 obj.IsDeleted = false;
-                //  Check for Duplicate
-                var dup = await _unitOfWork.Repository<SessionSetup>()
-                        .GetEntityWithSpec(new BaseSpecification<SessionSetup>(x => x.SessionName == ret.SessionName && x.SessionDate == DateTime.UtcNow)
-                        );
-                if (dup != null)
+
+                var startOfDay = DateTime.UtcNow.Date;
+                var endOfDay = startOfDay.AddDays(1);
+
+                var existingSessions = await _unitOfWork.Repository<SessionSetup>()
+                    .ListAsync(new BaseSpecification<SessionSetup>(
+                        x => x.SessionDate >= startOfDay &&
+                             x.SessionDate < endOfDay &&
+                             !x.IsDeleted && x.IsActive));
+
+                foreach (var s in existingSessions)
                 {
-                    ret.AddErrorMessage("Session already exists !!");
-                    return ret;
+                    s.IsActive = false;
+                    _unitOfWork.Repository<SessionSetup>().Update(s);
                 }
+
+                obj.IsActive = true; // new session becomes active
             }
             else
             {
+                // Existing session — update
                 obj = await _unitOfWork.Repository<SessionSetup>()
-                        .GetEntityWithSpec(new BaseSpecification<SessionSetup>(x => x.UCode == ret.UCode));
+                    .GetEntityWithSpec(new BaseSpecification<SessionSetup>(x => x.UCode == ret.UCode));
 
                 if (obj == null)
                 {
-                    ret.AddErrorMessage("Session doesnot exist");
+                    ret.AddErrorMessage("Session does not exist");
                     return ret;
                 }
+
+                obj.SessionDate = ret.SessionDate;
+                obj.SessionName = ret.SessionName;
+                obj.IsActive = true;
             }
-            obj.SessionDate = ret.SessionDate;
-            obj.SessionName = ret.SessionName;
-            obj.IsActive = ret.IsActive;
+
             return obj;
         }
         public async Task<SessionSetup> SaveSessionAsync(SessionSetup ret)
@@ -4614,6 +4627,18 @@ namespace Infrastructure.Services
 
             foreach (var item in retList)
             {
+                // Validate if the session is active
+                var session = await _unitOfWork.Repository<SessionSetup>()
+                    .GetEntityWithSpec(new BaseSpecification<SessionSetup>(x =>
+                        x.Id == item.SessionId && !x.IsDeleted && x.IsActive));
+
+                if (session == null)
+                {
+                    // Optional: Skip or collect error
+                    item.AddErrorMessage($"Session with ID {item.SessionId} is not active or doesn't exist.");
+                    continue; // Skip processing this item
+                }
+
                 var obj = item;
 
                 if (item.UCode == Guid.Empty)
@@ -4625,25 +4650,13 @@ namespace Infrastructure.Services
                     obj.CreatedOn = DateTime.UtcNow;
                     obj.IsDeleted = false;
                 }
-                else
-                {
-                    var existing = await _unitOfWork.Repository<SessionDoctors>()
-                                .GetEntityWithSpec(new BaseSpecification<SessionDoctors>(x => x.DoctorId == item.DoctorId && x.SessionId == item.SessionId));
-
-                    if (existing != null)
-                    {
-                        item.AddErrorMessage("Doctor already exists");
-                        continue;
-                    }
-                }
-                obj.SessionId = item.SessionId;
-                obj.DoctorId = item.DoctorId;
-                obj.IsActive = item.IsActive;
 
                 validatedList.Add(obj);
             }
+
             return validatedList;
         }
+
         public async Task<IEnumerable<SessionDoctors>> SaveSessionDoctorsAsync(IEnumerable<SessionDoctors> doctors)
         {
             var savedDoctors = new List<SessionDoctors>();
