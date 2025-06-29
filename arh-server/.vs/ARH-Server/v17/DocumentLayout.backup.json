@@ -489,7 +489,7 @@
               "RelativeDocumentMoniker": "Infrastructure\\Services\\MastersService.cs",
               "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\arh-server\\Infrastructure\\Services\\MastersService.cs*",
               "RelativeToolTip": "Infrastructure\\Services\\MastersService.cs*",
-              "ViewState": "AgIAAAsSAAAAAAAAAADwvyESAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAAHYSAAAAAAAAAAAIwIcSAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-13T06:23:33.004Z",
               "EditorCaption": ""
@@ -540,8 +540,7 @@
               "RelativeToolTip": "API\\Controllers\\SessionSetupController.cs",
               "ViewState": "AgIAAC0AAAAAAAAAAAAAAC0AAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-17T11:43:43.707Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-17T11:43:43.707Z"
             },
             {
               "$type": "Document",
@@ -551,10 +550,9 @@
               "RelativeDocumentMoniker": "API\\Controllers\\SessionDoctorController.cs",
               "ToolTip": "C:\\Gauri\\ARHOPD\\ARHProject\\arh-server\\API\\Controllers\\SessionDoctorController.cs",
               "RelativeToolTip": "API\\Controllers\\SessionDoctorController.cs",
-              "ViewState": "AgIAACMAAAAAAAAAAAAAACgAAACDAAAAAAAAAA==",
+              "ViewState": "AgIAADEAAAAAAAAAAAAmwEQAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-17T16:31:33.59Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-17T16:31:33.59Z"
             },
             {
               "$type": "Document",
@@ -566,8 +564,7 @@
               "RelativeToolTip": "API\\Dtos\\SessionDoctorsDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-17T09:24:50.494Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-17T09:24:50.494Z"
             },
             {
               "$type": "Document",
@@ -579,8 +576,7 @@
               "RelativeToolTip": "API\\Controllers\\AppointmentController.cs",
               "ViewState": "AgIAAOwBAAAAAAAAAAAiwPgBAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-14T11:37:11.946Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-14T11:37:11.946Z"
             },
             {
               "$type": "Document",
@@ -604,8 +600,7 @@
               "RelativeToolTip": "API\\Controllers\\PatientController.cs",
               "ViewState": "AgIAAFkAAAAAAAAAAAAmwG0AAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-14T04:15:22.681Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-14T04:15:22.681Z"
             },
             {
               "$type": "Document",
@@ -641,8 +636,7 @@
               "RelativeToolTip": "API\\Controllers\\HistoryController.cs",
               "ViewState": "AgIAAFsBAAAAAAAAAAAawGIBAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T06:59:47.527Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-23T06:59:47.527Z"
             },
             {
               "$type": "Document",
@@ -654,8 +648,7 @@
               "RelativeToolTip": "API\\Controllers\\SesssionDispenseTeamController.cs",
               "ViewState": "AgIAAF8AAAAAAAAAAAAkwHoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-17T16:42:32.403Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-17T16:42:32.403Z"
             },
             {
               "$type": "Document",
@@ -703,8 +696,7 @@
               "RelativeToolTip": "API\\Controllers\\AccountController.cs",
               "ViewState": "AgIAAA4AAAAAAAAAAAAYwCcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-01T15:51:15.545Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-01T15:51:15.545Z"
             },
             {
               "$type": "Document",
@@ -764,8 +756,7 @@
               "RelativeToolTip": "API\\Controllers\\MedicineController.cs",
               "ViewState": "AgIAAL8AAAAAAAAAAAAAAMsAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T05:17:16.755Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-23T05:17:16.755Z"
             },
             {
               "$type": "Document",
@@ -1461,8 +1452,7 @@
               "RelativeToolTip": "..\\..\\..\\..\\Users\\deshp\\AppData\\Local\\SourceServer\\579c6fcef25e6980554af5544beacddfecbb3cd1586380851c266f73798e7ffb\\arh-server\\API\\Controllers\\AppointmentController.cs",
               "ViewState": "AgIAAMcAAAAAAAAAAAAAwNgAAAAAAAAAAQAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-15T12:25:08.88Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-15T12:25:08.88Z"
             },
             {
               "$type": "Document",

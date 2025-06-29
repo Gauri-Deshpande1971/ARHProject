@@ -4703,6 +4703,17 @@ namespace Infrastructure.Services
 
             foreach (var item in team)
             {
+                // ✅ Check if the session is active
+                var session = await _unitOfWork.Repository<SessionSetup>()
+                    .GetEntityWithSpec(new BaseSpecification<SessionSetup>(x =>
+                        x.Id == item.SessionId && !x.IsDeleted && x.IsActive));
+
+                if (session == null)
+                {
+                    item.AddErrorMessage($"Session with ID {item.SessionId} is not active or does not exist.");
+                    continue;
+                }
+
                 var obj = item;
 
                 if (item.UCode == Guid.Empty)
@@ -4713,27 +4724,28 @@ namespace Infrastructure.Services
                     obj.CreatedByName = au != null ? $"{au.UserName}-{au.DisplayName}" : "Admin";
                     obj.CreatedOn = DateTime.UtcNow;
                     obj.IsDeleted = false;
-
                 }
                 else
                 {
                     var existing = await _unitOfWork.Repository<SessionDispenseTeam>()
-                                .GetEntityWithSpec(new BaseSpecification<SessionDispenseTeam>(x => x.MemberId == item.MemberId && x.SessionId == item.SessionId));
+                        .GetEntityWithSpec(new BaseSpecification<SessionDispenseTeam>(x =>
+                            x.MemberId == item.MemberId && x.SessionId == item.SessionId && !x.IsDeleted));
 
                     if (existing != null)
                     {
-                        item.AddErrorMessage("Team member already exists");
+                        item.AddErrorMessage("Team member already exists in this session.");
                         continue;
                     }
                 }
 
-                // Copy other values like SessionId, IsActive, etc.
+                // ✅ Copy remaining properties
                 obj.SessionId = item.SessionId;
                 obj.MemberId = item.MemberId;
                 obj.IsActive = item.IsActive;
 
                 validatedList.Add(obj);
             }
+
             return validatedList;
         }
         public async Task<IEnumerable<SessionDispenseTeam>> SaveSessionDispenseTeamAsync(IEnumerable<SessionDispenseTeam> members)
