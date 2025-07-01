@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public int patient_id { get; set; }
-        public DateTime visit_date { get; set; }
+        public DateTime? visit_date { get; set; }
         public int retId { get; set; }
         public DateTime? casepaperretrievaltime { get; set; }
         public bool casepaperretrieved { get; set; } = false;

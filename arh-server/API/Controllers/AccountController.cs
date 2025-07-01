@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace API.Controllers
 {
@@ -254,17 +255,23 @@ namespace API.Controllers
 
                 };
 
-                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+              //  var identity = new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme);
+
                 var principal = new ClaimsPrincipal(identity);
-
                 await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, principal);
-
+                // await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, principal);
+                //var id=HttpContext.User.Identity as ClaimsIdentity;
+                //if(id!=null)
+                // {
+                //     var userclaims = id.Claims;
+                // }
             }
             if (!res)
             {
                 return Unauthorized(new ApiResponse(401));
             }
-
+            
             return new UserDto
             {
                 Email=user.Email,
@@ -274,6 +281,7 @@ namespace API.Controllers
                 AppRoleCode = user.AppRoleCode,
                 ChangePassword = user.ChangePassword
             };
+            
         }
 
         [HttpPost("continuelogin")]

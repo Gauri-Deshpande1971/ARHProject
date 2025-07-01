@@ -109,16 +109,27 @@ services.AddMvc();
 //     options.JsonSerializerOptions.PropertyNamingPolicy = null;
 // })
 services.AddFluentValidationAutoValidation();
-
-services.AddCors(opt =>
+builder.Services.AddCors(options =>
 {
-    opt.AddPolicy("CorsPolicy", policy =>
+    options.AddPolicy("AllowAngularApp", policy =>
     {
-        policy.AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowAnyOrigin();
+        policy.WithOrigins("http://localhost:4200") // 👈 your Angular app URL
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+        .AllowCredentials();
+             // Optional: only if cookies/sessions are used
     });
 });
+
+//services.AddCors(opt =>
+//{
+//    opt.AddPolicy("CorsPolicy", policy =>
+//    {
+//        policy.AllowAnyHeader()
+//            .AllowAnyMethod()
+//            .AllowAnyOrigin();
+//    });
+//});
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -196,12 +207,23 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/content"
 });
 app.UseRouting();
+app.Use(async (context, next) =>
+{
+    Console.WriteLine("Is Authenticated: " + context.User.Identity?.IsAuthenticated);
+    foreach (var claim in context.User.Claims)
+    {
+        Console.WriteLine($"CLAIM: {claim.Type} = {claim.Value}");
+    }
+    await next();
+});
+
 if (!string.IsNullOrEmpty(_config["AllowCORS"]))
 {
     if (_config["AllowCORS"].ToString().ToUpper() == "YES")
     {
         //  app.UseCors("CorsPolicy");
-        app.UseCors("CorsPolicy");
+        // app.UseCors("CorsPolicy");
+        app.UseCors("AllowAngularApp");
     }
 }
 

@@ -3310,7 +3310,8 @@
           },
           "visit_date": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
           "retId": {
             "type": "integer",

@@ -3721,7 +3721,7 @@ namespace Infrastructure.Services
                        );
             return historyPatients;
         }
-        public async Task<patient> ValidatePatientAsync(patient ret, AppUser au = null)
+        public async Task<patient> ValidatePatientAsync(patient ret, AppUser au)
         {
             if (au == null)
             {
