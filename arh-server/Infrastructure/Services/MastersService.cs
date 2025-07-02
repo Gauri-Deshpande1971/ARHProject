@@ -538,6 +538,7 @@ namespace Infrastructure.Services
                     nou.Submenus.Add(new NavmenuOfUser
                     {
                         Id = sub.Id,
+                        ParId=sub.ParId,
                         NavLink = sub.NavLink,
                         NavMenuName = sub.NavMenuName,
                         IconClass = sub.IconClass,
