@@ -26,7 +26,7 @@ namespace Infrastructure.Services
             });
         }
 
-        public async Task<string> AddEventAsync(string summary, string description, DateTime start, DateTime end)
+        public async Task<string> AddEventAsync(string summary, string description, DateTime? start, DateTime? end)
         {
             var calendarId = summary; // Or your custom calendar ID
 

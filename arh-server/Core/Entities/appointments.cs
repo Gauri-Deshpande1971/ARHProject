@@ -13,7 +13,7 @@ namespace Core.Entities
      public int retId { get; set; }
      public DateTime? casepaperretrievaltime {  get; set; }
      public bool casepaperretrieved { get; set; }    = false;
-     public DateTime visit_date { get; set; }
+     public DateTime? visit_date { get; set; }
      public string category { get; set; }//FU,PC,CR
      public string status { get; set; }// (A/D/AD/DIS/CAS/DISP)				
      public int? assistantDoctorId { get; set; }//if assistant doctor does the followUp

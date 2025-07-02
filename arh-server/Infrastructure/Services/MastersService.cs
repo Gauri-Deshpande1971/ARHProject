@@ -793,7 +793,6 @@ namespace Infrastructure.Services
 
             return r;
         }
-
         public async Task<IReadOnlyList<Country>> GetCountriesAsync(AppUser appUser)
         {
             var r = await _unitOfWork.Repository<Country>().ListAllAsync();
@@ -4303,9 +4302,118 @@ namespace Infrastructure.Services
                         );
             return appointments;
         }
-        public async Task<appointments> UpdateRetrieverAppointmentAsync(appointments ret,AppUser cu)//when retriever clicks done
+        public async Task<List<prescription>> ValidatePrescriptionAsync(List<prescription> ret, AppUser cu)
         {
-            ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
+            var validatedList = new List<prescription>();
+
+            foreach (var item in ret)
+            {
+                prescription obj;
+
+                if (item.UCode == Guid.Empty)
+                {
+                    obj = item;
+                    obj.Id = 0;
+                    obj.UCode = Guid.NewGuid();
+                    obj.CreatedById = cu.OfficeUserId;
+                    obj.CreatedByName = $"{cu.UserName}-{cu.DisplayName}";                   
+
+                    // Check for Duplicate
+                    var dup = await _unitOfWork.Repository<prescription>()
+                        .GetEntityWithSpec(new BaseSpecification<prescription>(x => x.Id == item.Id));
+
+                    if (dup != null)
+                    {
+                        item.AddErrorMessage("Prescription already exists !!");
+                        validatedList.Add(item); // still add with error if needed
+                        continue;
+                    }
+                }
+                else
+                {
+                    obj = await _unitOfWork.Repository<prescription>()
+                        .GetEntityWithSpec(new BaseSpecification<prescription>(x => x.UCode == item.UCode));
+
+                    if (obj == null)
+                    {
+                        item.AddErrorMessage("Prescription cannot be edited");
+                        validatedList.Add(item); // still add with error if needed
+                        continue;
+                    }
+                    obj.medicineId = item.medicineId;
+                    obj.dosageId = item.dosageId;
+                    obj.sosId = item.sosId;
+                    obj.rateId = item.rateId;
+                    obj.IsActive = item.IsActive;
+                }                // Map editable fields (optional - adjust based on your needs)
+               
+
+                validatedList.Add(obj);
+            }
+
+            return validatedList;
+        }
+        public async Task<List<prescription>> SavePrescriptionAsync(List<prescription> ret)
+        {
+            foreach (var item in ret)
+            {              
+
+                if (item.Id == 0)
+                {
+                    _unitOfWork.Repository<prescription>().Add(item);
+                }
+                else
+                    _unitOfWork.Repository<prescription>().Update(item);
+            }
+
+            try
+            {
+                var res = await _unitOfWork.Repository<prescription>().Complete();
+                if (res <= 0)
+                {
+                    ret.First().AddErrorMessage("Unable to save prescription");
+                }
+            }
+            catch (Exception ex)
+            {
+                ret.First().AddErrorMessage("Exception: " + ex.Message);
+            }
+
+            return ret;
+
+        }
+        public async Task<appointments> UpdateAppointmentStatusAndDetailsAsync(appointments ret, AppUser cu)
+        {
+            ret.CreatedById = cu.OfficeUserId;          
+            ret.CreatedByName = cu.UserName + "-" + cu.DisplayName;
+            ret.status = "CS";
+            _unitOfWork.Repository<appointments>().Update(ret);
+
+            try
+            {
+                var res = await _unitOfWork.Repository<appointments>().Complete();
+                if (res <= 0)
+                {
+                    ret.AddErrorMessage("Unable to Save");
+                }
+                else
+                {
+                    await _unitOfWork.Repository<appointments>().Complete();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ret.AddErrorMessage("Exception: " + ex.Message);
+            }
+
+            return ret;
+
+            //please send Courier type in ExtraValue1 field in case of courier category
+            //please send doctorId in case Assistant doctor has done the consultation
+        }
+        public async Task<appointments> UpdateRetrieverAppointmentAsync(appointments ret,AppUser cu)//when retriever clicks done
+        {          
             ret.retId = cu.OfficeUserId;
             ret.CreatedByName= cu.UserName + "-" + cu.DisplayName;
             ret.casepaperretrieved = true;

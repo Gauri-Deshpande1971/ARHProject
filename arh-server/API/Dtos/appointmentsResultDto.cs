@@ -3,7 +3,7 @@
     public class appointmentsViewDto : BaseDto
     {
         public int Id { get; set; }
-        public DateTime AppointmentDate { get; set; }
+        public DateTime? AppointmentDate { get; set; }
         public int? AssistantDoctorId { get; set; }
         public bool IsActive { get; set; }
         public string PatientFullName { get; set; }

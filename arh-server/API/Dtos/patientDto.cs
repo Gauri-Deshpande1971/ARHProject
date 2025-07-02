@@ -19,8 +19,7 @@ namespace API.Dtos
         public string? TypeofPatient { get; set; } //(Staff/Free/Regular)
         public int? percconcession { get; set; }
         public string? RegNo { get; set; }
-        public bool medicalkit { get; set; }
-        [EmailAddress]
+        public bool medicalkit { get; set; }        
         public string? emailId { get; set; }
         public bool history { get; set; } = false;
     }

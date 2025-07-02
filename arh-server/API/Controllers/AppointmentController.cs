@@ -148,10 +148,17 @@ namespace API.Controllers
                     var calendarService = new CalendarServiceHelper(credentialPath);
                     var summary = doctor.Email;
                     var description = $"Follow-up appointment for Patient ID: {patient.RegNo}";
-                    var start = a.visit_date;
-                    var end = a.visit_date.AddMinutes(30); // Default 30 min duration
-
-                    string eventUrl = await calendarService.AddEventAsync(summary, description, start, end);
+                   
+                    DateTime? end = null;
+                    DateTime? start = null;
+                    string eventUrl = "";
+                    if (a.visit_date.HasValue)
+                    {
+                        start = a.visit_date;
+                        end = a.visit_date.Value.AddMinutes(30);
+                    }
+                    if(start.HasValue && end.HasValue) 
+                      eventUrl = await calendarService.AddEventAsync(summary, description, start, end);
 
                     // Optionally store or log the calendar event URL
                     Console.WriteLine("Google Event Created: " + eventUrl);
@@ -270,6 +277,40 @@ namespace API.Controllers
 
             return Ok(_mapper.Map<appointments, appointmentsDto>(a));
         }
+        [HttpPost("updateconsultationMilestone")]
+        public async Task<ActionResult<appointmentsDto>> UpdateconsultationStatus(appointmentsDto appointments)
+        {
+            if (appointments == null)
+            {
+                return BadRequest(new ApiResponse(401, "No User info received !!"));
+            }
+
+            if (!appointments.IsValidForSave())
+            {
+                return BadRequest(new ApiResponse(401, "Incomplete info received !!"));
+            }
+
+            var cu = await GetCurrentUser();
+
+            appointments a = null;
+            try
+            {
+                a = _mapper.Map<appointmentsDto, appointments>(appointments);
+
+                a = await _ms.UpdateAppointmentStatusAndDetailsAsync(a, cu);//send Milestone CS, appointmentId and MilestoneTime
+                if (a == null)
+                {
+                    return BadRequest(new ApiResponse(401, "Unable to Save"));
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse(401, "Data received issue:\r\n" + ex.Message));
+            }
+
+            return Ok(_mapper.Map<appointments, appointmentsDto>(a));
+        }
+
 
         [HttpPost("saveappointmentByFileNo")]
         public async Task<ActionResult<appointmentsDto>> SaveAppointmentByFileNo(string regNo)
@@ -495,7 +536,55 @@ namespace API.Controllers
             }
             return null;
         }
-        [HttpGet("getAppointmentForDoctor")]
+        [HttpPost("SavePrescription")]
+        public async Task<ActionResult<List<investigationsDto>>> SavePrescriptions(List<prescriptionDto> prescriptionsDtoList)
+        {
+            if (prescriptionsDtoList == null || prescriptionsDtoList.Count == 0)
+            {
+                return BadRequest(new ApiResponse(401, "No prescription data received."));
+            }
+
+            if (!prescriptionsDtoList.All(i => i.IsValidForSave()))
+            {
+                return BadRequest(new ApiResponse(401, "Some prescriptions have missing data."));
+            }
+
+            var cu = await GetCurrentUser();
+            foreach (var item in prescriptionsDtoList)
+            {
+                if (item.UCode == Guid.Empty)
+                    item.UCode = Guid.NewGuid();
+            }
+            try
+            {
+                // Map DTO to entity
+                var entityList = _mapper.Map<List<prescriptionDto>, List<prescription>>(prescriptionsDtoList);
+
+                // ✅ Validate prescriptions
+                var validatedList = await _ms.ValidatePrescriptionAsync(entityList, cu);
+
+                // Check for validation errors
+                var errorItem = validatedList.FirstOrDefault(x => x.Errors != null && !string.IsNullOrEmpty(x.Errors.errormessage));
+                if (errorItem != null)
+                {
+                    return BadRequest(new ApiResponse(401, errorItem.Errors.errormessage));
+                }
+
+                // Save prescriptions
+                var savedList = await _ms.SavePrescriptionAsync(validatedList);
+
+                // Final mapping back to DTO
+                var dtoList = _mapper.Map<List<prescription>, List<prescriptionDto>>(savedList);
+
+                return Ok(dtoList);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse(500, "Server error: " + ex.Message));
+            }
+        }
+
+            [HttpGet("getAppointmentForDoctor")]
         public async Task<IActionResult> GetAppointmentsForDoctor()
         {
             var currentuser= await GetCurrentUser();

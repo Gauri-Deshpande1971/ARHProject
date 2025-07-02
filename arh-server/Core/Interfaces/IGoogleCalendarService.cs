@@ -7,6 +7,6 @@ namespace Core.Interfaces
 {
     public interface IGoogleCalendarService
     {
-        Task<string> AddEventAsync(string summary, string description, DateTime start, DateTime end);
+        Task<string> AddEventAsync(string summary, string description, DateTime? start, DateTime? end);
     }
 }

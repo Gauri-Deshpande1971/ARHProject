@@ -34,7 +34,6 @@ namespace Core.Interfaces
         Task<IReadOnlyList<City>> GetCitiesAsync(AppUser appUser);
         Task<City> GetCityByNameAsync(string CityName);
         Task<City> GetCityByCodeAsync(string UCode);
-        Task<IReadOnlyList<Country>> GetCountriesAsync(AppUser appUser);
         Task<Country> GetCountryByNameAsync(string CountryName);
         Task<Country> GetCountryByCodeAsync(string UCode);
         Task<IReadOnlyList<FormGridHeader>> GetFormGridHeadersAsync(AppUser appUser);
@@ -196,10 +195,14 @@ namespace Core.Interfaces
         Task<IImportExcelData<patient>> BulkValidatePatientAsync(IImportExcelData<patient> ret, AppUser au);
         Task<bool> SaveUploadPatientAsync(IReadOnlyList<patient> patients, AppUser au);
         Task<appointments> SaveAppointmentAsync(appointments ret);
+        Task<List<prescription>> SavePrescriptionAsync(List<prescription> ret);
+        Task<List<prescription>> ValidatePrescriptionAsync(List<prescription> ret, AppUser cu);
         Task<appointments> UpdateRetrieverAppointmentAsync(appointments ret, AppUser cu);
+        Task<appointments> UpdateAppointmentStatusAndDetailsAsync(appointments ret, AppUser cu);
         Task<appointmentMilestone> SaveAppointmentMilestoneAsync(appointmentMilestone ret);
         Task<appointmentMilestone> ValidateAppointmentMilestoneAsync(appointmentMilestone ret, AppUser au);
         Task<IReadOnlyList<appointments>> GetAppointmentsAsync(AppUser appUser);
+        Task<IReadOnlyList<Country>> GetCountriesAsync(AppUser appUser);
         Task<IReadOnlyList<appointments>> GetAppointmentsForRetrieversAsync(AppUser appUser);
         Task<IReadOnlyList<appointments>> GetAppointmentByPatientIdAsync(int patient_id);
         Task<appointments> ValidateAppointmentAsync(appointments ret, AppUser au);
