@@ -212,6 +212,7 @@ namespace Core.Interfaces
         Task<appointments> ValidateAppointmentAsync(appointments ret, AppUser au);
         Task<IImportExcelData<appointments>> BulkValidateAppointmentAsync(IImportExcelData<appointments> ret, AppUser au);
         Task<SessionSetup> SaveSessionAsync(SessionSetup ret);
+        Task<IReadOnlyList<SessionDoctors>> GetActiveSessionDoctorsAsync();
         Task<SessionSetup> ValidateSessionAsync(SessionSetup ret, AppUser au);
         Task<IReadOnlyList<SessionSetup>> GetSessionsAsync();
         Task<SessionSetup> GetActiveSessionAsync();

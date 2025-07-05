@@ -8,6 +8,7 @@ using Core.Specifications;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -24,6 +25,23 @@ namespace API.Controllers
         {
             _logger = logger;
             _fgs = fgs;
+        }
+        [HttpGet("getActiveSessionDoctorslist")]
+        public async Task<ActionResult<IReadOnlyList<SessionSetupDto>>> GetActiveSessionDoctorsList()
+        {
+            var currentuser = await GetCurrentUser();
+            var appUsers = await _userManager.Users.ToListAsync();
+
+            var docs = await _ms.GetActiveSessionDoctorsAsync();
+            var doctorsList = from doc in docs
+                              join usr in appUsers on doc.DoctorId equals usr.OfficeUserId into docJoin
+                              from usr in docJoin.DefaultIfEmpty()
+                              select new SessionDoctorsDto
+                              {
+                                  DoctorId = doc.DoctorId,
+                                  DisplayName = usr.DisplayName
+                              };
+            return Ok(doctorsList);
         }
 
         [HttpGet("getSessionDoctorslist")]

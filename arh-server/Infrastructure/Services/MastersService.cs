@@ -538,7 +538,7 @@ namespace Infrastructure.Services
                     nou.Submenus.Add(new NavmenuOfUser
                     {
                         Id = sub.Id,
-                        ParId=sub.ParId,
+                        ParId = sub.ParId,
                         NavLink = sub.NavLink,
                         NavMenuName = sub.NavMenuName,
                         IconClass = sub.IconClass,
@@ -3732,7 +3732,7 @@ namespace Infrastructure.Services
             ret.full_name = ret.full_name.UpperTrim();
 
             patient obj;
-          
+
             if (ret.UCode == Guid.Empty)
             {
                 obj = ret;
@@ -3741,7 +3741,7 @@ namespace Infrastructure.Services
                 obj.CreatedById = au.OfficeUserId;
                 obj.CreatedByName = au.UserName + "-" + au.DisplayName;
                 obj.CreatedOn = DateTime.UtcNow;
-                obj.IsDeleted = false;               
+                obj.IsDeleted = false;
 
                 //  Check for Duplicate
                 var dup = await _unitOfWork.Repository<patient>()
@@ -3762,7 +3762,7 @@ namespace Infrastructure.Services
                     ret.AddErrorMessage("Unknown Patient for editing");
                     return ret;
                 }
-               
+
             }
             obj.full_name = ret.full_name;
             obj.address = ret.address;
@@ -3784,8 +3784,8 @@ namespace Infrastructure.Services
                 ret.DOB = ret.DOB.Value.ToUniversalTime();
             }
             if (ret.Id == 0)
-            {                
-                isNew = true;              
+            {
+                isNew = true;
                 ret.RegNo = await GenerateNewRegNo();
                 _unitOfWork.Repository<patient>().Add(ret);
             }
@@ -3817,7 +3817,7 @@ namespace Infrastructure.Services
         {
             bool isNew = false;
             ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
-            ret.CreatedById=cu.OfficeUserId;
+            ret.CreatedById = cu.OfficeUserId;
             ret.CreatedByName = cu.UserName + "-" + cu.DisplayName;
 
             if (ret.Id == 0)
@@ -3999,7 +3999,7 @@ namespace Infrastructure.Services
             return ret;
 
         }
-        public async Task<patient> UpdatePatientHistoryAsync(patient ret,AppUser cu)
+        public async Task<patient> UpdatePatientHistoryAsync(patient ret, AppUser cu)
         {
             bool isNew = false; ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
             ret.CreatedById = cu.OfficeUserId;
@@ -4036,11 +4036,11 @@ namespace Infrastructure.Services
             return ret;
 
         }
-        public async Task<List<investigations>> SaveInvestigationsAsync(List<investigations> ret,AppUser cu)
+        public async Task<List<investigations>> SaveInvestigationsAsync(List<investigations> ret, AppUser cu)
         {
             foreach (var item in ret)
             {
-                item.CreatedOn = DateTime.UtcNow;               
+                item.CreatedOn = DateTime.UtcNow;
                 item.CreatedById = cu.OfficeUserId;
                 item.CreatedByName = cu.UserName + "-" + cu.DisplayName;
 
@@ -4069,7 +4069,7 @@ namespace Infrastructure.Services
             return ret;
 
         }
-        public async Task<additionalreports> SaveAdditionalReportsAsync(additionalreports ret,AppUser cu)
+        public async Task<additionalreports> SaveAdditionalReportsAsync(additionalreports ret, AppUser cu)
         {
             bool isNew = false;
             ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
@@ -4106,9 +4106,9 @@ namespace Infrastructure.Services
 
             return ret;
         }
-        public async Task<pasthistory> SavePastHistoryAsync(pasthistory ret,AppUser cu)
+        public async Task<pasthistory> SavePastHistoryAsync(pasthistory ret, AppUser cu)
         {
-            bool isNew = false; 
+            bool isNew = false;
             ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
             ret.CreatedById = cu.OfficeUserId;
             ret.CreatedByName = cu.UserName + "-" + cu.DisplayName;
@@ -4144,9 +4144,9 @@ namespace Infrastructure.Services
             return ret;
 
         }
-        public async Task<physicalgen> SavePhysicalgeneralAsync(physicalgen ret,AppUser cu)
+        public async Task<physicalgen> SavePhysicalgeneralAsync(physicalgen ret, AppUser cu)
         {
-            bool isNew = false; 
+            bool isNew = false;
             ret.CreatedOn = ret.CreatedOn.ToUniversalTime();
             ret.CreatedById = cu.OfficeUserId;
             ret.CreatedByName = cu.UserName + "-" + cu.DisplayName;
@@ -4295,7 +4295,7 @@ namespace Infrastructure.Services
             return ret;
 
         }
-        public async Task<IReadOnlyList<appointments>> GetAppointmentByPatientIdAsync( int patient_id)
+        public async Task<IReadOnlyList<appointments>> GetAppointmentByPatientIdAsync(int patient_id)
         {
             var appointments = await _unitOfWork.Repository<appointments>()
                         .GetEntityListWithSpec(new BaseSpecification<appointments>(x => x.patient_id == patient_id)
@@ -4346,7 +4346,7 @@ namespace Infrastructure.Services
                     obj.rateId = item.rateId;
                     obj.IsActive = item.IsActive;
                 }                // Map editable fields (optional - adjust based on your needs)
-               
+
 
                 validatedList.Add(obj);
             }
@@ -4356,7 +4356,7 @@ namespace Infrastructure.Services
         public async Task<List<prescription>> SavePrescriptionAsync(List<prescription> ret)
         {
             foreach (var item in ret)
-            {              
+            {
 
                 if (item.Id == 0)
                 {
@@ -4384,7 +4384,7 @@ namespace Infrastructure.Services
         }
         public async Task<appointments> UpdateAppointmentStatusAndDetailsAsync(appointments ret, AppUser cu)
         {
-            ret.CreatedById = cu.OfficeUserId;          
+            ret.CreatedById = cu.OfficeUserId;
             ret.CreatedByName = cu.UserName + "-" + cu.DisplayName;
             ret.status = "CS";
             _unitOfWork.Repository<appointments>().Update(ret);
@@ -4412,13 +4412,13 @@ namespace Infrastructure.Services
             //please send Courier type in ExtraValue1 field in case of courier category
             //please send doctorId in case Assistant doctor has done the consultation
         }
-        public async Task<appointments> UpdateRetrieverAppointmentAsync(appointments ret,AppUser cu)//when retriever clicks done
-        {          
+        public async Task<appointments> UpdateRetrieverAppointmentAsync(appointments ret, AppUser cu)//when retriever clicks done
+        {
             ret.retId = cu.OfficeUserId;
-            ret.CreatedByName= cu.UserName + "-" + cu.DisplayName;
+            ret.CreatedByName = cu.UserName + "-" + cu.DisplayName;
             ret.casepaperretrieved = true;
             ret.casepaperretrievaltime = DateTime.UtcNow;
-            
+
             _unitOfWork.Repository<appointments>().Update(ret);
 
             try
@@ -4445,7 +4445,7 @@ namespace Infrastructure.Services
         public async Task<IReadOnlyList<appointments>> GetAppointmentsForRetrieversAsync(AppUser appUser)
         {
             var listofappointments = await _unitOfWork.Repository<appointments>()
-                        .GetEntityListWithSpec(new BaseSpecification<appointments>(x => x.status == "A" && x.casepaperretrieved == false && x.IsActive==true)
+                        .GetEntityListWithSpec(new BaseSpecification<appointments>(x => x.status == "A" && x.casepaperretrieved == false && x.IsActive == true)
                         );
             return listofappointments;
         }
@@ -4654,8 +4654,25 @@ namespace Infrastructure.Services
                 {
                     s.IsActive = false;
                     _unitOfWork.Repository<SessionSetup>().Update(s);
-                }
+                    var sessionDoctors = await _unitOfWork.Repository<SessionDoctors>()
+                   .ListAsync(new BaseSpecification<SessionDoctors>(x => x.SessionId == s.Id && x.IsActive));
 
+                    foreach (var doc in sessionDoctors)
+                    {
+                        doc.IsActive = false;
+                        _unitOfWork.Repository<SessionDoctors>().Update(doc);
+                    }
+
+                    // Set IsActive = false for related SessionDispenseTeam
+                    var sessionDispensers = await _unitOfWork.Repository<SessionDispenseTeam>()
+                        .ListAsync(new BaseSpecification<SessionDispenseTeam>(x => x.SessionId == s.Id && x.IsActive));
+
+                    foreach (var disp in sessionDispensers)
+                    {
+                        disp.IsActive = false;
+                        _unitOfWork.Repository<SessionDispenseTeam>().Update(disp);
+                    }
+                }
                 obj.IsActive = true; // new session becomes active
             }
             else
@@ -4723,7 +4740,14 @@ namespace Infrastructure.Services
             r = r.Where(x => x.SessionId == id).ToList();
             return r;
         }
-        public async Task<IReadOnlyList<SessionDispenseTeam>> GetSessionDispenseTeamAsync( int id)
+        public async Task<IReadOnlyList<SessionDoctors>> GetActiveSessionDoctorsAsync()
+        {
+            var activeDoctors = await _unitOfWork.Repository<SessionDoctors>()
+       .GetEntityListWithSpec(new BaseSpecification<SessionDoctors>(x =>
+           !x.IsDeleted && x.IsActive));
+            return activeDoctors;
+        }
+        public async Task<IReadOnlyList<SessionDispenseTeam>> GetSessionDispenseTeamAsync(int id)
         {
             var r = await _unitOfWork.Repository<SessionDispenseTeam>().ListAllAsync();
             r = r.OrderBy(x => x.MemberId).ToList();
@@ -4938,8 +4962,8 @@ namespace Infrastructure.Services
             var patientIds = patients.Select(p => p.Id).ToList();
 
             var appointments = await _unitOfWork.Repository<appointments>()
-         .ListAsync(new BaseSpecification<appointments>(a => patientIds.Contains(a.patient_id) && a.assistantDoctorId==0 && a.IsActive==true));
-            
+         .ListAsync(new BaseSpecification<appointments>(a => patientIds.Contains(a.patient_id) && a.assistantDoctorId == 0 && a.IsActive == true));
+
             return appointments;
         }
         public async Task<IReadOnlyList<Medicine>> GetMedicinesAsync()

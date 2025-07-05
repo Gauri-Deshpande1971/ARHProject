@@ -657,11 +657,12 @@ namespace API.Controllers
                                       AssistantDoctorId = appt.assistantDoctorId,
                                       DoctorName = doc?.DisplayName,
                                       status = appt.status,
+                                      category= appt.category,
                                       CreatedByName = currentuser.UserName,
                                       OfficeUserId = doc.OfficeUserId,
                                       RowBackColor = ""
                                   };
-            return Ok(result);
+            return Ok(appointmentlist);
         }
     }
 

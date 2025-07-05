@@ -2337,6 +2337,44 @@
         }
       }
     },
+    "/api/SessionDoctor/getActiveSessionDoctorslist": {
+      "get": {
+        "tags": [
+          "SessionDoctor"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SessionSetupDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SessionSetupDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SessionSetupDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/SessionDoctor/getSessionDoctorslist": {
       "get": {
         "tags": [
