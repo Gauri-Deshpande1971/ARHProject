@@ -207,6 +207,8 @@ namespace Core.Interfaces
         Task<IReadOnlyList<dosage>> GetDosagesAsync();
         Task<IReadOnlyList<Rate>> GetRatesAsync();
         Task<IReadOnlyList<Rate>> GetSOSAsync();
+        Task<List<prescription>> GetLastPrescriptionByPatientIdAsync(int patientId,int appointment_id);
+        Task<IEnumerable<appointments>> GetAppointmentsForAssistantDoctor(int userId, string approle);
         Task<IReadOnlyList<appointments>> GetAppointmentsForRetrieversAsync(AppUser appUser);
         Task<IReadOnlyList<appointments>> GetAppointmentByPatientIdAsync(int patient_id);
         Task<appointments> ValidateAppointmentAsync(appointments ret, AppUser au);

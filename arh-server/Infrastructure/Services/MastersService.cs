@@ -23,6 +23,7 @@ using Microsoft.EntityFrameworkCore;
 using DocumentFormat.OpenXml.InkML;
 using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.AspNetCore.Http.HttpResults;
 //  using Infrastructure.Data.Migrations;
 
 namespace Infrastructure.Services
@@ -4442,6 +4443,25 @@ namespace Infrastructure.Services
             return ret;
 
         }
+        public async Task<List<prescription>> GetLastPrescriptionByPatientIdAsync(int patientId, int appointment_id)
+        {
+            var lastAppointments = await _unitOfWork.Repository<appointments>()
+                .GetEntityListWithSpec(new BaseSpecification<appointments>(x => x.patient_id==patientId && x.Id < appointment_id && x.visit_date.HasValue  ));
+
+            var latestAppt = lastAppointments
+                .Where(a=> a.visit_date.HasValue)
+                .OrderByDescending(a => a.visit_date)
+                .FirstOrDefault();
+
+            if (latestAppt == null)
+                return new List<prescription>();
+
+            // Step 2: Get prescriptions for that appointment
+            var prescriptions = await _unitOfWork.Repository<prescription>()
+                .ListAsync(new BaseSpecification<prescription>(p => p.appointment_id == latestAppt.Id));
+
+            return prescriptions.ToList();
+        }
         public async Task<IReadOnlyList<appointments>> GetAppointmentsForRetrieversAsync(AppUser appUser)
         {
             var listofappointments = await _unitOfWork.Repository<appointments>()
@@ -4937,34 +4957,55 @@ namespace Infrastructure.Services
 
             return team;
         }
+        public async Task<IEnumerable<appointments>> GetAppointmentsForAssistantDoctor(int userId, string approle)
+        {
+            // Ensure this is a doctor role
+            if (!approle.ToLower().Contains("adoc"))
+            {
+                return Enumerable.Empty<appointments>();
+            }
+
+            int doctorId = userId;
+            var activeSessionDoctors = await GetActiveSessionDoctorsAsync();
+            // Check if the doctorId exists in the list
+            bool exists = activeSessionDoctors.Any(d => d.DoctorId == doctorId);
+            if (exists)
+            // Get patients assigned to this doctor
+            {
+                var appointments = await _unitOfWork.Repository<appointments>()
+             .ListAsync(new BaseSpecification<appointments>(a =>  a.assistantDoctorId == doctorId ));
+                return appointments;
+            }
+            else
+                return new List<appointments>();
+        }
         public async Task<IEnumerable<appointments>> GetAppointmentsForDoctor(int userId, string approle)
         {
             // Ensure this is a doctor role
             if (!approle.ToLower().Contains("doc"))
             {
                 return Enumerable.Empty<appointments>();
-            }
+            }               
 
-            // Get the doctor user
-            var doctor = await _userManager.Users.FirstOrDefaultAsync(u => u.OfficeUserId == userId);
-
-            if (doctor == null || doctor.OfficeUserId == null)
-            {
-                return Enumerable.Empty<appointments>();
-            }
-
-            int doctorId = doctor.OfficeUserId;
-
+            int doctorId = userId; 
+            var activeSessionDoctors = await GetActiveSessionDoctorsAsync();
+            // Check if the doctorId exists in the list
+            bool exists = activeSessionDoctors.Any(d => d.DoctorId == doctorId);
+            if (exists)
             // Get patients assigned to this doctor
-            var patients = await _unitOfWork.Repository<patient>()
+            {
+                var patients = await _unitOfWork.Repository<patient>()
                 .ListAsync(new BaseSpecification<patient>(p => p.DoctorId == doctorId));
 
-            var patientIds = patients.Select(p => p.Id).ToList();
+                var patientIds = patients.Select(p => p.Id).ToList();
 
-            var appointments = await _unitOfWork.Repository<appointments>()
-         .ListAsync(new BaseSpecification<appointments>(a => patientIds.Contains(a.patient_id) && a.assistantDoctorId == 0 && a.IsActive == true));
+                var appointments = await _unitOfWork.Repository<appointments>()
+             .ListAsync(new BaseSpecification<appointments>(a => patientIds.Contains(a.patient_id) && a.assistantDoctorId == 0 && a.IsActive == true));
 
-            return appointments;
+                return appointments;
+            }
+            else
+                return new List<appointments>();
         }
         public async Task<IReadOnlyList<Medicine>> GetMedicinesAsync()
         {

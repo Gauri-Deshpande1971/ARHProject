@@ -16,6 +16,8 @@ using static API.Controllers.AppointmentController;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Security.Claims;
+using Infrastructure.Data;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace API.Controllers
 {
@@ -40,7 +42,8 @@ namespace API.Controllers
         {
             DrSwapnil = 2,
             DrSandeep = 3,
-            DrAkshaya = 4
+            DrAkshaya = 4,
+            DrXYZ=5
         }
         public static class DoctorCredentialPaths
         {
@@ -48,9 +51,10 @@ namespace API.Controllers
             {
                 return doctor switch
                 {
-                    DoctorId.DrSwapnil => "C:\\Gauri\\drswapnil-googleapi.json",
+                    DoctorId.DrSwapnil => "C:\\Gauri\\googleapikey.json",
                     DoctorId.DrSandeep => "C:\\Gauri\\googleapikey.json",
-                    DoctorId.DrAkshaya => "C:\\Gauri\\drakshaya-googleapi.json",
+                    DoctorId.DrAkshaya => "C:\\Gauri\\googleapikey.json",
+                    DoctorId.DrXYZ=> "C:\\Gauri\\googleapikey.json",
                     _ => ""
                 };
             }
@@ -121,7 +125,7 @@ namespace API.Controllers
                 a = _mapper.Map<appointmentsDto, appointments>(appointment);
 
                 a = await _ms.ValidateAppointmentAsync(a, currentuser);
-                if (a.Errors != null && !String.IsNullOrEmpty(a.Errors.errormessage))
+                if (a.Errors != null && !string.IsNullOrEmpty(a.Errors.errormessage))
                 {
                     return BadRequest(new ApiResponse(401, a.Errors.errormessage));
                 }
@@ -133,8 +137,12 @@ namespace API.Controllers
                 }
                 if (existingappointment.Count == 0)
                 {
+                    var credentialPath = "";
                     DoctorId doctorId = (DoctorId)doctor.OfficeUserId;
-                    var credentialPath = DoctorCredentialPaths.GetJsonFilePath(doctorId);
+                    if(a.assistantDoctorId>0)
+                       credentialPath = DoctorCredentialPaths.GetJsonFilePath((DoctorId)(a.assistantDoctorId??0));
+                    else
+                        credentialPath = DoctorCredentialPaths.GetJsonFilePath(doctorId);
 
                     var calendarService = new CalendarServiceHelper(credentialPath);
                     var summary = doctor.Email;
@@ -151,8 +159,7 @@ namespace API.Controllers
                     if (start.HasValue && end.HasValue)
                         eventUrl = await calendarService.AddEventAsync(summary, description, start, end);
 
-                    // Optionally store or log the calendar event URL
-                    Console.WriteLine("Google Event Created: " + eventUrl);
+                    
                     var smtpHost = "smtp.gmail.com";
                     var smtpPort = 587;
                     var smtpUser = "deshpande.gauri.b@gmail.com";
@@ -217,7 +224,7 @@ namespace API.Controllers
                 a = _mapper.Map<appointmentMilestoneDto, appointmentMilestone>(appointmentMilestone);
 
                 a = await _ms.ValidateAppointmentMilestoneAsync(a, cu);
-                if (a.Errors != null && !String.IsNullOrEmpty(a.Errors.errormessage))
+                if (a.Errors != null && !string.IsNullOrEmpty(a.Errors.errormessage))
                 {
                     return BadRequest(new ApiResponse(401, a.Errors.errormessage));
                 }
@@ -416,7 +423,7 @@ namespace API.Controllers
                 return BadRequest(new ApiResponse(401, "Error processing file"));
             }
 
-            if (!String.IsNullOrEmpty(ret.ErrorMessage))
+            if (!string.IsNullOrEmpty(ret.ErrorMessage))
             {
                 return BadRequest(new ApiResponse(401, ret.ErrorMessage));
             }
@@ -432,7 +439,7 @@ namespace API.Controllers
             valsrc.DataSource = _mapper.Map<List<appointmentsDto>, List<appointments>>(ret.DataSource);
 
             valsrc = (ImportExcelData<appointments>)(await _ms.BulkValidateAppointmentAsync(valsrc, currentuser));
-            if (!String.IsNullOrEmpty(valsrc.ErrorMessage))
+            if (!string.IsNullOrEmpty(valsrc.ErrorMessage))
             {
                 return BadRequest(new ApiResponse(401, ret.ErrorMessage));
             }
@@ -651,6 +658,7 @@ namespace API.Controllers
                                       Id = appt.Id,
                                       AppointmentDate = appt.visit_date,
                                       IsActive = appt.IsActive,
+                                      patient_id = appt.patient_id,
                                       PatientFullName = pat?.full_name,
                                       PatientRegNo = pat?.RegNo,
                                       DoctorId = pat?.DoctorId,
@@ -664,8 +672,78 @@ namespace API.Controllers
                                   };
             return Ok(appointmentlist);
         }
+        [HttpGet("getAppointmentForAssistantDoctor")]
+        public async Task<IActionResult> GetAppointmentsForAssistantDoctor()
+        {
+            var currentuser = await GetCurrentUser();
+
+            var patients = await _fgs.GetUnitOfWork().Repository<patient>().ListAllAsync();
+            var appUsers = await _userManager.Users.ToListAsync();
+            var result = await _ms.GetAppointmentsForAssistantDoctor(currentuser.OfficeUserId, currentuser.AppRoleCode);
+
+            if (result == null || !result.Any())
+            {
+                return NotFound("No appointments found for this doctor.");
+            }
+            var appointmentlist = from appt in result
+                                  join pat in patients on appt.patient_id equals pat.Id into patJoin
+                                  from pat in patJoin.DefaultIfEmpty()
+                                  join doc in appUsers on pat.DoctorId equals doc.OfficeUserId into docJoin
+                                  from doc in docJoin.DefaultIfEmpty()
+                                  select new appointmentsViewDto
+                                  {
+                                      Id = appt.Id,
+                                      AppointmentDate = appt.visit_date,
+                                      IsActive = appt.IsActive,
+                                      patient_id = appt.patient_id,
+                                      PatientFullName = pat?.full_name,
+                                      PatientRegNo = pat?.RegNo,
+                                      DoctorId = pat?.DoctorId,
+                                      AssistantDoctorId = appt.assistantDoctorId,
+                                      DoctorName = doc?.DisplayName,
+                                      status = appt.status,
+                                      category = appt.category,
+                                      CreatedByName = currentuser.UserName,
+                                      OfficeUserId = doc.OfficeUserId,
+                                      RowBackColor = ""
+                                  };
+            return Ok(appointmentlist);
+        }
+        [HttpGet("GetLastPrescriptionByPatient")]
+        public async Task<IActionResult> GetLastPrescriptionByPatient(int patientId, int appointment_id)
+        {
+            if (patientId <= 0)
+                return BadRequest("Invalid patient ID.");
+
+            // Get last appointment for the patient
+            var lastPrescriptions =await _ms.GetLastPrescriptionByPatientIdAsync(patientId,appointment_id);
+            var medicines = await _fgs.GetUnitOfWork().Repository<Medicine>().ListAllAsync();
+            var potencies = await _fgs.GetUnitOfWork().Repository<potency>().ListAllAsync();
+            var dosages = await _fgs.GetUnitOfWork().Repository<dosage>().ListAllAsync();
+            var rates = await _fgs.GetUnitOfWork().Repository<Rate>().ListAllAsync(); // Assuming rate means no. of days
+            var sosList = await _ms.GetSOSAsync();// Optional if sosId exists
+
+            var result = lastPrescriptions.Select(p => new
+            {
+                p.medicineId,
+                MedicineName = medicines.FirstOrDefault(m => m.Id == p.medicineId)?.Name,
+                p.potencyId,
+                PotencyName = potencies.FirstOrDefault(po => po.Id == p.potencyId)?.potencyName,
+                p.dosageId,
+                DosageName = dosages.FirstOrDefault(d => d.Id == p.dosageId)?.dosageName,
+                p.rateId,
+                RateName = rates.FirstOrDefault(r => r.Id == p.rateId)?.Description, // Or Days/Label
+                p.sosId,
+                SosName = sosList.FirstOrDefault(s => s.Id == p.sosId)?.Description,
+                p.notes
+            }).ToList();
+
+            return Ok(result);
+
+        }
+
     }
 
-}
+    }
 
 

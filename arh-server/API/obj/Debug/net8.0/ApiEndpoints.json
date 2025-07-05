@@ -289,6 +289,16 @@
   },
   {
     "ContainingType": "API.Controllers.AppointmentController",
+    "Method": "GetAppointmentsForAssistantDoctor",
+    "RelativePath": "api/Appointment/getAppointmentForAssistantDoctor",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.AppointmentController",
     "Method": "GetAppointmentsForDoctor",
     "RelativePath": "api/Appointment/getAppointmentForDoctor",
     "HttpMethod": "GET",
@@ -368,6 +378,27 @@
       {
         "Name": "FormName",
         "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API.Controllers.AppointmentController",
+    "Method": "GetLastPrescriptionByPatient",
+    "RelativePath": "api/Appointment/GetLastPrescriptionByPatient",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "patientId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "appointment_id",
+        "Type": "System.Int32",
         "IsRequired": false
       }
     ],
