@@ -32,7 +32,7 @@ namespace API.Controllers
         public BaseWithUserApiController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
                 IMapper mapper,
                 IMastersService ms)
-                //, ILogger logger)
+        //, ILogger logger)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -43,9 +43,28 @@ namespace API.Controllers
 
         protected async Task<AppUser> GetCurrentUser()
         {
-            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var user = await _userManager.FindByIdAsync(username);
-            return user;
+            var userx = await _userManager.FindByEmailAsync(User);
+
+            return userx;
+
+            //        var ux = await _userManager.FindUserFromClaimsPrinciple("admin");
+
+            //        var xx = await _userManager.FindEmailFromClaimsPrinciple(ClaimsPrincipal.Current);
+
+            //        //  if (ux == null)
+            //        //  {
+            //        //      return null;
+            //        //  }
+
+            //        ////  return (await ux.("EDPNo", ux));
+            //        //  return ux;
+            //        string mobile = User?.Claims
+            //.FirstOrDefault(c => c.Type == ClaimTypes.MobilePhone ||
+            //                     c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/mobilephone")
+            //?.Value;
+            //        var userId = User.FindFirst("nameid")?.Value;
+            //       // var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier); // gets 'sub' claim from token
+            //        return await _userManager.FindUserFromClaimsPrinciple(mobile);
         }
         protected async Task<ActionLog> AddActionLog(ActionLog actlg)
         {
@@ -88,10 +107,10 @@ namespace API.Controllers
 
         public async Task<ActionResult> GetFormGridCols<T>(string FormName, IFormGridService<T> fgs)
         {
-            var gc =await fgs.GetFormGridDetails(FormName, -1);
+            var gc = await fgs.GetFormGridDetails(FormName, -1);
             gc = gc.OrderBy(x => x.Position).ToList();
 
-            foreach(var v in gc) 
+            foreach (var v in gc)
             {
                 v.FieldName = System.Text.Json.JsonNamingPolicy.CamelCase.ConvertName(v.FieldName);
             }
@@ -100,10 +119,10 @@ namespace API.Controllers
 
         public async Task<ActionResult> RefreshFormGridCols<T>(string FormName, IFormGridService<T> fgs)
         {
-            var gc =await fgs.RefreshFormGridDetails(FormName, -1);
+            var gc = await fgs.RefreshFormGridDetails(FormName, -1);
             gc = gc.OrderBy(x => x.Position).ToList();
 
-            foreach(var v in gc) 
+            foreach (var v in gc)
             {
                 v.FieldName = System.Text.Json.JsonNamingPolicy.CamelCase.ConvertName(v.FieldName);
             }
@@ -149,7 +168,7 @@ namespace API.Controllers
             return File(ret, contentType, FormName + "Data.xlsx");
         }
 
-        public async Task<IImportExcelData<T>> BulkUpload<T>(CancellationToken cancellationToken, IFormFile file, string FormName, IFormGridService<T> fgs, string datefields=null)
+        public async Task<IImportExcelData<T>> BulkUpload<T>(CancellationToken cancellationToken, IFormFile file, string FormName, IFormGridService<T> fgs, string datefields = null)
         {
             //var file = Request.Form.Files[0];
             string ext = Path.GetExtension(file.FileName);
@@ -189,7 +208,7 @@ namespace API.Controllers
                 var ux = await GetCurrentUser();
 
                 var up = await fgs.ImportExcelData(FormName, ux, fullPath, null, datefields);
-                foreach(var v in up.Headings) 
+                foreach (var v in up.Headings)
                 {
                     v.FieldName = System.Text.Json.JsonNamingPolicy.CamelCase.ConvertName(v.FieldName);
                 }

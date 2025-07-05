@@ -25,11 +25,12 @@ namespace Infrastructure.Services
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim("nameid", user.Id),
                 new Claim(ClaimTypes.MobilePhone, user.MobileNo),
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.GivenName, user.DisplayName),
-                new Claim(ClaimTypes.Role, user.AppRoleCode)
+                new Claim(ClaimTypes.Role, user.AppRoleCode),
+                new Claim(ClaimTypes.NameIdentifier, user.Id)
             };
 
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
@@ -69,3 +70,4 @@ namespace Infrastructure.Services
 
     }
 }
+

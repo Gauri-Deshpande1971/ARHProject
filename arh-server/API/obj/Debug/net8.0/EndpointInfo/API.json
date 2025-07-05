@@ -466,18 +466,6 @@
         }
       }
     },
-    "/api/Appointment/test-claims": {
-      "get": {
-        "tags": [
-          "Appointment"
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
     "/api/Appointment/checkheader": {
       "get": {
         "tags": [
@@ -940,6 +928,158 @@
         }
       }
     },
+    "/api/Appointment/getdosage": {
+      "get": {
+        "tags": [
+          "Appointment"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Medicine"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Medicine"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Medicine"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Appointment/getrates": {
+      "get": {
+        "tags": [
+          "Appointment"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Medicine"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Medicine"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Medicine"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Appointment/getpotencies": {
+      "get": {
+        "tags": [
+          "Appointment"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Medicine"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Medicine"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Medicine"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Appointment/getsosMedicines": {
+      "get": {
+        "tags": [
+          "Appointment"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Medicine"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Medicine"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Medicine"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Appointment/getAppointmentForDoctor": {
       "get": {
         "tags": [
@@ -1199,6 +1339,44 @@
         "responses": {
           "200": {
             "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Medicine/getmedicineslist": {
+      "get": {
+        "tags": [
+          "Medicine"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MedicineDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MedicineDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MedicineDto"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -2823,6 +3001,155 @@
         },
         "additionalProperties": false
       },
+      "Medicine": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdById": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdByName": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "uCode": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sequenceNo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "extraId1": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraId2": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraValue1": {
+            "type": "string",
+            "nullable": true
+          },
+          "extraValue2": {
+            "type": "string",
+            "nullable": true
+          },
+          "logHistory": {
+            "type": "string",
+            "nullable": true
+          },
+          "jsonData": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "$ref": "#/components/schemas/ExcelUploadError"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "organizationNameInclude": {
+            "type": "string",
+            "nullable": true
+          },
+          "organizationNameExclude": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MedicineDto": {
+        "type": "object",
+        "properties": {
+          "createdOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdByName": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "isUpdated": {
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "type": "boolean"
+          },
+          "isExisting": {
+            "type": "boolean"
+          },
+          "uCode": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sequenceNo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "extraId1": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraId2": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "extraValue1": {
+            "type": "string",
+            "nullable": true
+          },
+          "extraValue2": {
+            "type": "string",
+            "nullable": true
+          },
+          "jsonData": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "organizationNameInclude": {
+            "type": "string",
+            "nullable": true
+          },
+          "organizationNameExclude": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "NavmenuOfUser": {
         "type": "object",
         "properties": {
@@ -2993,10 +3320,6 @@
           "isExisting": {
             "type": "boolean"
           },
-          "uCode": {
-            "type": "string",
-            "format": "uuid"
-          },
           "sequenceNo": {
             "type": "integer",
             "format": "int32"
@@ -3034,6 +3357,18 @@
           "memberId": {
             "type": "integer",
             "format": "int32"
+          },
+          "displayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "uCode": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
@@ -3060,10 +3395,6 @@
           },
           "isExisting": {
             "type": "boolean"
-          },
-          "uCode": {
-            "type": "string",
-            "format": "uuid"
           },
           "sequenceNo": {
             "type": "integer",
@@ -3102,6 +3433,18 @@
           "doctorId": {
             "type": "integer",
             "format": "int32"
+          },
+          "displayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "uCode": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
@@ -4683,14 +5026,16 @@
       "Bearer": {
         "type": "http",
         "description": "Enter 'Bearer' followed by a space and the JWT token.\r\nExample: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6...",
-        "scheme": "Bearer",
+        "scheme": "bearer",
         "bearerFormat": "JWT"
       }
     }
   },
   "security": [
     {
-      "Bearer": [ ]
+      "Bearer": [
+        "Bearer"
+      ]
     }
   ]
 }

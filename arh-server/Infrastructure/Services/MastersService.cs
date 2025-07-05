@@ -770,7 +770,7 @@ namespace Infrastructure.Services
             return r;
         }
 
-        public async Task<IReadOnlyList<City>> GetCitiesAsync(AppUser appUser)
+        public async Task<IReadOnlyList<City>> GetCitiesAsync()
         {
             var r = await _unitOfWork.Repository<City>().ListAllAsync();
             r = r.OrderBy(x => x.CityName).ToList();
@@ -793,7 +793,7 @@ namespace Infrastructure.Services
 
             return r;
         }
-        public async Task<IReadOnlyList<Country>> GetCountriesAsync(AppUser appUser)
+        public async Task<IReadOnlyList<Country>> GetCountriesAsync()
         {
             var r = await _unitOfWork.Repository<Country>().ListAllAsync();
             r = r.OrderBy(x => x.CountryName).ToList();
@@ -4316,8 +4316,8 @@ namespace Infrastructure.Services
                     obj.Id = 0;
                     obj.UCode = Guid.NewGuid();
                     obj.CreatedById = cu.OfficeUserId;
-                    obj.CreatedByName = $"{cu.UserName}-{cu.DisplayName}";                   
-
+                    obj.CreatedByName = $"{cu.UserName}-{cu.DisplayName}";
+                    obj.IsDeleted = false;
                     // Check for Duplicate
                     var dup = await _unitOfWork.Repository<prescription>()
                         .GetEntityWithSpec(new BaseSpecification<prescription>(x => x.Id == item.Id));
@@ -4941,6 +4941,40 @@ namespace Infrastructure.Services
          .ListAsync(new BaseSpecification<appointments>(a => patientIds.Contains(a.patient_id) && a.assistantDoctorId==0 && a.IsActive==true));
             
             return appointments;
+        }
+        public async Task<IReadOnlyList<Medicine>> GetMedicinesAsync()
+        {
+            var r = await _unitOfWork.Repository<Medicine>().ListAllAsync();
+            r = r.OrderBy(x => x.Name).ToList();
+
+            return r;
+        }
+        public async Task<IReadOnlyList<potency>> GetPotenciesAsync()
+        {
+            var r = await _unitOfWork.Repository<potency>().ListAllAsync();
+            r = r.OrderBy(x => x.potencyName).ToList();
+
+            return r;
+        }
+        public async Task<IReadOnlyList<dosage>> GetDosagesAsync()
+        {
+            var r = await _unitOfWork.Repository<dosage>().ListAllAsync();
+            r = r.OrderBy(x => x.dosageName).ToList();
+
+            return r;
+        }
+        public async Task<IReadOnlyList<Rate>> GetRatesAsync()
+        {
+            var r = await _unitOfWork.Repository<Rate>().ListAllAsync();
+            r = r.OrderBy(x => x.Description).ToList();
+
+            return r;//concatenate Description+ Day+medicineName
+        }
+        public async Task<IReadOnlyList<Rate>> GetSOSAsync()
+        {
+            var spec = new BaseSpecification<Rate>(x => x.Description.StartsWith("SOS"));
+            var sos = await _unitOfWork.Repository<Rate>().ListAsync(spec);
+            return sos.OrderBy(x => x.Description).ToList();
         }
         Task<OfficeUser> IMastersService.GetOfficeUser(AppUser appUser)
         {

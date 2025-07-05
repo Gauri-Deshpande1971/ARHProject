@@ -204,6 +204,11 @@ namespace API.Controllers
             }
 
             var user = await _userManager.FindUserFromClaimsPrinciple(loginDto.UserName);
+         //   var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
+
+            //if (!result.Succeeded)
+            //    return Unauthorized("Invalid password");
+
             if (user == null)
             {
                 //_logger.LogInformation("User doesn't exist");
@@ -245,28 +250,7 @@ namespace API.Controllers
                 return NotFound(new ApiResponse(401, "Contact Admin !!"));
             }
             var res = await _ms.LoginSucceeded(oe.FirstOrDefault());
-            if(res!=null)
-            {
-                var claims = new List<Claim>
-                {                    
-                     new Claim(ClaimTypes.NameIdentifier, user.Id),  
-                     new Claim(ClaimTypes.MobilePhone, user.MobileNo),
-                     new Claim(ClaimTypes.Role,user.AppRoleCode)
 
-                };
-
-                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-              //  var identity = new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme);
-
-                var principal = new ClaimsPrincipal(identity);
-                await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, principal);
-                // await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, principal);
-                //var id=HttpContext.User.Identity as ClaimsIdentity;
-                //if(id!=null)
-                // {
-                //     var userclaims = id.Claims;
-                // }
-            }
             if (!res)
             {
                 return Unauthorized(new ApiResponse(401));

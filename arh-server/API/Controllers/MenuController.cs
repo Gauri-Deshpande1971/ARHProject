@@ -24,9 +24,9 @@ namespace API.Controllers
             _logger = logger;
         }
 
-
-        [HttpGet("getnavmenus")]
-        [Authorize] // Optional: Use if JWT/Auth is implemented
+        [Authorize]
+        [HttpGet("getnavmenus")]      
+       // Optional: Use if JWT/Auth is implemented
         public async Task<ActionResult<IReadOnlyList<NavmenuOfUser>>> GetUserNavMenus()
         {
             var currentuser = await GetCurrentUser();

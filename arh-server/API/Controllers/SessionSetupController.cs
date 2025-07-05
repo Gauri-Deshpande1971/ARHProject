@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Core.Specifications;
 using Infrastructure.Data;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace API.Controllers
 {
@@ -30,12 +31,12 @@ namespace API.Controllers
             _logger = logger;
             _fgs = fgs;
         }
-       
+
         [HttpGet("getSessionslist")]
         public async Task<ActionResult<IReadOnlyList<SessionSetupDto>>> GetSessionsList()
         {
             var currentuser = await GetCurrentUser();
-            var ars = await _ms.GetSessionsAsync();         
+            var ars = await _ms.GetSessionsAsync();
 
             var ldx = _mapper.Map<IReadOnlyList<SessionSetup>, IReadOnlyList<SessionSetupDto>>(ars);
 
@@ -54,7 +55,7 @@ namespace API.Controllers
             {
                 return BadRequest(new ApiResponse(401, "Incomplete info received !!"));
             }
-            var cu = await GetCurrentUser();           
+            var cu = await GetCurrentUser();
 
             SessionSetup a = null;
             try
@@ -71,8 +72,8 @@ namespace API.Controllers
                 if (a == null)
                 {
                     return BadRequest(new ApiResponse(401, "Unable to Save"));
-                }              
-             
+                }
+
             }
             catch (Exception ex)
             {
@@ -81,16 +82,16 @@ namespace API.Controllers
 
             return Ok(_mapper.Map<SessionSetup, SessionSetupDto>(a));
         }
-       
+
         [HttpGet("getgridcols")]
         public async Task<ActionResult> GetGridCols(string FormName)
         {
-            var currentuser = await GetCurrentUser();           
+            var currentuser = await GetCurrentUser();
 
             if (FormName == "Session" || FormName == "session")
             {
-                var fgs = new FormGridService<SessionSetupDto>(_fgs.GetUnitOfWork());
-                var columnResult = await this.GetFormGridCols<SessionSetupDto>(FormName, fgs);
+                var fgs = new FormGridService<sessionDetailsDto>(_fgs.GetUnitOfWork());
+                var columnResult = await this.GetFormGridCols<sessionDetailsDto>(FormName, fgs);
                 if (columnResult is not OkObjectResult okColumnResult)
                     return BadRequest("Could not get column metadata.");
 
@@ -101,20 +102,61 @@ namespace API.Controllers
                 var sessionEntities = await _fgs.GetUnitOfWork().Repository<SessionSetup>()
                                       .GetEntityListWithSpec(new BaseSpecification<SessionSetup>(
                     x => x.SessionDate >= today && x.SessionDate < tomorrow)
-                );               
-               
-                var rows = _mapper.Map<IReadOnlyList<SessionSetup>, IReadOnlyList<SessionSetupDto>>(sessionEntities);
+                );
+
+                var appUsers = await _userManager.Users.ToListAsync();
+                var sessionIds = sessionEntities.Select(s => s.Id).ToList();
+
+                var docsInSession = await _fgs.GetUnitOfWork().Repository<SessionDoctors>()
+                    .GetEntityListWithSpec(new BaseSpecification<SessionDoctors>(x => sessionIds.Contains(x.SessionId)));
+
+                var dispenseTeamInSession = await _fgs.GetUnitOfWork().Repository<SessionDispenseTeam>()
+                    .GetEntityListWithSpec(new BaseSpecification<SessionDispenseTeam>(x => sessionIds.Contains(x.SessionId)));
+
+                var sessionDetailsList = sessionEntities.Select(sess => new sessionDetailsDto
+                {
+                    SessionId = sess.Id,
+                    SessionName = sess.SessionName,
+                    SessionDate = sess.SessionDate,
+                    IsActive=sess.IsActive,
+                    SessionDoctors = docsInSession
+                        .Where(d => d.SessionId == sess.Id)
+                        .Select(d =>
+                        {
+                            var user = appUsers.FirstOrDefault(u => u.OfficeUserId == d.DoctorId);
+                            return new SessionDoctorsDto
+                            {
+                                DoctorId = d.DoctorId,
+                                DisplayName = user?.DisplayName,
+                                SessionId=sess.Id,
+                                UCode= d.UCode,
+                            };
+                        }).ToList(),
+
+                    SessionDispenses = dispenseTeamInSession
+                        .Where(d => d.SessionId == sess.Id)
+                        .Select(d =>
+                        {
+                            var user = appUsers.FirstOrDefault(u => u.OfficeUserId == d.MemberId);
+                            return new SessionDispenseTeamDto
+                            {
+                                MemberId = d.MemberId,
+                                DisplayName = user?.DisplayName,
+                                SessionId = sess.Id,
+                                UCode = d.UCode,
+                            };
+                        }).ToList()
+                }).ToList();
                 return Ok(new
                 {
                     Columns = columns,
-                    Rows = rows
+                    Rows = sessionDetailsList
                 });
-
             }
-            return null;
+            return BadRequest();
         }
-    }
 
+    }
 }
 
 

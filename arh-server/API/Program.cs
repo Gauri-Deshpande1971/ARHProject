@@ -19,10 +19,6 @@ using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using Core.Interfaces;
 using AutoMapper;
 using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
-using System.Text;
 
 //using AutoMapper.Extensions.Microsoft.DependencyInjection;
 var builder = WebApplication.CreateBuilder(args);
@@ -33,12 +29,10 @@ var _config = builder.Configuration;
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IMastersService, MastersService>();
-builder.Services.AddScoped<IPaValidator, PaValidator>();
-builder.Services.AddScoped<ITokenService, TokenService>();
+
 //AutoMapper.Extensions.Microsoft.DependencyInjection.ServiceCollectionExtensions
 //    .AddAutoMapper(builder.Services, typeof(MappingProfiles));
-builder.Services.AddAutoMapper(typeof(MappingProfiles)); 
+builder.Services.AddAutoMapper(typeof(MappingProfiles));
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
@@ -48,26 +42,26 @@ builder.Services.AddSwaggerGen(c =>
     {
         Name = "Authorization",
         Type = SecuritySchemeType.Http,
-        Scheme = "Bearer",
+        Scheme = "bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
         Description = "Enter 'Bearer' followed by a space and the JWT token.\r\nExample: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6..."
     });
 
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
-{
     {
-        new OpenApiSecurityScheme
         {
-            Reference = new OpenApiReference
+            new OpenApiSecurityScheme
             {
-                Type = ReferenceType.SecurityScheme,
-                Id = "Bearer"
-            }
-        },
-        Array.Empty<string>()
-    }
-});
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {"Bearer"}
+        }
+    });
 });
 var services = builder.Services;
 services.AddDistributedMemoryCache();
@@ -87,11 +81,14 @@ services.AddDbContext<DBServerContext>(options =>
 {
     options.UseNpgsql(_config.GetConnectionString("DefaultConnection"));
 });
-services.AddIdentity<AppUser, IdentityRole>()
-    .AddEntityFrameworkStores<AppIdentityDbContext>()
-    .AddDefaultTokenProviders();
+
+//  Added in IdentityServices
+//services.AddIdentity<AppUser, IdentityRole>()
+//    .AddEntityFrameworkStores<AppIdentityDbContext>()
+//    .AddDefaultTokenProviders();
+
 services.AddApplicationServices();
-//services.AddIdentityServices(_config);
+services.AddIdentityServices(_config);
 
 // //  This will enable Emailer service
 // if (!string.IsNullOrEmpty(_config["AllowMailer"]))
@@ -109,43 +106,18 @@ services.AddMvc();
 //     options.JsonSerializerOptions.PropertyNamingPolicy = null;
 // })
 services.AddFluentValidationAutoValidation();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp", policy =>
     {
         policy.WithOrigins("http://localhost:4200") // 👈 your Angular app URL
               .AllowAnyHeader()
-              .AllowAnyMethod()
-        .AllowCredentials();
-             // Optional: only if cookies/sessions are used
+              .AllowAnyMethod();
+        //  .AllowCredentials();
+        // Optional: only if cookies/sessions are used
     });
 });
-
-//services.AddCors(opt =>
-//{
-//    opt.AddPolicy("CorsPolicy", policy =>
-//    {
-//        policy.AllowAnyHeader()
-//            .AllowAnyMethod()
-//            .AllowAnyOrigin();
-//    });
-//});
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        var key = Encoding.UTF8.GetBytes(_config["Token:Key"]);
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(key),
-            ValidateIssuer = true,
-            ValidIssuer = _config["Token:Issuer"],
-            ValidateAudience = false,
-            NameClaimType = ClaimTypes.NameIdentifier,
-            RoleClaimType = ClaimTypes.Role
-        };
-    });
-builder.Services.AddAuthorization();
 
 var serviceProvider = services.BuildServiceProvider();
 using (var scope = serviceProvider.CreateScope())
@@ -193,7 +165,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseMiddleware<ExceptionMiddleware>();
 
-app.UseStatusCodePagesWithReExecute("/errors/{0}");
+//  app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
 //app.UseHttpsRedirection();
 
@@ -207,28 +179,16 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/content"
 });
 app.UseRouting();
-app.Use(async (context, next) =>
-{
-    Console.WriteLine("Is Authenticated: " + context.User.Identity?.IsAuthenticated);
-    foreach (var claim in context.User.Claims)
-    {
-        Console.WriteLine($"CLAIM: {claim.Type} = {claim.Value}");
-    }
-    await next();
-});
-
 if (!string.IsNullOrEmpty(_config["AllowCORS"]))
 {
     if (_config["AllowCORS"].ToString().ToUpper() == "YES")
     {
         //  app.UseCors("CorsPolicy");
-        // app.UseCors("CorsPolicy");
         app.UseCors("AllowAngularApp");
     }
 }
 
 //app.UseCors("CorsPolicy");
-
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -247,12 +207,7 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllers();
     //  endpoints.MapFallbackToController("Index", "Fallback");
 });
-app.Use(async (context, next) =>
-{
-    var isAuth = context.User.Identity?.IsAuthenticated ?? false;
-    Console.WriteLine($"Is Authenticated: {isAuth}");
-    await next();
-});
+
 using (var scope = app.Services.CreateScope())
 {
     var srx = scope.ServiceProvider;
@@ -266,9 +221,9 @@ using (var scope = app.Services.CreateScope())
         await identityContext.Database.MigrateAsync();
         await AppIdentityDbContextSeed.SeedUserAsync(userManager);
 
-        // var context = srx.GetRequiredService<ServerContext>();
-        // await context.Database.MigrateAsync();
-        // await SServerSeed.SeedAsync(context, loggerFactory, identityContext, userManager);
+        var context = srx.GetRequiredService<DBServerContext>();
+        await context.Database.MigrateAsync();
+        await DBServerSeed.SeedAsync(context, loggerFactory, identityContext, userManager);
     }
     catch (PostgresException ex)
     {

@@ -10,7 +10,7 @@
         public string PatientRegNo { get; set; }
         public int? DoctorId { get; set; }
         public string DoctorName { get; set; }
-
+        public string category { get; set; }    
         public string status { get; set; }
         public string RowBackColor { get; set; }
         public int OfficeUserId { get; set; }

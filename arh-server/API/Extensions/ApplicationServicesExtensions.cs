@@ -16,8 +16,8 @@ namespace API.Extensions
             services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(IFormGridService<>), typeof(FormGridService<>));
-            //services.AddScoped<IMastersService, MastersService>();
-            //services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IMastersService, MastersService>();
+           // services.AddScoped<IUserService, UserService>();
             services.AddHttpClient();
             // services.AddScoped<IAppDesignService, AppDesignService>();
             // services.AddScoped<IDataSyncService, DataSyncService>();

@@ -35,6 +35,7 @@ namespace API.Helpers
             CreateMap<investigations, investigationsDto>() .ReverseMap();
             CreateMap<City, cityDto>() .ReverseMap();
             CreateMap<Country, countryDto>() .ReverseMap(); 
+            CreateMap<prescription, prescriptionDto>() .ReverseMap();   
             //CreateMap<AppRole, AppRoleDto>()
             //    .ForMember(d => d.CreatedOn, o => o.MapFrom(s => String.Format("{0:dd-MM-yyyy}", s.CreatedOn)))
             //.ReverseMap()

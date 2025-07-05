@@ -14,6 +14,7 @@ using System.Security.Claims;
 
 namespace API.Controllers
 {
+    [Authorize]
     public class MedicineController : BaseWithUserApiController
     {
         IFormGridService<MedicineDto> _fgs;
@@ -29,25 +30,15 @@ namespace API.Controllers
             _fgs = fgs;
         }
 
-        //[HttpGet("getmedicineslist")]
-        //public async Task<ActionResult<IReadOnlyList<MedicineDto>>> GetRatesList()
-        //{
-        //    var currentuser = await GetCurrentUser();
+        [HttpGet("getmedicineslist")]
+        public async Task<ActionResult<IReadOnlyList<MedicineDto>>> GetMedicinesList()
+        {
+            var currentuser = await GetCurrentUser();
+            var ars = await _ms.GetMedicinesAsync();
 
-        //    var ars = await _ms.GetMedicinesAsync(currentuser);
-
-        //    //if (currentuser.UserName == "admin" || currentuser.AppRoleCode == "ADMINISTRATOR" || currentuser.AppRoleCode == "SUPER")
-        //    //{
-        //    //    var ldxx = _mapper.Map<IReadOnlyList<Rate>, IReadOnlyList<RateDto>>(ars);
-        //    //    return Ok(ldxx);
-        //    //}
-
-        //    //	ars = ars.Where(x => {{USER_CONDITION}}).ToList();
-
-        //    var ldx = _mapper.Map<IReadOnlyList<Medicine>, IReadOnlyList<MedicineDto>>(ars);
-
-        //    return Ok(ldx);
-        //}
+            var ldx = _mapper.Map<IReadOnlyList<Medicine>, IReadOnlyList<MedicineDto>>(ars);
+            return Ok(ldx);
+        }
 
 
         //[HttpPost("savemedicine")]
@@ -192,7 +183,7 @@ namespace API.Controllers
 
         //    return Ok();
         //}
-       
+
         [HttpGet("getgridcols")]
         public async Task<ActionResult> GetGridCols(string FormName)
         {

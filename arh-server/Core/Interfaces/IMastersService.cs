@@ -30,8 +30,7 @@ namespace Core.Interfaces
         Task<IReadOnlyList<Attachment>> GetAttachmentsAsync(AppUser appUser);
         Task<Attachment> GetAttachmentByNameAsync(string AttachmentName);
         Task<Attachment> GetAttachmentByCodeAsync(string UCode);
-
-        Task<IReadOnlyList<City>> GetCitiesAsync(AppUser appUser);
+        Task<IReadOnlyList<City>> GetCitiesAsync();
         Task<City> GetCityByNameAsync(string CityName);
         Task<City> GetCityByCodeAsync(string UCode);
         Task<Country> GetCountryByNameAsync(string CountryName);
@@ -202,7 +201,12 @@ namespace Core.Interfaces
         Task<appointmentMilestone> SaveAppointmentMilestoneAsync(appointmentMilestone ret);
         Task<appointmentMilestone> ValidateAppointmentMilestoneAsync(appointmentMilestone ret, AppUser au);
         Task<IReadOnlyList<appointments>> GetAppointmentsAsync(AppUser appUser);
-        Task<IReadOnlyList<Country>> GetCountriesAsync(AppUser appUser);
+        Task<IReadOnlyList<Country>> GetCountriesAsync();
+        Task<IReadOnlyList<Medicine>> GetMedicinesAsync();
+        Task<IReadOnlyList<potency>> GetPotenciesAsync();
+        Task<IReadOnlyList<dosage>> GetDosagesAsync();
+        Task<IReadOnlyList<Rate>> GetRatesAsync();
+        Task<IReadOnlyList<Rate>> GetSOSAsync();
         Task<IReadOnlyList<appointments>> GetAppointmentsForRetrieversAsync(AppUser appUser);
         Task<IReadOnlyList<appointments>> GetAppointmentByPatientIdAsync(int patient_id);
         Task<appointments> ValidateAppointmentAsync(appointments ret, AppUser au);

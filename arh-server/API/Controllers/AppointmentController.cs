@@ -18,13 +18,14 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Security.Claims;
 
 namespace API.Controllers
-{   
+{
+    [Authorize]
     public class AppointmentController : BaseWithUserApiController
     {
         IFormGridService<appointmentsDto> _fgs;
         ILogger<AppointmentController> _logger;
         IHttpContextAccessor _contextAccessor;
-      //  IGoogleCalendarService _googleCalendarService;
+        //  IGoogleCalendarService _googleCalendarService;
         public AppointmentController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
                 IMapper mapper,
                 IMastersService ms,
@@ -34,12 +35,11 @@ namespace API.Controllers
         {
             _logger = logger;
             _fgs = fgs;
-         //   _googleCalendarService = googleCalendarService;
         }
         public enum DoctorId
         {
             DrSwapnil = 2,
-            DrSandeep =3,
+            DrSandeep = 3,
             DrAkshaya = 4
         }
         public static class DoctorCredentialPaths
@@ -51,18 +51,9 @@ namespace API.Controllers
                     DoctorId.DrSwapnil => "C:\\Gauri\\drswapnil-googleapi.json",
                     DoctorId.DrSandeep => "C:\\Gauri\\googleapikey.json",
                     DoctorId.DrAkshaya => "C:\\Gauri\\drakshaya-googleapi.json",
-                    _ => throw new ArgumentOutOfRangeException(nameof(doctor), "Invalid doctor")
+                    _ => ""
                 };
             }
-        }
-        [HttpGet("test-claims")]
-        public IActionResult TestClaims()
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var role = User.FindFirstValue(ClaimTypes.Role);
-            var name = User.FindFirstValue(ClaimTypes.GivenName);
-
-            return Ok(new { userId, role, name });
         }
         [HttpGet("checkheader")]
         public IActionResult CheckHeader()
@@ -94,7 +85,7 @@ namespace API.Controllers
         {
             var currentuser = await GetCurrentUser();
 
-            var ars = await _ms.GetAppointmentsForRetrieversAsync(currentuser);          
+            var ars = await _ms.GetAppointmentsForRetrieversAsync(currentuser);
 
             var ldx = _mapper.Map<IReadOnlyList<appointments>, IReadOnlyList<appointmentsDto>>(ars);
 
@@ -113,11 +104,11 @@ namespace API.Controllers
             {
                 return BadRequest(new ApiResponse(401, "Incomplete info received !!"));
             }
-            var currentuser=await GetCurrentUser();
-            var existingappointment = await _ms.GetAppointmentByPatientIdAsync(appointment.patient_id);            
+            var currentuser = await GetCurrentUser();
+            var existingappointment = await _ms.GetAppointmentByPatientIdAsync(appointment.patient_id);
 
             var patient = await _ms.GetPatientByPatientId(appointment.patient_id);
-            var doctor=await _ms.GetdoctorBydoctorId(patient.DoctorId);
+            var doctor = await _ms.GetdoctorBydoctorId(patient.DoctorId);
             if (patient == null)
             {
                 return BadRequest(new ApiResponse(401, "Patient does not exist"));
@@ -127,7 +118,7 @@ namespace API.Controllers
             bool emailCalendar = false;
             try
             {
-                a = _mapper.Map<appointmentsDto, appointments>(appointment);                   
+                a = _mapper.Map<appointmentsDto, appointments>(appointment);
 
                 a = await _ms.ValidateAppointmentAsync(a, currentuser);
                 if (a.Errors != null && !String.IsNullOrEmpty(a.Errors.errormessage))
@@ -140,7 +131,7 @@ namespace API.Controllers
                 {
                     return BadRequest(new ApiResponse(401, "Unable to Save"));
                 }
-                if (existingappointment.Count== 0)
+                if (existingappointment.Count == 0)
                 {
                     DoctorId doctorId = (DoctorId)doctor.OfficeUserId;
                     var credentialPath = DoctorCredentialPaths.GetJsonFilePath(doctorId);
@@ -148,7 +139,7 @@ namespace API.Controllers
                     var calendarService = new CalendarServiceHelper(credentialPath);
                     var summary = doctor.Email;
                     var description = $"Follow-up appointment for Patient ID: {patient.RegNo}";
-                   
+
                     DateTime? end = null;
                     DateTime? start = null;
                     string eventUrl = "";
@@ -157,8 +148,8 @@ namespace API.Controllers
                         start = a.visit_date;
                         end = a.visit_date.Value.AddMinutes(30);
                     }
-                    if(start.HasValue && end.HasValue) 
-                      eventUrl = await calendarService.AddEventAsync(summary, description, start, end);
+                    if (start.HasValue && end.HasValue)
+                        eventUrl = await calendarService.AddEventAsync(summary, description, start, end);
 
                     // Optionally store or log the calendar event URL
                     Console.WriteLine("Google Event Created: " + eventUrl);
@@ -219,7 +210,7 @@ namespace API.Controllers
             }
 
             var cu = await GetCurrentUser();
-            
+
             appointmentMilestone a = null;
             try
             {
@@ -263,8 +254,8 @@ namespace API.Controllers
             try
             {
                 a = _mapper.Map<appointmentsDto, appointments>(appointments);
-              
-                a = await _ms.UpdateRetrieverAppointmentAsync(a, cu );
+
+                a = await _ms.UpdateRetrieverAppointmentAsync(a, cu);
                 if (a == null)
                 {
                     return BadRequest(new ApiResponse(401, "Unable to Save"));
@@ -332,7 +323,7 @@ namespace API.Controllers
             // Create appointment DTO
             var appointmentDto = new appointmentsDto
             {
-                patient_id = patient.Id,                       
+                patient_id = patient.Id,
                 CreatedOn = DateTime.UtcNow, // ISO 8601 format if stored as string
                 UCode = Guid.Empty,
                 visit_date = DateTime.UtcNow,
@@ -475,7 +466,7 @@ namespace API.Controllers
             return Ok();
         }
 
-      
+
         [HttpGet("getgridcols")]
         public async Task<ActionResult> GetGridCols(string FormName)
         {
@@ -502,7 +493,7 @@ namespace API.Controllers
 
                 // 2. Get data (patientDto list)
                 var appointmentsEntities = await _fgs.GetUnitOfWork().Repository<appointments>().ListAllAsync();
-                var activeAppointments= appointmentsEntities.Where(x=>x.IsActive==true).ToList();
+                var activeAppointments = appointmentsEntities.Where(x => x.IsActive == true).ToList();
                 var patients = await _fgs.GetUnitOfWork().Repository<patient>().ListAllAsync();
                 var appUsers = await _userManager.Users.ToListAsync(); // Use this instead
 
@@ -513,20 +504,21 @@ namespace API.Controllers
                              from doc in docJoin.DefaultIfEmpty()
                              select new appointmentsViewDto
                              {
-                                Id= appt.Id,
-                                AppointmentDate= appt.visit_date,
-                                IsActive= appt.IsActive,
-                                PatientFullName = pat?.full_name,
-                                PatientRegNo = pat?.RegNo,
-                                DoctorId = pat?.DoctorId,
-                                AssistantDoctorId=appt.assistantDoctorId,
-                                DoctorName = doc?.DisplayName,
-                                status = appt.status,
-                                CreatedByName=currentuser.UserName,
-                                OfficeUserId = doc.OfficeUserId,
-                                RowBackColor = doctorColors.TryGetValue(doc.OfficeUserId, out var color) ? color : null
+                                 Id = appt.Id,
+                                 AppointmentDate = appt.visit_date,
+                                 IsActive = appt.IsActive,
+                                 PatientFullName = pat?.full_name,
+                                 PatientRegNo = pat?.RegNo,
+                                 category=appt.category,
+                                 DoctorId = pat?.DoctorId,
+                                 AssistantDoctorId = appt.assistantDoctorId,
+                                 DoctorName = doc?.DisplayName,
+                                 status = appt.status,
+                                 CreatedByName = currentuser.UserName,
+                                 OfficeUserId = doc.OfficeUserId,
+                                 RowBackColor = doctorColors.TryGetValue(doc.OfficeUserId, out var color) ? color : null
                              };
-                
+
                 return Ok(new
                 {
                     Columns = columns,
@@ -550,11 +542,6 @@ namespace API.Controllers
             }
 
             var cu = await GetCurrentUser();
-            foreach (var item in prescriptionsDtoList)
-            {
-                if (item.UCode == Guid.Empty)
-                    item.UCode = Guid.NewGuid();
-            }
             try
             {
                 // Map DTO to entity
@@ -584,11 +571,68 @@ namespace API.Controllers
             }
         }
 
-            [HttpGet("getAppointmentForDoctor")]
+        [HttpGet("getdosage")]
+        public async Task<ActionResult<List<Medicine>>> GetDosageMedicines()
+        {
+            try
+            {
+                var dosages = await _ms.GetDosagesAsync();
+
+                return Ok(dosages);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error retrieving dosages.", error = ex.Message });
+            }
+        }
+        [HttpGet("getrates")]
+        public async Task<ActionResult<List<Medicine>>> GetRates()
+        {
+            try
+            {
+                var rates = await _ms.GetRatesAsync();
+
+                return Ok(rates);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error retrieving rates.", error = ex.Message });
+            }
+        }
+        [HttpGet("getpotencies")]
+        public async Task<ActionResult<List<Medicine>>> GetPotencies()
+        {
+            try
+            {
+                var potencies = await _ms.GetPotenciesAsync();
+
+                return Ok(potencies);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error retrieving potencies.", error = ex.Message });
+            }
+        }
+        [HttpGet("getsosMedicines")]
+        public async Task<ActionResult<List<Medicine>>> GetSOSMedicines()
+        {
+            try
+            {
+                var sosMedicines = await _ms.GetSOSAsync();
+
+                return Ok(sosMedicines);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error retrieving SOS medicines.", error = ex.Message });
+            }
+        }
+
+        [HttpGet("getAppointmentForDoctor")]
         public async Task<IActionResult> GetAppointmentsForDoctor()
         {
-            var currentuser= await GetCurrentUser();
-           
+            var currentuser = await GetCurrentUser();
+
             var patients = await _fgs.GetUnitOfWork().Repository<patient>().ListAllAsync();
             var appUsers = await _userManager.Users.ToListAsync();
             var result = await _ms.GetAppointmentsForDoctor(currentuser.OfficeUserId, currentuser.AppRoleCode);
@@ -598,25 +642,25 @@ namespace API.Controllers
                 return NotFound("No appointments found for this doctor.");
             }
             var appointmentlist = from appt in result
-                         join pat in patients on appt.patient_id equals pat.Id into patJoin
-                         from pat in patJoin.DefaultIfEmpty()
-                         join doc in appUsers on pat.DoctorId equals doc.OfficeUserId into docJoin
-                         from doc in docJoin.DefaultIfEmpty()
-                         select new appointmentsViewDto
-                         {
-                             Id = appt.Id,
-                             AppointmentDate = appt.visit_date,
-                             IsActive = appt.IsActive,
-                             PatientFullName = pat?.full_name,
-                             PatientRegNo = pat?.RegNo,
-                             DoctorId = pat?.DoctorId,
-                             AssistantDoctorId = appt.assistantDoctorId,
-                             DoctorName = doc?.DisplayName,
-                             status = appt.status,
-                             CreatedByName = currentuser.UserName,
-                             OfficeUserId = doc.OfficeUserId,
-                             RowBackColor = ""
-                         };
+                                  join pat in patients on appt.patient_id equals pat.Id into patJoin
+                                  from pat in patJoin.DefaultIfEmpty()
+                                  join doc in appUsers on pat.DoctorId equals doc.OfficeUserId into docJoin
+                                  from doc in docJoin.DefaultIfEmpty()
+                                  select new appointmentsViewDto
+                                  {
+                                      Id = appt.Id,
+                                      AppointmentDate = appt.visit_date,
+                                      IsActive = appt.IsActive,
+                                      PatientFullName = pat?.full_name,
+                                      PatientRegNo = pat?.RegNo,
+                                      DoctorId = pat?.DoctorId,
+                                      AssistantDoctorId = appt.assistantDoctorId,
+                                      DoctorName = doc?.DisplayName,
+                                      status = appt.status,
+                                      CreatedByName = currentuser.UserName,
+                                      OfficeUserId = doc.OfficeUserId,
+                                      RowBackColor = ""
+                                  };
             return Ok(result);
         }
     }

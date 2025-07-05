@@ -29,7 +29,7 @@ namespace API.Controllers
         {
             var currentuser = await GetCurrentUser();
 
-            var ars = await _ms.GetCitiesAsync(currentuser);
+            var ars = await _ms.GetCitiesAsync();
 
             var ldx = _mapper.Map<IReadOnlyList<City>, IReadOnlyList<cityDto>>(ars);
 
